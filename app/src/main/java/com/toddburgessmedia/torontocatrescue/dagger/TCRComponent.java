@@ -1,0 +1,23 @@
+package com.toddburgessmedia.torontocatrescue.dagger;
+
+import com.toddburgessmedia.torontocatrescue.MainFragment;
+import com.toddburgessmedia.torontocatrescue.TCRMain;
+
+import javax.inject.Singleton;
+
+import dagger.Component;
+
+/**
+ * Created by Todd Burgess (todd@toddburgessmedia.com on 21/11/16.
+ */
+
+@Singleton
+@Component(modules = {AppModule.class,NetModule.class})
+
+public interface TCRComponent {
+
+    void inject(TCRMain tcrMain);
+
+    void inject(MainFragment mainFragment);
+
+}

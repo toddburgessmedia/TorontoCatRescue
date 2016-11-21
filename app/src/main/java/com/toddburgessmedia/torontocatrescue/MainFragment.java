@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.toddburgessmedia.torontocatrescue.model.PetListModel;
 import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +26,16 @@ public class MainFragment extends Fragment {
     RecyclerView rv;
 
     RecyclerViewPetListAdapter adapter;
+
+    @Inject
+    PetListModel petListModel;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ((TorontoCatRescue) getActivity().getApplication()).getTcrComponent().inject(this);
+    }
 
     @Nullable
     @Override
