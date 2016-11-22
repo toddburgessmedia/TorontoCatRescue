@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:animateLayoutChanges="true"
     app:cardElevation="2dp"
     app:cardCornerRadius="2dp"
     app:contentPadding="2dp"
@@ -11,7 +12,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
 
@@ -27,27 +28,32 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rv_petlist_pet_name"
+                android:textStyle="bold"
+                android:gravity="center"
                 />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rv_petlist_sex"
+                android:gravity="center"
                 />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rv_petlist_primary_breed"
+                android:gravity="center"
                 />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rv_petlist_age"
+                android:gravity="center"
                 />
 
         </LinearLayout>

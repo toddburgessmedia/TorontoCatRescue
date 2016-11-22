@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Todd Burgess (todd@toddburgessmedia.com on 21/11/16.
@@ -22,6 +24,15 @@ public class PetList implements Serializable {
 
     @SerializedName("pets")
     ArrayList<Pet> petList;
+
+    public void sortPetList() {
+        Collections.sort(petList, new Comparator<Pet>() {
+            @Override
+            public int compare(Pet pet, Pet t1) {
+                return pet.getPetName().compareTo(t1.getPetName());
+            }
+        });
+    }
 
     public int getPetCount() {
         return petCount;

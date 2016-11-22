@@ -64,11 +64,19 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
                 ViewHolderPet vp = (ViewHolderPet) holder;
                 Picasso.with(context).load(p.getResultsPhotoURL()).into(vp.resultPhoto);
                 vp.petName.setText(p.getPetName());
-                vp.petSex.setText(p.getSex());
+                vp.petSex.setText(getSex(p.getSex()));
                 vp.breed.setText(p.getPrimaryBreed());
                 vp.age.setText(p.getAge());
         }
 
+    }
+
+    private String getSex(String sex) {
+        if (sex.equals("m")) {
+            return "Male";
+        } else {
+            return "Female";
+        }
     }
 
     @Override
@@ -99,5 +107,18 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
             ButterKnife.bind(this, view);
         }
 
+    }
+
+    public class PetListClickMessage {
+
+        String petID;
+
+        public PetListClickMessage(String petID) {
+            this.petID = petID;
+        }
+
+        public String getPetID() {
+            return petID;
+        }
     }
 }

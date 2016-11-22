@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/petdetail_frag_header"
+        android:textStyle="bold"
+        />
+
+    <!--Preview Images-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:id="@+id/petdetail_frag_mainimage"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:id="@+id/petdetail_frag_thumb_1"
+                android:clickable="true"
+                android:visibility="visible"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:id="@+id/petdetail_frag_thumb_2"
+                android:clickable="true"
+                android:visibility="gone"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:id="@+id/petdetail_frag_thumb_3"
+                android:clickable="true"
+                android:visibility="gone"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:id="@+id/petdetail_frag_thumb_4"
+                android:clickable="true"
+                android:visibility="gone"
+                />
+
+        </LinearLayout>
+        <!--End Preview Images Section-->
+
+
+    </LinearLayout>
+
+</LinearLayout>

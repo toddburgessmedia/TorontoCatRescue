@@ -8,7 +8,6 @@ public class TCRMain extends AppCompatActivity {
 
     MainFragment fragment;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
