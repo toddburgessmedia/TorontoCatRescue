@@ -2,6 +2,7 @@ package com.toddburgessmedia.torontocatrescue.view;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +85,7 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
         return PETVIEWTYPE;
     }
 
-    protected class ViewHolderPet extends RecyclerView.ViewHolder {
+    protected class ViewHolderPet extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.rv_petlist_result_photo)
         ImageView resultPhoto;
@@ -105,8 +106,14 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
             super(view);
 
             ButterKnife.bind(this, view);
+            view.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            Pet p = petList.get(getAdapterPosition());
+            Log.d("TCR", "hello world" + p.getPetName());
+        }
     }
 
     public class PetListClickMessage {
