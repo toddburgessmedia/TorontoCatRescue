@@ -23,6 +23,7 @@ public class PhotoThumbNails extends LinearLayout {
     ImageView thumb3;
     ImageView thumb4;
     ArrayList<ImageView> thumbnails;
+    int size = 0;
 
     ImageView mainImage;
 
@@ -88,6 +89,11 @@ public class PhotoThumbNails extends LinearLayout {
             iv = thumbnails.get(i);
             Picasso.with(context).load(pi.getThumbnailUrl());
             iv.setVisibility(VISIBLE);
+            size++;
+        }
+
+        if (size > 0) {
+            Picasso.with(context).load(imageList.get(0).getOriginalUrl());
         }
 
     }
