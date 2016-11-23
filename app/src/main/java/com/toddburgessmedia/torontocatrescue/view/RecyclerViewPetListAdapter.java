@@ -2,7 +2,6 @@ package com.toddburgessmedia.torontocatrescue.view;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.toddburgessmedia.torontocatrescue.R;
 import com.toddburgessmedia.torontocatrescue.data.Pet;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -112,7 +113,7 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
         @Override
         public void onClick(View view) {
             Pet p = petList.get(getAdapterPosition());
-            Log.d("TCR", "hello world" + p.getPetName());
+            EventBus.getDefault().post(new PetListClickMessage(p.getPetID()));
         }
     }
 
