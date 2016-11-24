@@ -1,7 +1,5 @@
 package com.toddburgessmedia.torontocatrescue.data;
 
-import android.util.Log;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -157,7 +155,6 @@ public class PetDetailInfo {
         boolean isNeg = false;
         int i = 0;
         while (i < b.length) {
-            Log.d("TCR", "getDescription: " + b[i] + (char) b[i] );
             if (b[i] < 0) {
                 if (!isNeg) {
                     sb.append("'");
