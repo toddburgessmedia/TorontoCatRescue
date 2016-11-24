@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Toronto Cat Rescue</string>
+
+    <string name="petdetail_greeting">Meow! My name is</string>
+    <string name="petdetail_facts">Facts About</string>
+    <string name="petdetail_breed">Breed</string>
+    <string name="petdetail_colour">Colour</string>
+    <string name="petdetail_age">Age</string>
+    <string name="petdetail_sex">Sex</string>
+    <string name="petdetail_hair">Hair</string>
+    <string name="petdetail_add_info">Additional Info For</string>
+    <string name="petdetail_Spayed">Spayed</string>
+    <string name="petdetail_Neutered">Neutered</string>
+    <string name="petdetail_shots">Up to Date with Shots</string>
+    <string name="petdetail_good_kids">Good with Kids</string>
+    <string name="petdetail_good_cats">Good with Cats</string>
+    <string name="petdetail_good_dogs">Good with Dogs</string>
+
+
+
+
+
 </resources>

@@ -3,6 +3,7 @@ package com.toddburgessmedia.torontocatrescue.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -59,10 +60,10 @@ public class PhotoThumbNails extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        thumb1 = (ImageView) this.findViewById(R.id.petdetail_frag_thumb_1);
-        thumb2 = (ImageView) this.findViewById(R.id.petdetail_frag_thumb_2);
-        thumb3 = (ImageView) this.findViewById(R.id.petdetail_frag_thumb_3);
-        thumb4 = (ImageView) this.findViewById(R.id.petdetail_frag_thumb_4);
+        thumb1 = (ImageView) this.findViewById(R.id.photothumbnails_1);
+        thumb2 = (ImageView) this.findViewById(R.id.photothumbnails_2);
+        thumb3 = (ImageView) this.findViewById(R.id.photothumbnails_3);
+        thumb4 = (ImageView) this.findViewById(R.id.photothumbnails_4);
 
         thumbnails = new ArrayList<>(4);
         thumbnails.add(thumb1);
@@ -71,9 +72,9 @@ public class PhotoThumbNails extends LinearLayout {
         thumbnails.add(thumb4);
     }
 
-    public void setMainImage (int id) {
+    public void setMainImage (ImageView iv) {
 
-        mainImage = (ImageView) this.findViewById(id);
+        mainImage = iv;
     }
 
     public void setThumbNailImages (ArrayList<PetDetailImage> images) {
@@ -87,14 +88,32 @@ public class PhotoThumbNails extends LinearLayout {
         for (int i = 0; i < imageList.size(); i++) {
             pi = imageList.get(i);
             iv = thumbnails.get(i);
-            Picasso.with(context).load(pi.getThumbnailUrl());
+            Picasso.with(context).load(pi.getThumbnailUrl()).into(iv);
             iv.setVisibility(VISIBLE);
+            iv.setOnClickListener(new PhotoThumbNailListener(pi.getOriginalUrl(), mainImage));
             size++;
         }
 
         if (size > 0) {
-            Picasso.with(context).load(imageList.get(0).getOriginalUrl());
+            Picasso.with(context).load(imageList.get(0).getOriginalUrl()).into(mainImage);
         }
 
+    }
+
+    public class PhotoThumbNailListener implements View.OnClickListener {
+
+        String url;
+        ImageView main;
+
+        public PhotoThumbNailListener(String url,ImageView iv) {
+            this.url = url;
+            main = iv;
+        }
+
+
+        @Override
+        public void onClick(View view) {
+            Picasso.with(context).load(url).into(main);
+        }
     }
 }

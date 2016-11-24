@@ -1,7 +1,10 @@
 package com.toddburgessmedia.torontocatrescue.model;
 
+import android.util.Log;
+
 import com.toddburgessmedia.torontocatrescue.data.Pet;
 import com.toddburgessmedia.torontocatrescue.data.PetDetail;
+import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
 import com.toddburgessmedia.torontocatrescue.data.PetList;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,7 +82,8 @@ public class PetListModel {
                 .subscribe(new Subscriber<Response<PetDetail>>() {
                     @Override
                     public void onCompleted() {
-                        EventBus.getDefault().post(new PetDetailMessage(petDetail));
+                        EventBus.getDefault().post(new PetDetailMessage(petDetail.getPetDetailInfo()));
+                        Log.d("TCR", "onCompleted: " + petDetail.getPetDetailInfo().getPetName());
                     }
 
                     @Override
@@ -136,13 +140,13 @@ public class PetListModel {
 
     public class PetDetailMessage {
 
-        PetDetail petDetail;
+        PetDetailInfo petDetail;
 
-        public PetDetailMessage(PetDetail petDetail) {
+        public PetDetailMessage(PetDetailInfo petDetail) {
             this.petDetail = petDetail;
         }
 
-        public PetDetail getPetDetail() {
+        public PetDetailInfo getPetDetail() {
             return petDetail;
         }
     }

@@ -1,5 +1,7 @@
 package com.toddburgessmedia.torontocatrescue.data;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -26,13 +28,13 @@ public class PetDetailInfo {
     String shelterDescription;
 
     @SerializedName("good_with_dogs")
-    boolean goodWithDogs;
+    String goodWithDogs;
 
     @SerializedName("last_modified")
     String lastModified;
 
     @SerializedName("declawed")
-    boolean declawed;
+    String declawed;
 
     @SerializedName("description")
     String description;
@@ -41,13 +43,13 @@ public class PetDetailInfo {
     String city;
 
     @SerializedName("spayed_neutered")
-    boolean spayed;
+    String spayed;
 
     @SerializedName("color")
     String furColour;
 
     @SerializedName("good_with_cats")
-    boolean goodWithCats;
+    String goodWithCats;
 
     @SerializedName("addr_postal_code")
     String postalCode;
@@ -59,7 +61,7 @@ public class PetDetailInfo {
     String species;
 
     @SerializedName("shots_current")
-    boolean shotsCurrent;
+    String shotsCurrent;
 
     @SerializedName("adoption_process")
     String adoptionProcess;
@@ -77,7 +79,7 @@ public class PetDetailInfo {
     String areasServed;
 
     @SerializedName("good_with_kids")
-    boolean goodWithKids;
+    String goodWithKids;
 
     @SerializedName("phone_number")
     String phoneNumber;
@@ -148,16 +150,28 @@ public class PetDetailInfo {
         this.countryCode = countryCode;
     }
 
-    public boolean isDeclawed() {
-        return declawed;
-    }
-
-    public void setDeclawed(boolean declawed) {
-        this.declawed = declawed;
-    }
-
     public String getDescription() {
-        return description;
+
+        byte[] b = description.getBytes();
+        StringBuffer sb = new StringBuffer();
+        boolean isNeg = false;
+        int i = 0;
+        while (i < b.length) {
+            Log.d("TCR", "getDescription: " + b[i] + (char) b[i] );
+            if (b[i] < 0) {
+                if (!isNeg) {
+                    sb.append("'");
+                    isNeg = true;
+                }
+                i++;
+            } else {
+                sb.append((char)b[i]);
+                i++;
+                isNeg = false;
+            }
+        }
+
+        return sb.toString();
     }
 
     public void setDescription(String description) {
@@ -180,36 +194,12 @@ public class PetDetailInfo {
         this.furColour = furColour;
     }
 
-    public boolean isGoodWithCats() {
-        return goodWithCats;
-    }
-
     public ArrayList<PetDetailImage> getPetImages() {
         return petImages;
     }
 
     public void setPetImages(ArrayList<PetDetailImage> petImages) {
         this.petImages = petImages;
-    }
-
-    public void setGoodWithCats(boolean goodWithCats) {
-        this.goodWithCats = goodWithCats;
-    }
-
-    public boolean isGoodWithDogs() {
-        return goodWithDogs;
-    }
-
-    public void setGoodWithDogs(boolean goodWithDogs) {
-        this.goodWithDogs = goodWithDogs;
-    }
-
-    public boolean isGoodWithKids() {
-        return goodWithKids;
-    }
-
-    public void setGoodWithKids(boolean goodWithKids) {
-        this.goodWithKids = goodWithKids;
     }
 
     public String getHairLength() {
@@ -300,19 +290,11 @@ public class PetDetailInfo {
         this.shelterName = shelterName;
     }
 
-    public boolean isShotsCurrent() {
-        return shotsCurrent;
-    }
-
-    public void setShotsCurrent(boolean shotsCurrent) {
-        this.shotsCurrent = shotsCurrent;
-    }
-
-    public boolean isSpayed() {
+    public String getSpayed() {
         return spayed;
     }
 
-    public void setSpayed(boolean spayed) {
+    public void setSpayed(String spayed) {
         this.spayed = spayed;
     }
 
@@ -338,5 +320,45 @@ public class PetDetailInfo {
 
     public void setWebURL(String webURL) {
         this.webURL = webURL;
+    }
+
+    public String getDeclawed() {
+        return declawed;
+    }
+
+    public void setDeclawed(String declawed) {
+        this.declawed = declawed;
+    }
+
+    public String getGoodWithCats() {
+        return goodWithCats;
+    }
+
+    public void setGoodWithCats(String goodWithCats) {
+        this.goodWithCats = goodWithCats;
+    }
+
+    public String getGoodWithDogs() {
+        return goodWithDogs;
+    }
+
+    public void setGoodWithDogs(String goodWithDogs) {
+        this.goodWithDogs = goodWithDogs;
+    }
+
+    public String getGoodWithKids() {
+        return goodWithKids;
+    }
+
+    public void setGoodWithKids(String goodWithKids) {
+        this.goodWithKids = goodWithKids;
+    }
+
+    public String getShotsCurrent() {
+        return shotsCurrent;
+    }
+
+    public void setShotsCurrent(String shotsCurrent) {
+        this.shotsCurrent = shotsCurrent;
     }
 }
