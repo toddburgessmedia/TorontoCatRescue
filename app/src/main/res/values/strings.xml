@@ -16,6 +16,9 @@
     <string name="petdetail_good_cats">Good with Cats</string>
     <string name="petdetail_good_dogs">Good with Dogs</string>
 
+    <string name="petdetail_important_note">Important Note</string>
+    <string name="petdetail_important_message">{0} is best friends with {1}. Please adopt both of them so they can stay together!</string>
+
 
 
 

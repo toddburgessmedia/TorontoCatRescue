@@ -1,21 +1,29 @@
 package com.toddburgessmedia.torontocatrescue;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
+import com.toddburgessmedia.torontocatrescue.data.PetDetailActivity;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
 import com.toddburgessmedia.torontocatrescue.model.PetListModel;
 import com.toddburgessmedia.torontocatrescue.view.PhotoThumbNails;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.text.MessageFormat;
 
 import javax.inject.Inject;
 
@@ -98,6 +106,20 @@ public class PetDetailFragment extends Fragment {
     @BindView(R.id.petdetail_frag_story)
     TextView story;
 
+    @BindView(R.id.petdetail_frag_bonded_cardview)
+    CardView bonded;
+
+    @BindView(R.id.petdetail_frag_important_message)
+    TextView importantMessage;
+
+    @BindView(R.id.petdetail_frag_important_photo)
+    ImageView importantPhoto;
+
+    @BindString(R.string.petdetail_important_message)
+    String message;
+
+    String catName;
+
 
     String petID;
 
@@ -165,6 +187,31 @@ public class PetDetailFragment extends Fragment {
         dogs.setText(setBooleanText(info.getGoodWithDogs()));
 
         story.setText(Html.fromHtml(info.getDescription()));
+
+        Log.d("TCR", "updateView: bonded? " + info.getBondedTo());
+
+        if (info.getBondedTo() != null) {
+            catName = info.getPetName();
+            petListModel.fetchLimtedPetDetail(info.getBondedTo());
+        }
+    }
+
+    @Subscribe
+    public void updateBondedInfo(PetListModel.LimitedPetDetailMessage limitedPetDetailMessage) {
+
+        LimitedPetDetail limited = limitedPetDetailMessage.getLimitedPetDetail();
+        MessageFormat mf = new MessageFormat(message);
+        String[] subs = {catName, limited.getPetName()};
+        String display = mf.format(subs);
+
+
+        Log.d("TCR", "updateBondedInfo: " + limited.getPetName());
+        bonded.setVisibility(View.VISIBLE);
+        bonded.setOnClickListener(new BondedClickListener(limited.getPetID()));
+        Picasso.with(getContext()).load(limited.getImages().get(0).getThumbnailUrl()).into(importantPhoto);
+        importantPhoto.setVisibility(View.VISIBLE);
+        importantMessage.setText(display);
+
     }
 
     private String getFixedStatus(String sex) {
@@ -189,5 +236,23 @@ public class PetDetailFragment extends Fragment {
         }
 
     }
+
+    public class BondedClickListener implements View.OnClickListener {
+
+        public String petID;
+
+        public BondedClickListener (String petID) {
+            this.petID = petID;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent i = new Intent(getContext(), PetDetailActivity.class);
+            i.putExtra("petID", petID);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            getActivity().startActivity(i);
+        }
+    }
+
 
 }

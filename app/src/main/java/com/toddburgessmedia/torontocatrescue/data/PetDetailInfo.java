@@ -97,6 +97,9 @@ public class PetDetailInfo {
     @SerializedName("shelter_id")
     String shelterID;
 
+    @SerializedName("bonded_to")
+    String bondedTo;
+
     @SerializedName("images")
     ArrayList<PetDetailImage> petImages;
 
@@ -106,6 +109,14 @@ public class PetDetailInfo {
 
     public void setAdoptionProcess(String adoptionProcess) {
         this.adoptionProcess = adoptionProcess;
+    }
+
+    public String getBondedTo() {
+        return bondedTo;
+    }
+
+    public void setBondedTo(String bondedTo) {
+        this.bondedTo = bondedTo;
     }
 
     public String getAge() {

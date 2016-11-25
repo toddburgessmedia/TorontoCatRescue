@@ -2,6 +2,8 @@ package com.toddburgessmedia.torontocatrescue.model;
 
 import android.util.Log;
 
+import com.toddburgessmedia.torontocatrescue.data.LimitedPet;
+import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
 import com.toddburgessmedia.torontocatrescue.data.Pet;
 import com.toddburgessmedia.torontocatrescue.data.PetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
@@ -33,6 +35,7 @@ public class PetListModel {
 
     PetList petList;
     private PetDetail petDetail;
+    private LimitedPet limitedPet;
 
     public PetListModel (Retrofit retrofit, String apikey, String shelterID) {
 
@@ -101,6 +104,38 @@ public class PetListModel {
                 });
     }
 
+    public void fetchLimtedPetDetail(String petID) {
+
+        PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
+        final Observable<Response<LimitedPet>> limitedObservable;
+        limitedObservable = petDetailAPI.getLimitedPetDetail(petID,apikey, shelterID);
+
+        limitedObservable.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<LimitedPet>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("TCR", "onCompleted: " + limitedPet.getLimitedPetDetail().getPetName());
+                        EventBus.getDefault().post(new LimitedPetDetailMessage(limitedPet.getLimitedPetDetail()));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Response<LimitedPet> petResponse) {
+
+                        Log.d("TCR", "onNext: " + petResponse.raw().toString());
+                        if (petResponse.isSuccessful()) {
+                            limitedPet = petResponse.body();
+                        }
+                    }
+                });
+
+    }
+
+
     public PetList getPetList() {
         return petList;
     }
@@ -148,6 +183,19 @@ public class PetListModel {
 
         public PetDetailInfo getPetDetail() {
             return petDetail;
+        }
+    }
+
+    public class LimitedPetDetailMessage {
+
+        LimitedPetDetail limitedPetDetail;
+
+        public LimitedPetDetailMessage(LimitedPetDetail limitedPetDetail) {
+            this.limitedPetDetail = limitedPetDetail;
+        }
+
+        public LimitedPetDetail getLimitedPetDetail() {
+            return limitedPetDetail;
         }
     }
 }
