@@ -12,7 +12,7 @@
         android:id="@+id/petdetail_frag_header"
         android:gravity="center"
         android:textSize="@dimen/petdetail_textsize"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         />
 
@@ -315,7 +315,7 @@
         app:cardUseCompatPadding="true"
         android:visibility="gone"
         android:clickable="true"
-        app:cardBackgroundColor="#ff6666"
+        app:cardBackgroundColor="#3f51b5"
         android:id="@+id/petdetail_frag_bonded_cardview"
         >
 
@@ -328,6 +328,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
                 android:text="@string/petdetail_important_note"
                 />
 
@@ -347,6 +349,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
+                    android:textColor="#FF5252"
                     android:id="@+id/petdetail_frag_important_message"
                     />
 
