@@ -68,9 +68,15 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
                 vp.petName.setText(p.getPetName());
                 vp.petSex.setText(getSex(p.getSex()));
                 vp.breed.setText(p.getPrimaryBreed());
-                vp.age.setText(p.getAge());
+                vp.age.setText(getAge(p.getAge()));
         }
 
+    }
+
+    private String getAge(String age) {
+
+        String cap = age.substring(0, 1).toUpperCase() + age.substring(1);
+        return cap;
     }
 
     private String getSex(String sex) {
