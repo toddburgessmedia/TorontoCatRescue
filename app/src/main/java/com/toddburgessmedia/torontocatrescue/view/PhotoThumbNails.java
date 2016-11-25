@@ -88,14 +88,13 @@ public class PhotoThumbNails extends LinearLayout {
         for (int i = 0; i < imageList.size(); i++) {
             pi = imageList.get(i);
             iv = thumbnails.get(i);
+            if (i == 0) {
+                Picasso.with(context).load(pi.getOriginalUrl()).into(mainImage);
+            }
             Picasso.with(context).load(pi.getThumbnailUrl()).into(iv);
             iv.setVisibility(VISIBLE);
             iv.setOnClickListener(new PhotoThumbNailListener(pi.getOriginalUrl(), mainImage));
             size++;
-        }
-
-        if (size > 0) {
-            Picasso.with(context).load(imageList.get(0).getOriginalUrl()).into(mainImage);
         }
 
     }
