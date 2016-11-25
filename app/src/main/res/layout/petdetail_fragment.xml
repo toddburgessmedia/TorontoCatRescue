@@ -315,7 +315,7 @@
         app:cardUseCompatPadding="true"
         android:visibility="gone"
         android:clickable="true"
-        app:cardBackgroundColor="#3f51b5"
+        app:cardBackgroundColor="@color/colorPrimary"
         android:id="@+id/petdetail_frag_bonded_cardview"
         >
 
@@ -349,7 +349,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
-                    android:textColor="#FF5252"
+                    android:textColor="@color/colorAccent"
                     android:id="@+id/petdetail_frag_important_message"
                     />
 
