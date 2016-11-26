@@ -1,5 +1,8 @@
 package com.toddburgessmedia.torontocatrescue.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -8,7 +11,7 @@ import java.util.ArrayList;
  * Created by Todd Burgess (todd@toddburgessmedia.com on 22/11/16.
  */
 
-public class PetDetailInfo {
+public class PetDetailInfo implements Parcelable {
 
     @SerializedName("shelter_name")
     String shelterName;
@@ -369,4 +372,94 @@ public class PetDetailInfo {
     public void setShotsCurrent(String shotsCurrent) {
         this.shotsCurrent = shotsCurrent;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.shelterName);
+        dest.writeString(this.hairLength);
+        dest.writeString(this.areaCode);
+        dest.writeString(this.email);
+        dest.writeString(this.shelterDescription);
+        dest.writeString(this.goodWithDogs);
+        dest.writeString(this.lastModified);
+        dest.writeString(this.declawed);
+        dest.writeString(this.description);
+        dest.writeString(this.city);
+        dest.writeString(this.spayed);
+        dest.writeString(this.furColour);
+        dest.writeString(this.goodWithCats);
+        dest.writeString(this.postalCode);
+        dest.writeString(this.petName);
+        dest.writeString(this.species);
+        dest.writeString(this.shotsCurrent);
+        dest.writeString(this.adoptionProcess);
+        dest.writeString(this.petID);
+        dest.writeString(this.webURL);
+        dest.writeString(this.primaryBreed);
+        dest.writeString(this.areasServed);
+        dest.writeString(this.goodWithKids);
+        dest.writeString(this.phoneNumber);
+        dest.writeString(this.countryCode);
+        dest.writeString(this.age);
+        dest.writeString(this.stateCode);
+        dest.writeString(this.sex);
+        dest.writeString(this.shelterID);
+        dest.writeString(this.bondedTo);
+        dest.writeList(this.petImages);
+    }
+
+    public PetDetailInfo() {
+    }
+
+    protected PetDetailInfo(Parcel in) {
+        this.shelterName = in.readString();
+        this.hairLength = in.readString();
+        this.areaCode = in.readString();
+        this.email = in.readString();
+        this.shelterDescription = in.readString();
+        this.goodWithDogs = in.readString();
+        this.lastModified = in.readString();
+        this.declawed = in.readString();
+        this.description = in.readString();
+        this.city = in.readString();
+        this.spayed = in.readString();
+        this.furColour = in.readString();
+        this.goodWithCats = in.readString();
+        this.postalCode = in.readString();
+        this.petName = in.readString();
+        this.species = in.readString();
+        this.shotsCurrent = in.readString();
+        this.adoptionProcess = in.readString();
+        this.petID = in.readString();
+        this.webURL = in.readString();
+        this.primaryBreed = in.readString();
+        this.areasServed = in.readString();
+        this.goodWithKids = in.readString();
+        this.phoneNumber = in.readString();
+        this.countryCode = in.readString();
+        this.age = in.readString();
+        this.stateCode = in.readString();
+        this.sex = in.readString();
+        this.shelterID = in.readString();
+        this.bondedTo = in.readString();
+        this.petImages = new ArrayList<PetDetailImage>();
+        in.readList(this.petImages, PetDetailImage.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<PetDetailInfo> CREATOR = new Parcelable.Creator<PetDetailInfo>() {
+        @Override
+        public PetDetailInfo createFromParcel(Parcel source) {
+            return new PetDetailInfo(source);
+        }
+
+        @Override
+        public PetDetailInfo[] newArray(int size) {
+            return new PetDetailInfo[size];
+        }
+    };
 }

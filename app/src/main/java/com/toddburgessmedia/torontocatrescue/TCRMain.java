@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
-import com.toddburgessmedia.torontocatrescue.data.PetDetailActivity;
 import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,6 +47,8 @@ public class TCRMain extends AppCompatActivity {
 
         Intent i = new Intent(this, PetDetailActivity.class);
         i.putExtra("petID", message.getPetID());
+        i.putExtra("petURL", message.getPetURL());
+        i.putExtra("petName", message.getPetName());
         startActivity(i);
     }
 

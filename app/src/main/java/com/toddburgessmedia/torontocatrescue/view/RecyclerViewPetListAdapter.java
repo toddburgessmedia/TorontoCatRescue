@@ -119,20 +119,36 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
         @Override
         public void onClick(View view) {
             Pet p = petList.get(getAdapterPosition());
-            EventBus.getDefault().post(new PetListClickMessage(p.getPetID()));
+            EventBus.getDefault().post(new PetListClickMessage(p.getPetID(),
+                                                                p.getDetailsURL(),
+                                                                p.getPetName()));
         }
     }
 
     public class PetListClickMessage {
 
         String petID;
+        String petURL;
+        String petName;
 
-        public PetListClickMessage(String petID) {
+        public PetListClickMessage(String petID, String petURL, String petName) {
+
             this.petID = petID;
+            this.petURL = petURL;
+            this.petName = petName;
+
         }
 
         public String getPetID() {
             return petID;
+        }
+
+        public String getPetURL() {
+            return petURL;
+        }
+
+        public String getPetName() {
+            return petName;
         }
     }
 }

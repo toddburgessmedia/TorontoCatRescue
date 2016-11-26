@@ -17,10 +17,10 @@
     <string name="petdetail_good_dogs">Good with Dogs</string>
 
     <string name="petdetail_important_note">Important Note</string>
-    <string name="petdetail_important_message">{0} and {1} are a bonded pair. They need to be adopted together</string>
+    <string name="petdetail_important_message">{0} and {1} are best friends and are a bonded pair. They need to be adopted together</string>
 
-
-
+    <string name="petdetail_button_info">Get More Information</string>
+    <string name="petdetail_button_adopt">Adopt Me!</string>
 
 
 </resources>

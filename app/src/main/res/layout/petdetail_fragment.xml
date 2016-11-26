@@ -146,27 +146,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/petdetail_hair"
-                    android:textStyle="bold"
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:id="@+id/petdetail_frag_hair"
-                    />
-
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -203,15 +182,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/petdetail_hair"
                     android:textStyle="bold"
-                    android:id="@+id/petdetail_frag_fix_header"
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:id="@+id/petdetail_frag_fixed"
                     />
 
@@ -227,14 +198,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/petdetail_shots"
-                    android:textStyle="bold"
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:id="@+id/petdetail_frag_shots"
+                    android:textStyle="bold"
                     />
 
             </LinearLayout>
@@ -249,14 +214,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/petdetail_good_kids"
-                    android:textStyle="bold"
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:id="@+id/petdetail_frag_kids"
+                    android:textStyle="bold"
                     />
 
             </LinearLayout>
@@ -271,14 +230,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/petdetail_good_cats"
-                    android:textStyle="bold"
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:id="@+id/petdetail_frag_cats"
+                    android:textStyle="bold"
                     />
 
             </LinearLayout>
@@ -293,14 +246,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/petdetail_good_dogs"
-                    android:textStyle="bold"
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:id="@+id/petdetail_frag_dogs"
+                    android:textStyle="bold"
                     />
 
             </LinearLayout>
@@ -346,7 +293,7 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
                     android:textColor="@color/colorAccent"
@@ -366,6 +313,26 @@
         android:id="@+id/petdetail_frag_story"
         />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/petdetail_button_info"
+        android:id="@+id/petdetail_frag_infobutton"
+        android:background="@color/colorAccent"
+        />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="25dp" />
+    
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/petdetail_button_adopt"
+        android:id="@+id/petdetail_frag_adoptbutton"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorPrimary"
+        />
 
 
 

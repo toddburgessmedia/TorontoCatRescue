@@ -1,6 +1,8 @@
 package com.toddburgessmedia.torontocatrescue;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,12 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
-import com.toddburgessmedia.torontocatrescue.data.PetDetailActivity;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
 import com.toddburgessmedia.torontocatrescue.model.PetListModel;
 import com.toddburgessmedia.torontocatrescue.view.PhotoThumbNails;
@@ -66,10 +68,7 @@ public class PetDetailFragment extends Fragment {
 
     @BindView(R.id.petdetail_frag_sex)
     TextView sex;
-
-    @BindView(R.id.petdetail_frag_hair)
-    TextView hair;
-
+    
     @Inject
     PetListModel petListModel;
 
@@ -84,9 +83,6 @@ public class PetDetailFragment extends Fragment {
 
     @BindString(R.string.petdetail_Neutered)
     String neutered;
-
-    @BindView(R.id.petdetail_frag_fix_header)
-    TextView fixedHeader;
 
     @BindView(R.id.petdetail_frag_fixed)
     TextView fixed;
@@ -120,8 +116,15 @@ public class PetDetailFragment extends Fragment {
 
     String catName;
 
-
     String petID;
+    private PetDetailInfo info;
+    private LimitedPetDetail limited;
+
+    @BindView(R.id.petdetail_frag_infobutton)
+    Button moreInfo;
+
+    @BindView(R.id.petdetail_frag_adoptbutton)
+    Button adoptButton;
 
     @Override
     public void onStart() {
@@ -156,6 +159,20 @@ public class PetDetailFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         thumbNails.setMainImage(mainImage);
+        moreInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().startActivity(Intent.createChooser(getMoreInformation(), "Send E-Mail"));
+            }
+        });
+
+        adoptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("TCR", "onClick: ");
+                EventBus.getDefault().post(new AdoptionMessage(info));
+            }
+        });
 
         petListModel.fetchPetDetail(petID);
         return view;
@@ -164,7 +181,7 @@ public class PetDetailFragment extends Fragment {
     @Subscribe
     public void updateView (PetListModel.PetDetailMessage message) {
 
-        PetDetailInfo info = message.getPetDetail();
+        info = message.getPetDetail();
 
         header.setText(greeting + " " + info.getPetName());
 
@@ -176,19 +193,15 @@ public class PetDetailFragment extends Fragment {
         colour.setText(info.getFurColour());
         age.setText(info.getAge());
         sex.setText(info.getSex());
-        hair.setText(info.getFurColour());
 
         addFacts.setText(addInfo + " " + info.getPetName());
-        fixedHeader.setText(getFixedStatus(info.getSex()));
-        fixed.setText(setBooleanText(info.getSpayed()));
-        shots.setText(setBooleanText(info.getShotsCurrent()));
-        kids.setText(setBooleanText(info.getGoodWithKids()));
-        cats.setText(setBooleanText(info.getGoodWithCats()));
-        dogs.setText(setBooleanText(info.getGoodWithDogs()));
+        fixed.setText(getFixedStatus(info.getSex()));
+        setAdditionalInfoTextView(shots, info.getShotsCurrent());
+        setAdditionalInfoTextView(kids, info.getGoodWithKids());
+        setAdditionalInfoTextView(cats, info.getGoodWithCats());
+        setAdditionalInfoTextView(dogs, info.getGoodWithDogs());
 
         story.setText(Html.fromHtml(info.getDescription()));
-
-        Log.d("TCR", "updateView: bonded? " + info.getBondedTo());
 
         if (info.getBondedTo() != null) {
             catName = info.getPetName();
@@ -199,13 +212,12 @@ public class PetDetailFragment extends Fragment {
     @Subscribe
     public void updateBondedInfo(PetListModel.LimitedPetDetailMessage limitedPetDetailMessage) {
 
-        LimitedPetDetail limited = limitedPetDetailMessage.getLimitedPetDetail();
+        limited = limitedPetDetailMessage.getLimitedPetDetail();
         MessageFormat mf = new MessageFormat(message);
         String[] subs = {catName, limited.getPetName()};
         String display = mf.format(subs);
 
 
-        Log.d("TCR", "updateBondedInfo: " + limited.getPetName());
         bonded.setVisibility(View.VISIBLE);
         bonded.setOnClickListener(new BondedClickListener(limited.getPetID()));
         Picasso.with(getContext()).load(limited.getImages().get(0).getThumbnailUrl()).into(importantPhoto);
@@ -237,6 +249,28 @@ public class PetDetailFragment extends Fragment {
 
     }
 
+    private void setAdditionalInfoTextView(TextView infoTV, String value) {
+
+        String text = infoTV.getText().toString();
+        String newtext;
+
+        Log.d("TCR", "setAdditionalInfoTextView: " + infoTV.getId() + " " + value);
+
+        if (value == null) {
+            infoTV.setVisibility(View.GONE);
+            newtext = "";
+        } else if (value.equals("1")) {
+            newtext = text;
+        } else if (value.equals("0")) {
+            infoTV.setTextColor(Color.RED);
+            newtext = "Not " + text;
+        } else {
+            infoTV.setVisibility(View.GONE);
+            newtext = "";
+        }
+        infoTV.setText(newtext);
+    }
+
     public class BondedClickListener implements View.OnClickListener {
 
         public String petID;
@@ -254,5 +288,48 @@ public class PetDetailFragment extends Fragment {
         }
     }
 
+    private Intent getMoreInformation() {
+
+        String subject;
+        if (info.getBondedTo() != null) {
+            subject = "Information Request for Bonded Pair " + info.getPetName() + " & " + limited.getPetName();
+        } else {
+            subject = "Information Request for " + info.getPetName();
+        }
+
+
+        String[] to = {info.getEmail()};
+
+        Intent email = new Intent(Intent.ACTION_SEND);
+        email.setData(Uri.parse("mailto:"));
+        email.setType("text/plain");
+        email.putExtra(Intent.EXTRA_EMAIL, to);
+        email.putExtra(Intent.EXTRA_SUBJECT, subject);
+        email.putExtra(Intent.EXTRA_TEXT, getEmailBody());
+
+        return email;
+    }
+
+    private String getEmailBody () {
+
+        String body = "CAT INFO (Please Include): " + info.getPetName() + " - " +
+                info.getSex() + " - " + info.getPrimaryBreed() + " - " + info.getFurColour() + "\n\n";
+
+        return body;
+    }
+
+    public class AdoptionMessage {
+
+        PetDetailInfo info;
+
+        AdoptionMessage(PetDetailInfo info) {
+
+            this.info = info;
+        }
+
+        public PetDetailInfo getInfo() {
+            return info;
+        }
+    }
 
 }
