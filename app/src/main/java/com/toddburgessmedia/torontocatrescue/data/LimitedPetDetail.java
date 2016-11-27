@@ -19,8 +19,19 @@ public class LimitedPetDetail {
     @SerializedName("images")
     ArrayList<PetDetailImage> images;
 
+    @SerializedName("pet_details_url")
+    String petDetailsUrl;
+
     public ArrayList<PetDetailImage> getImages() {
         return images;
+    }
+
+    public String getPetDetailsUrl() {
+        return petDetailsUrl;
+    }
+
+    public void setPetDetailsUrl(String petDetailsUrl) {
+        this.petDetailsUrl = petDetailsUrl;
     }
 
     public void setImages(ArrayList<PetDetailImage> images) {

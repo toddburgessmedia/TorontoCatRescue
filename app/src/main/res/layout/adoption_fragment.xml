@@ -32,9 +32,11 @@
         android:text="Call an Adoption Councillor"
         />
 
-    <Space
+    <android.support.v4.widget.Space
         android:layout_width="match_parent"
-        android:layout_height="25dp" />
+        android:layout_height="25dp"
+        android:id="@+id/adoption_frag_spacer"
+        />
 
     <Button
         android:layout_width="match_parent"

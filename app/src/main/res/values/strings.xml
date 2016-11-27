@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Toronto Cat Rescue</string>
 
-    <string name="petdetail_greeting">Meow! My name is</string>
-    <string name="petdetail_facts">Facts About</string>
+    <string name="petdetail_greeting">Meow! My name is {0}</string>
+    <string name="petdetail_facts">Facts About {0}</string>
     <string name="petdetail_breed">Breed</string>
     <string name="petdetail_colour">Colour</string>
     <string name="petdetail_age">Age</string>
     <string name="petdetail_sex">Sex</string>
     <string name="petdetail_hair">Hair</string>
-    <string name="petdetail_add_info">Additional Info For</string>
+    <string name="petdetail_add_info">Additional Info For {0}</string>
     <string name="petdetail_Spayed">Spayed</string>
     <string name="petdetail_Neutered">Neutered</string>
     <string name="petdetail_shots">Up to Date with Shots</string>
@@ -17,11 +17,17 @@
     <string name="petdetail_good_dogs">Good with Dogs</string>
 
     <string name="petdetail_important_note">Important Note</string>
-    <string name="petdetail_important_message">{0} and {1} are best friends and are a bonded pair. They need to be adopted together</string>
+    <string name="petdetail_important_message">{0} and {1} are a bonded pair of best friends.
+                                                They need to be adopted together</string>
 
     <string name="petdetail_button_info">Get More Information</string>
-    <string name="petdetail_button_adopt">Adopt Me!</string>
+    <string name="petdetail_button_adopt">Adopt {0}</string>
 
+    <string name="petdetail_email_subject_bonded">Information Request for Bonded Pair {0} and {1}</string>
+    <string name="petdetail_email_subject">Information Request for {0}</string>
+    <string name="petdetail_email_body">CAT INFO (Please Include): {0} - {1}\n\n</string>
+
+    <string name="petdetail_share">Check out Toronto Cat Rescue Cat {0}\n{1}\n</string>
 
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>

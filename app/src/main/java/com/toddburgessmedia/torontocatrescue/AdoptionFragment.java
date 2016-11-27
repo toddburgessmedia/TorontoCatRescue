@@ -1,10 +1,13 @@
 package com.toddburgessmedia.torontocatrescue;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.Space;
+import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +32,9 @@ public class AdoptionFragment extends Fragment {
     @BindView(R.id.adoption_frag_call_button)
     Button call;
 
+    @BindView(R.id.adoption_frag_spacer)
+    Space spacer;
+
     String adoptionString;
     String phoneNumber;
 
@@ -48,6 +54,13 @@ public class AdoptionFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         description.setText(Html.fromHtml(adoptionString));
+
+        if (((TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE)).getPhoneType()
+                == TelephonyManager.PHONE_TYPE_NONE)
+        {
+         call.setVisibility(View.GONE);
+            spacer.setVisibility(View.GONE);
+        }
 
         call.setOnClickListener(new View.OnClickListener() {
             @Override

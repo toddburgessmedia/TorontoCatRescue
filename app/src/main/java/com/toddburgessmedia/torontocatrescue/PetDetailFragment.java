@@ -24,6 +24,7 @@ import com.toddburgessmedia.torontocatrescue.view.PhotoThumbNails;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.MessageFormat;
 
@@ -114,17 +115,30 @@ public class PetDetailFragment extends Fragment {
     @BindString(R.string.petdetail_important_message)
     String message;
 
+    @BindString(R.string.petdetail_email_subject)
+    String emailSubject;
+
+    @BindString(R.string.petdetail_email_subject_bonded)
+    String emailSubjectBonded;
+
     String catName;
 
     String petID;
     private PetDetailInfo info;
-    private LimitedPetDetail limited;
+    private LimitedPetDetail limitedBonded;
+    private LimitedPetDetail limitedPet;
 
     @BindView(R.id.petdetail_frag_infobutton)
     Button moreInfo;
 
     @BindView(R.id.petdetail_frag_adoptbutton)
     Button adoptButton;
+
+    @BindString(R.string.petdetail_button_adopt)
+    String adoptText;
+
+    @BindString(R.string.petdetail_email_body)
+    String emailBody;
 
     @Override
     public void onStart() {
@@ -175,6 +189,7 @@ public class PetDetailFragment extends Fragment {
         });
 
         petListModel.fetchPetDetail(petID);
+        petListModel.fetchLimtedPetDetail(petID,false);
         return view;
     }
 
@@ -183,18 +198,18 @@ public class PetDetailFragment extends Fragment {
 
         info = message.getPetDetail();
 
-        header.setText(greeting + " " + info.getPetName());
+        header.setText(subPetName(info.getPetName().toUpperCase(),greeting));
 
         thumbNails.setThumbNailImages(info.getPetImages());
         thumbNails.initView();
 
-        facts.setText(factsPrefix + " " + info.getPetName());
+        facts.setText(subPetName(info.getPetName(),factsPrefix));
         breed.setText(info.getPrimaryBreed());
         colour.setText(info.getFurColour());
         age.setText(info.getAge());
         sex.setText(info.getSex());
 
-        addFacts.setText(addInfo + " " + info.getPetName());
+        addFacts.setText(subPetName(info.getPetName(),addInfo));
         fixed.setText(getFixedStatus(info.getSex()));
         setAdditionalInfoTextView(shots, info.getShotsCurrent());
         setAdditionalInfoTextView(kids, info.getGoodWithKids());
@@ -205,24 +220,40 @@ public class PetDetailFragment extends Fragment {
 
         if (info.getBondedTo() != null) {
             catName = info.getPetName();
-            petListModel.fetchLimtedPetDetail(info.getBondedTo());
+            petListModel.fetchLimtedPetDetail(info.getBondedTo(),true);
         }
+
+        adoptButton.setText(subPetName(info.getPetName(),adoptText));
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     public void updateBondedInfo(PetListModel.LimitedPetDetailMessage limitedPetDetailMessage) {
 
-        limited = limitedPetDetailMessage.getLimitedPetDetail();
+        if (!limitedPetDetailMessage.getFlag()) {
+            Log.d("TCR", "updateBondedInfo: " + limitedPetDetailMessage.getLimitedPetDetail().getPetName());
+            limitedPet = limitedPetDetailMessage.getLimitedPetDetail();
+            return;
+        }
+
+        limitedBonded = limitedPetDetailMessage.getLimitedPetDetail();
         MessageFormat mf = new MessageFormat(message);
-        String[] subs = {catName, limited.getPetName()};
+        String[] subs = {catName, limitedBonded.getPetName()};
         String display = mf.format(subs);
 
 
         bonded.setVisibility(View.VISIBLE);
-        bonded.setOnClickListener(new BondedClickListener(limited.getPetID()));
-        Picasso.with(getContext()).load(limited.getImages().get(0).getThumbnailUrl()).into(importantPhoto);
+        bonded.setOnClickListener(new BondedClickListener(limitedBonded.getPetID()));
+        Picasso.with(getContext()).load(limitedBonded.getImages().get(0).getThumbnailUrl()).into(importantPhoto);
         importantPhoto.setVisibility(View.VISIBLE);
         importantMessage.setText(display);
+
+    }
+
+    private String subPetName(String petName, String targetText) {
+
+        MessageFormat mf = new MessageFormat(targetText);
+        String[] subs = {petName};
+        return mf.format(subs);
 
     }
 
@@ -292,9 +323,11 @@ public class PetDetailFragment extends Fragment {
 
         String subject;
         if (info.getBondedTo() != null) {
-            subject = "Information Request for Bonded Pair " + info.getPetName() + " & " + limited.getPetName();
+            MessageFormat mf = new MessageFormat(emailSubjectBonded);
+            String[] subs = {info.getPetName(), limitedBonded.getPetName()};
+            subject = mf.format(subs);
         } else {
-            subject = "Information Request for " + info.getPetName();
+            subject = subPetName(info.getPetName(),emailSubject);
         }
 
 
@@ -312,10 +345,9 @@ public class PetDetailFragment extends Fragment {
 
     private String getEmailBody () {
 
-        String body = "CAT INFO (Please Include): " + info.getPetName() + " - " +
-                info.getSex() + " - " + info.getPrimaryBreed() + " - " + info.getFurColour() + "\n\n";
-
-        return body;
+        MessageFormat mf = new MessageFormat(emailBody);
+        String[] subs = {info.getPetName(),limitedPet.getPetDetailsUrl()};
+        return mf.format(subs);
     }
 
     public class AdoptionMessage {
@@ -329,6 +361,32 @@ public class PetDetailFragment extends Fragment {
 
         public PetDetailInfo getInfo() {
             return info;
+        }
+
+
+
+    }
+
+    public class ShareIntentInfoMessage {
+
+        String url;
+        String petName;
+
+        public ShareIntentInfoMessage(String url, String petName) {
+            this.url = url;
+            this.petName = petName;
+        }
+
+        public String getPetName() {
+            return petName;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
         }
     }
 

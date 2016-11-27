@@ -104,7 +104,7 @@ public class PetListModel {
                 });
     }
 
-    public void fetchLimtedPetDetail(String petID) {
+    public void fetchLimtedPetDetail(String petID,final boolean flag) {
 
         PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
         final Observable<Response<LimitedPet>> limitedObservable;
@@ -115,7 +115,7 @@ public class PetListModel {
                     @Override
                     public void onCompleted() {
                         Log.d("TCR", "onCompleted: " + limitedPet.getLimitedPetDetail().getPetName());
-                        EventBus.getDefault().post(new LimitedPetDetailMessage(limitedPet.getLimitedPetDetail()));
+                        EventBus.getDefault().post(new LimitedPetDetailMessage(limitedPet.getLimitedPetDetail(),flag));
                     }
 
                     @Override
@@ -189,13 +189,19 @@ public class PetListModel {
     public class LimitedPetDetailMessage {
 
         LimitedPetDetail limitedPetDetail;
+        boolean flag;
 
-        public LimitedPetDetailMessage(LimitedPetDetail limitedPetDetail) {
+        public LimitedPetDetailMessage(LimitedPetDetail limitedPetDetail,boolean flag) {
             this.limitedPetDetail = limitedPetDetail;
+            this.flag = flag;
         }
 
         public LimitedPetDetail getLimitedPetDetail() {
             return limitedPetDetail;
+        }
+
+        public boolean getFlag() {
+            return flag;
         }
     }
 }

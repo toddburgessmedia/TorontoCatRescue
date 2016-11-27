@@ -47,14 +47,14 @@
             >
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:background="@color/colorAccent"
-            android:textColor="#FFFFFF"
-            android:id="@+id/petdetail_frag_facts"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:background="@color/colorAccent"
+                android:textColor="#FFFFFF"
+                android:id="@+id/petdetail_frag_facts"
+                />
 
 
             <LinearLayout
@@ -327,24 +327,16 @@
         android:drawableLeft="@drawable/ic_email_black"
         />
 
-    <Space
+    <android.support.v4.widget.Space
         android:layout_width="match_parent"
         android:layout_height="25dp" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/petdetail_button_adopt"
         android:id="@+id/petdetail_frag_adoptbutton"
         android:textColor="#FFFFFF"
         android:background="@color/colorPrimary"
         />
-
-
-
-
-
-
-
 
 </LinearLayout>

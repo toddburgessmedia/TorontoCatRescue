@@ -10,8 +10,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.toddburgessmedia.torontocatrescue.model.PetListModel;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.text.MessageFormat;
+
+import butterknife.BindString;
+import butterknife.ButterKnife;
 
 public class PetDetailActivity extends AppCompatActivity {
 
@@ -21,7 +29,11 @@ public class PetDetailActivity extends AppCompatActivity {
 
     PetDetailFragment fragment;
 
+    @BindString(R.string.petdetail_share)
+    String shareMessage;
+
     android.support.v7.widget.ShareActionProvider shareActionProvider;
+    private Intent shareIntent;
 
     @Override
     protected void onStart() {
@@ -43,6 +55,7 @@ public class PetDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_detail);
+        ButterKnife.bind(this);
 
         petID = getIntent().getStringExtra("petID");
         petURL = getIntent().getStringExtra("petURL");
@@ -67,11 +80,9 @@ public class PetDetailActivity extends AppCompatActivity {
 
         MenuItem menuItem = menu.findItem(R.id.action_share);
         shareActionProvider = (android.support.v7.widget.ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("text/*");
-        i.putExtra(Intent.EXTRA_TEXT, "Check out " + petName);
-        shareActionProvider.setShareIntent(i);
+        if (shareIntent != null) {
+            shareActionProvider.setShareIntent(shareIntent);
+        }
 
         return true;
     }
@@ -84,6 +95,24 @@ public class PetDetailActivity extends AppCompatActivity {
         i.putExtra("petDetail", message.getInfo());
         startActivity(i);
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateShareInfo(PetListModel.LimitedPetDetailMessage message) {
+
+        Log.d("TCR", "updateShareInfo: HELLO??????!!!!!!!!");
+        if (message.getFlag()) {
+            return;
+        }
+
+        MessageFormat mf = new MessageFormat(shareMessage);
+        String[] subs = {petName,message.getLimitedPetDetail().getPetDetailsUrl()};
+        String intentMessage = mf.format(subs);
+
+        shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, intentMessage);
+        invalidateOptionsMenu();
     }
 
 
