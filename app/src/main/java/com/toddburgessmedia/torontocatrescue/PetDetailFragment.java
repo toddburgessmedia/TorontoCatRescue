@@ -68,7 +68,7 @@ public class PetDetailFragment extends Fragment {
 
     @BindView(R.id.petdetail_frag_sex)
     TextView sex;
-    
+
     @Inject
     PetListModel petListModel;
 

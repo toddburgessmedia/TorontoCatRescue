@@ -23,4 +23,29 @@
     <string name="petdetail_button_adopt">Adopt Me!</string>
 
 
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <array name="navigation_titles">
+        <item>Available Cats</item>
+        <item>Bonded Pairs</item>
+        <item>TCR Website</item>
+        <item>TCR Facebook</item>
+        <item>Volunteer with TCR</item>
+        <item>Donate to TCR</item>
+    </array>
+
+    <array name="navigation_actions">
+        <item>cats</item>
+        <item>bonded</item>
+        <item>web</item>
+        <item>facebook</item>
+        <item>volunteer</item>
+        <item>donate</item>
+    </array>
+
+    <string name="main_web_site">https://torontocatrescue.ca/</string>
+    <string name="bonded_web_site">https://torontocatrescue.ca/adopt-a-cat/bonded-pairs/</string>
+    <string name="facebook_group_url">https://www.facebook.com/TorontoCatRescue/</string>
+
 </resources>

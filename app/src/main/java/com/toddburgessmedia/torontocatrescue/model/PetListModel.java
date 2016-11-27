@@ -91,7 +91,7 @@ public class PetListModel {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d("TCR", "onError: B A R F ! ! ! ! ! ! " + e.getMessage());
                     }
 
                     @Override

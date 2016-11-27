@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".PetDetailActivity" />
-        <activity android:name=".AdoptionActivity"></activity>
+        <activity android:name=".AdoptionActivity" />
+        <activity android:name=".PetWebView"></activity>
     </application>
 
 </manifest>

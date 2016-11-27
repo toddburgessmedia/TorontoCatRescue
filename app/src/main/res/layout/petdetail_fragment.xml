@@ -262,6 +262,8 @@
         app:cardUseCompatPadding="true"
         android:visibility="gone"
         android:clickable="true"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="2dp"
         app:cardBackgroundColor="@color/colorPrimary"
         android:id="@+id/petdetail_frag_bonded_cardview"
         >
@@ -276,6 +278,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:textStyle="bold|italic"
                 android:textColor="#FFFFFF"
                 android:text="@string/petdetail_important_note"
                 />
@@ -286,8 +289,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:id="@+id/petdetail_frag_important_photo"
                     />
 
@@ -295,7 +298,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:textColor="@color/colorAccent"
                     android:id="@+id/petdetail_frag_important_message"
                     />
@@ -319,12 +324,13 @@
         android:text="@string/petdetail_button_info"
         android:id="@+id/petdetail_frag_infobutton"
         android:background="@color/colorAccent"
+        android:drawableLeft="@drawable/ic_email_black"
         />
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="25dp" />
-    
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -17,8 +17,8 @@
         >
 
         <ImageView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:id="@+id/rv_petlist_result_photo"
             />
 
@@ -33,12 +33,15 @@
                 android:id="@+id/rv_petlist_pet_name"
                 android:textStyle="bold"
                 android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
                 />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rv_petlist_sex"
+                android:textSize="16sp"
                 android:gravity="center"
                 />
 
@@ -47,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/rv_petlist_primary_breed"
                 android:gravity="center"
+                android:textSize="16sp"
                 />
 
             <TextView
@@ -54,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/rv_petlist_age"
                 android:gravity="center"
+                android:textSize="16sp"
                 />
 
         </LinearLayout>
