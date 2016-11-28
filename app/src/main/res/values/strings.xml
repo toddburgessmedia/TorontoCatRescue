@@ -36,5 +36,18 @@
     <string name="adopt_email_subject">Adoption Request for {0}</string>
     <string name="adopt_email_body">CAT INFO (Please Include): {0} - {1}\n\n</string>
 
+    <string-array name="age_spinner">
+        <item>Any Age</item>
+        <item>Kitten</item>
+        <item>Young</item>
+        <item>Adult</item>
+        <item>Senior</item>
+    </string-array>
+
+    <string-array name="sex_spinner">
+        <item>Male and Female</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 
 </resources>

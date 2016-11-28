@@ -6,15 +6,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.toddburgessmedia.torontocatrescue.data.Pet;
 import com.toddburgessmedia.torontocatrescue.model.PetListModel;
 import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -34,6 +38,7 @@ public class MainFragment extends Fragment {
     SwipeRefreshLayout swipe;
 
     RecyclerViewPetListAdapter adapter;
+    ArrayList<Pet> petList;
 
     @Inject
     PetListModel petListModel;
@@ -91,11 +96,64 @@ public class MainFragment extends Fragment {
     @Subscribe
     public void updatePetListView(PetListModel.PetListMessage message) {
 
-        if (adapter == null) {
-            adapter = new RecyclerViewPetListAdapter(getContext(), message.getPets());
-        }
+        petList = message.getPets();
+        adapter = new RecyclerViewPetListAdapter(getContext(), petList);
         swipe.setRefreshing(false);
 
         rv.setAdapter(adapter);
+    }
+
+    public void getPetsbyAge(String age) {
+
+        if (petList == null) {
+            return;
+        }
+        rv.invalidate();
+        adapter.updateList(getPetsByAge(age));
+    }
+
+    public void getPetsbySex(String sex) {
+
+        if (petList == null) {
+            return;
+        }
+        rv.invalidate();
+        adapter.updateList(getPetsBySex(sex));
+    }
+
+
+    private ArrayList<Pet> getPetsByAge(String age) {
+
+        ArrayList<Pet> newList = new ArrayList<>();
+        Pet pet;
+        for (int i = 0; i < petList.size(); i++) {
+            pet = petList.get(i);
+            if (pet.getAge().equals(age.toLowerCase())) {
+                newList.add(pet);
+            } else if (age.equals("Any Age")) {
+                newList.add(pet);
+            }
+
+        }
+        return newList;
+    }
+
+    private ArrayList<Pet> getPetsBySex(String sex) {
+
+        Log.d("TCR", "getPetsBySex: " + sex);
+        ArrayList<Pet> newList = new ArrayList<>();
+        String newSex = sex.toLowerCase().substring(0,1);
+        Pet pet;
+        for (int i = 0; i < petList.size(); i++) {
+            pet = petList.get(i);
+            Log.d("TCR", "getPetsBySex: "+ pet.getSex() + " / " + newSex);
+            if (pet.getSex().equals(newSex)) {
+                newList.add(pet);
+            } else if (sex.equals("Male and Female")) {
+                newList.add(pet);
+            }
+
+        }
+        return newList;
     }
 }

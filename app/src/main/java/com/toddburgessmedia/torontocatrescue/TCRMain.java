@@ -12,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
 
@@ -44,6 +46,18 @@ public class TCRMain extends AppCompatActivity {
 
     @Inject @Named("drawerIcons")
     int[] drawerIcons;
+
+    @BindView(R.id.tcrmain_age_spinner)
+    Spinner age;
+
+    @BindView(R.id.tcrmain_sex_spinner)
+    Spinner sex;
+
+    @BindArray(R.array.age_spinner)
+    String[] ageArray;
+
+    @BindArray(R.array.sex_spinner)
+    String[] sexArray;
 
     ActionBarDrawerToggle drawerToggle;
 
@@ -82,12 +96,43 @@ public class TCRMain extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this, R.array.age_spinner, android.R.layout.simple_spinner_item);
+        ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        age.setAdapter(ageAdapter);
+
+        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(this,R.array.sex_spinner,android.R.layout.simple_spinner_item);
+        sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sex.setAdapter(sexAdapter);
 
         fragment = new MainFragment();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.tcrmain_framelayout, fragment, "mainfragment");
         transaction.commit();
+
+        age.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                fragment.getPetsbyAge(ageArray[i]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                fragment.getPetsbySex(sexArray[i]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     @Subscribe

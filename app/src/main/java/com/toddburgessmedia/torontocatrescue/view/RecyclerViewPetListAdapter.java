@@ -33,13 +33,19 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
     public RecyclerViewPetListAdapter (Context context, ArrayList<Pet> petList) {
 
         this.context = context;
-        this.petList = petList;
+        this.petList = new ArrayList<>(petList);
 
     }
 
     @Override
     public int getItemCount() {
-        return petList.size();
+
+        if (petList == null) {
+            return 0;
+        } else {
+
+            return petList.size();
+        }
     }
 
     @Override
@@ -85,6 +91,13 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
         } else {
             return "Female";
         }
+    }
+
+    public void updateList (ArrayList<Pet> newList) {
+
+        petList.clear();
+        petList.addAll(newList);
+        notifyDataSetChanged();
     }
 
     @Override
