@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
 import com.toddburgessmedia.torontocatrescue.model.PetListModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -28,6 +29,7 @@ public class PetDetailActivity extends AppCompatActivity {
     String petName;
 
     PetDetailFragment fragment;
+    LimitedPetDetail limitedPetDetail;
 
     @BindString(R.string.petdetail_share)
     String shareMessage;
@@ -61,6 +63,9 @@ public class PetDetailActivity extends AppCompatActivity {
         petURL = getIntent().getStringExtra("petURL");
         petName = getIntent().getStringExtra("petName");
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         fragment = new PetDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString("petID",petID);
@@ -93,8 +98,20 @@ public class PetDetailActivity extends AppCompatActivity {
         Log.d("TCR", "startAdoptionActivity: ");
         Intent i = new Intent(PetDetailActivity.this, AdoptionActivity.class);
         i.putExtra("petDetail", message.getInfo());
+        i.putExtra("url", limitedPetDetail.getPetDetailsUrl());
         startActivity(i);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -105,8 +122,9 @@ public class PetDetailActivity extends AppCompatActivity {
             return;
         }
 
+        limitedPetDetail = message.getLimitedPetDetail();
         MessageFormat mf = new MessageFormat(shareMessage);
-        String[] subs = {petName,message.getLimitedPetDetail().getPetDetailsUrl()};
+        String[] subs = {petName,limitedPetDetail.getPetDetailsUrl()};
         String intentMessage = mf.format(subs);
 
         shareIntent = new Intent(Intent.ACTION_SEND);

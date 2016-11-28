@@ -9,10 +9,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Please read before starting the adoption process"
+        android:text="@string/adopt_disclaimer"
         android:textStyle="bold"
         android:textSize="18sp"
         android:gravity="center"
+        android:id="@+id/adopt_disclaimer"
         />
 
 
@@ -20,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/adoption_frag_description"
-        android:text="hello"
         />
 
     <Button
@@ -29,7 +29,7 @@
         android:id="@+id/adoption_frag_call_button"
         android:background="@color/colorAccent"
         android:drawableLeft="@drawable/ic_phone_black"
-        android:text="Call an Adoption Councillor"
+        android:text="@string/adopt_call"
         />
 
     <android.support.v4.widget.Space
@@ -45,7 +45,7 @@
         android:background="@color/colorPrimary"
         android:textColor="#FFFFFF"
         android:drawableLeft="@drawable/ic_email_white"
-        android:text="E-Mail an Adoption Councillor"
+        android:text="@string/adopt_email"
         />
 
 

@@ -29,29 +29,12 @@
 
     <string name="petdetail_share">Check out Toronto Cat Rescue Cat {0}\n{1}\n</string>
 
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
+    <string name="adopt_call">Call Our Adoption Line</string>
+    <string name="adopt_email">E-Mail Our Adoption Team</string>
+    <string name="adopt_disclaimer">Please read before starting the adoption process</string>
 
-    <array name="navigation_titles">
-        <item>Available Cats</item>
-        <item>Bonded Pairs</item>
-        <item>TCR Website</item>
-        <item>TCR Facebook</item>
-        <item>Volunteer with TCR</item>
-        <item>Donate to TCR</item>
-    </array>
+    <string name="adopt_email_subject">Adoption Request for {0}</string>
+    <string name="adopt_email_body">CAT INFO (Please Include): {0} - {1}\n\n</string>
 
-    <array name="navigation_actions">
-        <item>cats</item>
-        <item>bonded</item>
-        <item>web</item>
-        <item>facebook</item>
-        <item>volunteer</item>
-        <item>donate</item>
-    </array>
-
-    <string name="main_web_site">https://torontocatrescue.ca/</string>
-    <string name="bonded_web_site">https://torontocatrescue.ca/adopt-a-cat/bonded-pairs/</string>
-    <string name="facebook_group_url">https://www.facebook.com/TorontoCatRescue/</string>
 
 </resources>

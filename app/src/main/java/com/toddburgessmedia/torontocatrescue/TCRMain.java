@@ -1,29 +1,26 @@
 package com.toddburgessmedia.torontocatrescue;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindArray;
 import butterknife.BindView;
@@ -45,11 +42,15 @@ public class TCRMain extends AppCompatActivity {
     @BindArray(R.array.navigation_actions)
     String[] actions;
 
+    @Inject @Named("drawerIcons")
+    int[] drawerIcons;
+
     ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onStart() {
         super.onStart();
+
 
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -68,11 +69,11 @@ public class TCRMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tcrmain);
 
-        ButterKnife.bind(this);
-        String[] test = {"Hello", "World"};
+        ((TorontoCatRescue) getApplication()).getTcrComponent().inject(this);
 
-        NavigationList list = new NavigationList(this, titles);
-//        listView.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_view,test));
+        ButterKnife.bind(this);
+
+        NavigationList list = new NavigationList(this, titles,drawerIcons);
         listView.setAdapter(list);
         listView.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -167,16 +168,17 @@ public class TCRMain extends AppCompatActivity {
             case "available":
                 getSupportActionBar().hide();
                 break;
+            case "volunteer":
+                Intent volunteer = new Intent(this,PetWebView.class);
+                volunteer.putExtra("url",getString(R.string.volunteer_url));
+                startActivity(volunteer);
+                break;
+            case "donate":
+                Intent donate = new Intent(Intent.ACTION_VIEW);
+                donate.setData(Uri.parse(getString(R.string.donate_url)));
+                startActivity(donate);
+                break;
         }
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-    //        boolean open = drawerLayout.isDrawerOpen(listView);
-
-
-        return super.onPrepareOptionsMenu(menu);
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -188,29 +190,5 @@ public class TCRMain extends AppCompatActivity {
         }
     }
 
-    public class NavigationList extends ArrayAdapter<String> {
 
-        String[] items;
-        Context context;
-
-        public NavigationList (Context context, String[] items) {
-            super(context,R.layout.drawer_list_view,items);
-
-            this.context = context;
-            this.items = items;
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.drawer_list_view, null, true);
-
-            TextView tv = (TextView) view.findViewById(R.id.drawer_text);
-            tv.setText(items[position]);
-
-            return view;
-        }
-    }
 }

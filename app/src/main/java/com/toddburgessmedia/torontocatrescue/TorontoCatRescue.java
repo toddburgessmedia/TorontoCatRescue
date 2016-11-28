@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.toddburgessmedia.torontocatrescue.dagger.AppModule;
 import com.toddburgessmedia.torontocatrescue.dagger.DaggerTCRComponent;
+import com.toddburgessmedia.torontocatrescue.dagger.NavDrawerModule;
 import com.toddburgessmedia.torontocatrescue.dagger.NetModule;
 import com.toddburgessmedia.torontocatrescue.dagger.TCRComponent;
 
@@ -22,6 +23,7 @@ public class TorontoCatRescue extends Application {
         tcrComponent = DaggerTCRComponent.builder()
                 .appModule(new AppModule(this))
                 .netModule(new NetModule())
+                .navDrawerModule(new NavDrawerModule())
                 .build();
     }
 
