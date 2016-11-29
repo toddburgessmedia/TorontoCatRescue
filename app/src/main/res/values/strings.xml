@@ -35,6 +35,7 @@
 
     <string name="adopt_email_subject">Adoption Request for {0}</string>
     <string name="adopt_email_body">CAT INFO (Please Include): {0} - {1}\n\n</string>
+    <string name="network_error">Network Unavailable. Try refreshing in a few minutes</string>
 
     <string-array name="age_spinner">
         <item>Any Age</item>

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -54,27 +53,67 @@ public class PetDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_detail);
         ButterKnife.bind(this);
 
-        petID = getIntent().getStringExtra("petID");
-        petURL = getIntent().getStringExtra("petURL");
-        petName = getIntent().getStringExtra("petName");
+
+
+
+        if (savedInstanceState != null) {
+            if (!EventBus.getDefault().isRegistered(this)) {
+                EventBus.getDefault().register(this);
+            }
+            petID = savedInstanceState.getString("petID");
+            petURL = savedInstanceState.getString("petURL");
+            petName = savedInstanceState.getString("petName");
+            fragment = (PetDetailFragment) getSupportFragmentManager().getFragment(savedInstanceState, "fragment");
+        } else {
+            petID = getIntent().getStringExtra("petID");
+            petURL = getIntent().getStringExtra("petURL");
+            petName = getIntent().getStringExtra("petName");
+
+            fragment = new PetDetailFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("petID",petID);
+            fragment.setArguments(bundle);
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        fragment = new PetDetailFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("petID",petID);
-        fragment.setArguments(bundle);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.petdetail_activity_framelayout, fragment, "fragment");
         transaction.commit();
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("petID",petID);
+        outState.putString("petURL",petURL);
+        outState.putString("petName",petName);
+
+        getSupportFragmentManager().putFragment(outState,"fragment",fragment);
     }
 
     @Override
@@ -93,9 +132,8 @@ public class PetDetailActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void startAdoptionActivity(PetDetailFragment.AdoptionMessage message) {
+    public void startAdoptionActivity(AdoptionMessage message) {
 
-        Log.d("TCR", "startAdoptionActivity: ");
         Intent i = new Intent(PetDetailActivity.this, AdoptionActivity.class);
         i.putExtra("petDetail", message.getInfo());
         i.putExtra("url", limitedPetDetail.getPetDetailsUrl());
@@ -121,7 +159,6 @@ public class PetDetailActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateShareInfo(PetListModel.LimitedPetDetailMessage message) {
 
-        Log.d("TCR", "updateShareInfo: HELLO??????!!!!!!!!");
         if (message.getFlag()) {
             return;
         }
@@ -136,6 +173,7 @@ public class PetDetailActivity extends AppCompatActivity {
         shareIntent.putExtra(Intent.EXTRA_TEXT, intentMessage);
         invalidateOptionsMenu();
     }
+
 
 
 }

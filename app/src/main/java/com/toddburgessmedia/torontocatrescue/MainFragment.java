@@ -9,8 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.toddburgessmedia.torontocatrescue.data.Pet;
+import com.toddburgessmedia.torontocatrescue.data.PetList;
 import com.toddburgessmedia.torontocatrescue.model.PetListModel;
 import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
 
@@ -86,9 +88,28 @@ public class MainFragment extends Fragment {
             }
         });
 
-        getPetList();
+        if (savedInstanceState != null) {
+            PetList pl = (PetList) savedInstanceState.getParcelable("petlist");
+            petList = pl.getPetList();
+            updateRecyclerView();
+        } else {
+            getPetList();
+        }
+
+
 
         return view;
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        PetList pl = new PetList();
+        pl.setPetList(petList);
+
+        outState.putParcelable("petlist", pl);
 
     }
 
@@ -100,6 +121,10 @@ public class MainFragment extends Fragment {
     public void updatePetListView(PetListModel.PetListMessage message) {
 
         petList = message.getPets();
+        updateRecyclerView();
+    }
+
+    public void updateRecyclerView() {
         adapter = new RecyclerViewPetListAdapter(getContext(), petList);
         swipe.setRefreshing(false);
 
@@ -160,5 +185,11 @@ public class MainFragment extends Fragment {
         }
 
         return newList;
+    }
+
+    @Subscribe
+    public void onError(Throwable t) {
+
+        Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
     }
 }

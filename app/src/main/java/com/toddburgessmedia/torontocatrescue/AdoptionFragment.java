@@ -66,6 +66,17 @@ public class AdoptionFragment extends Fragment {
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("adoptionString",adoptionString);
+        outState.putString("phoneNumber",phoneNumber);
+        outState.putString("emailTo",emailTo);
+        outState.putString("bioURL",bioURL);
+        outState.putString("petName",petName);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,6 +92,15 @@ public class AdoptionFragment extends Fragment {
          call.setVisibility(View.GONE);
             spacer.setVisibility(View.GONE);
         }
+
+        if (savedInstanceState != null) {
+            adoptionString = savedInstanceState.getString("adoptionString");
+            phoneNumber = savedInstanceState.getString("phoneNumber");
+            emailTo = savedInstanceState.getString("emailTo");
+            bioURL = savedInstanceState.getString("bioURL");
+            petName = savedInstanceState.getString("petName");
+        }
+
 
         call.setOnClickListener(new View.OnClickListener() {
             @Override

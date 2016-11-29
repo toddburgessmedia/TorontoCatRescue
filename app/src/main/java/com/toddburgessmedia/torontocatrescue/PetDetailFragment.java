@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
@@ -183,21 +184,52 @@ public class PetDetailFragment extends Fragment {
             }
         });
 
+
+
+        if (savedInstanceState != null) {
+            petID = savedInstanceState.getString("petID");
+            catName = savedInstanceState.getString("catName");
+            info = savedInstanceState.getParcelable("info");
+            limitedBonded = savedInstanceState.getParcelable("bonded");
+            limitedPet = savedInstanceState.getParcelable("limitedPet");
+            updateView();
+            if (limitedBonded != null) {
+                addBondedCardView();
+            }
+        } else {
+            progress = new ProgressDialog(getContext());
+            progress.setMessage("Loading " + catName);
+            progress.show();
+
+            getPetInformation();
+        }
         adoptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("TCR", "onClick: ");
-                EventBus.getDefault().post(new AdoptionMessage(info));
+                Intent i = new Intent(getContext(), AdoptionActivity.class);
+                i.putExtra("petDetail", info);
+                i.putExtra("url", limitedPet.getPetDetailsUrl());
+                startActivity(i);
             }
         });
-
-        progress = new ProgressDialog(getContext());
-        progress.setMessage("Loading " + catName);
-        progress.show();
-
-        getPetInformation();
         return view;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("petID",petID);
+        outState.putString("catName",catName);
+        outState.putParcelable("info",info);
+        if (bonded != null) {
+            outState.putParcelable("bonded",limitedBonded);
+        }
+        outState.putParcelable("limitedPet",limitedPet);
+
+    }
+
+
 
     public void getPetInformation() {
         petListModel.fetchPetDetail(petID);
@@ -210,6 +242,10 @@ public class PetDetailFragment extends Fragment {
         progress.dismiss();
         info = message.getPetDetail();
 
+        updateView();
+    }
+
+    private void updateView() {
         header.setText(subPetName(info.getPetName().toUpperCase(),greeting));
 
         thumbNails.setThumbNailImages(info.getPetImages());
@@ -231,8 +267,12 @@ public class PetDetailFragment extends Fragment {
         story.setText(Html.fromHtml(info.getDescription()));
 
         if (info.getBondedTo() != null) {
-            catName = info.getPetName();
-            petListModel.fetchLimtedPetDetail(info.getBondedTo(),true);
+            if (limitedBonded != null) {
+                addBondedCardView();
+            } else {
+                catName = info.getPetName();
+                petListModel.fetchLimtedPetDetail(info.getBondedTo(), true);
+            }
         }
 
         adoptButton.setText(subPetName(info.getPetName(),adoptText));
@@ -248,6 +288,12 @@ public class PetDetailFragment extends Fragment {
         }
 
         limitedBonded = limitedPetDetailMessage.getLimitedPetDetail();
+
+        addBondedCardView();
+
+    }
+
+    private void addBondedCardView() {
         MessageFormat mf = new MessageFormat(message);
         String[] subs = {catName, limitedBonded.getPetName()};
         String display = mf.format(subs);
@@ -258,7 +304,6 @@ public class PetDetailFragment extends Fragment {
         Picasso.with(getContext()).load(limitedBonded.getImages().get(0).getThumbnailUrl()).into(importantPhoto);
         importantPhoto.setVisibility(View.VISIBLE);
         importantMessage.setText(display);
-
     }
 
     private String subPetName(String petName, String targetText) {
@@ -362,22 +407,12 @@ public class PetDetailFragment extends Fragment {
         return mf.format(subs);
     }
 
-    public class AdoptionMessage {
+    @Subscribe
+    public void onError (Throwable t) {
 
-        PetDetailInfo info;
-
-        AdoptionMessage(PetDetailInfo info) {
-
-            this.info = info;
-        }
-
-        public PetDetailInfo getInfo() {
-            return info;
-        }
-
-
-
+        Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
     }
+
 
     public class ShareIntentInfoMessage {
 

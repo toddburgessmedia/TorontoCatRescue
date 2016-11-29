@@ -65,7 +65,6 @@ public class TCRMain extends AppCompatActivity {
 
     ActionBarDrawerToggle drawerToggle;
 
-    boolean spinnerFirstCall = true;
     private ArrayAdapter<CharSequence> ageAdapter;
     private ArrayAdapter<CharSequence> sexAdapter;
 
@@ -112,7 +111,12 @@ public class TCRMain extends AppCompatActivity {
         sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sex.setAdapter(sexAdapter);
 
-        fragment = new MainFragment();
+
+        if (savedInstanceState != null) {
+            fragment = (MainFragment) getSupportFragmentManager().getFragment(savedInstanceState, "fragment");
+        } else {
+            fragment = new MainFragment();
+        }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.tcrmain_framelayout, fragment, "mainfragment");
@@ -127,7 +131,6 @@ public class TCRMain extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                Log.d("TCR", "onNothingSelected: ");
             }
         });
 
@@ -145,6 +148,13 @@ public class TCRMain extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        getSupportFragmentManager().putFragment(outState,"fragment",fragment);
     }
 
     @Subscribe
