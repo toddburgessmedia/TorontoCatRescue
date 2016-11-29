@@ -22,8 +22,7 @@ public class NavDrawerModule {
     @Named("drawerIcons")
     public int[] getDrawerIcons () {
 
-        int[] icons = {R.drawable.ic_singlecat,
-                        R.drawable.ic_bonded_pair,
+        int[] icons = { R.drawable.ic_bonded_pair,
                         R.drawable.ic_world,
                         R.mipmap.ic_facebook,
                         R.drawable.ic_volunteer,

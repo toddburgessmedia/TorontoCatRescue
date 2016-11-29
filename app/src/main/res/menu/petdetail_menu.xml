@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_share"
+        android:orderInCategory="100"
+        android:title="Share"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_petdetail_refresh"
+        android:orderInCategory="200"
+        android:title="Refresh"
+        app:showAsAction="never" />
+
+
+</menu>

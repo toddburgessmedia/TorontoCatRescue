@@ -1,5 +1,6 @@
 package com.toddburgessmedia.torontocatrescue;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -24,7 +25,6 @@ import com.toddburgessmedia.torontocatrescue.view.PhotoThumbNails;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.MessageFormat;
 
@@ -123,6 +123,8 @@ public class PetDetailFragment extends Fragment {
 
     String catName;
 
+    ProgressDialog progress;
+
     String petID;
     private PetDetailInfo info;
     private LimitedPetDetail limitedBonded;
@@ -163,6 +165,7 @@ public class PetDetailFragment extends Fragment {
         ((TorontoCatRescue) getActivity().getApplication()).getTcrComponent().inject(this);
 
         petID = getArguments().getString("petID");
+        catName = getArguments().getString("petName");
     }
 
     @Nullable
@@ -188,14 +191,23 @@ public class PetDetailFragment extends Fragment {
             }
         });
 
+        progress = new ProgressDialog(getContext());
+        progress.setMessage("Loading " + catName);
+        progress.show();
+
+        getPetInformation();
+        return view;
+    }
+
+    public void getPetInformation() {
         petListModel.fetchPetDetail(petID);
         petListModel.fetchLimtedPetDetail(petID,false);
-        return view;
     }
 
     @Subscribe
     public void updateView (PetListModel.PetDetailMessage message) {
 
+        progress.dismiss();
         info = message.getPetDetail();
 
         header.setText(subPetName(info.getPetName().toUpperCase(),greeting));
@@ -226,7 +238,7 @@ public class PetDetailFragment extends Fragment {
         adoptButton.setText(subPetName(info.getPetName(),adoptText));
     }
 
-    @Subscribe(threadMode = ThreadMode.ASYNC)
+    @Subscribe
     public void updateBondedInfo(PetListModel.LimitedPetDetailMessage limitedPetDetailMessage) {
 
         if (!limitedPetDetailMessage.getFlag()) {

@@ -9,6 +9,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,7 +47,8 @@ public class TCRMain extends AppCompatActivity {
     @BindArray(R.array.navigation_actions)
     String[] actions;
 
-    @Inject @Named("drawerIcons")
+    @Inject
+    @Named("drawerIcons")
     int[] drawerIcons;
 
     @BindView(R.id.tcrmain_age_spinner)
@@ -60,6 +64,10 @@ public class TCRMain extends AppCompatActivity {
     String[] sexArray;
 
     ActionBarDrawerToggle drawerToggle;
+
+    boolean spinnerFirstCall = true;
+    private ArrayAdapter<CharSequence> ageAdapter;
+    private ArrayAdapter<CharSequence> sexAdapter;
 
     @Override
     protected void onStart() {
@@ -87,7 +95,7 @@ public class TCRMain extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        NavigationList list = new NavigationList(this, titles,drawerIcons);
+        NavigationList list = new NavigationList(this, titles, drawerIcons);
         listView.setAdapter(list);
         listView.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -96,11 +104,11 @@ public class TCRMain extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this, R.array.age_spinner, android.R.layout.simple_spinner_item);
+        ageAdapter = ArrayAdapter.createFromResource(this, R.array.age_spinner, android.R.layout.simple_spinner_item);
         ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         age.setAdapter(ageAdapter);
 
-        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(this,R.array.sex_spinner,android.R.layout.simple_spinner_item);
+        sexAdapter = ArrayAdapter.createFromResource(this, R.array.sex_spinner, android.R.layout.simple_spinner_item);
         sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sex.setAdapter(sexAdapter);
 
@@ -113,19 +121,23 @@ public class TCRMain extends AppCompatActivity {
         age.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                fragment.getPetsbyAge(ageArray[i]);
+                fragment.getPetsbySexAge(sexArray[sex.getSelectedItemPosition()],
+                        ageArray[age.getSelectedItemPosition()]);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                Log.d("TCR", "onNothingSelected: ");
             }
         });
 
         sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                fragment.getPetsbySex(sexArray[i]);
+                Log.d("TCR", "onItemSelected: sex");
+                fragment.getPetsbySexAge(sexArray[sex.getSelectedItemPosition()],
+                        ageArray[age.getSelectedItemPosition()]);
+
             }
 
             @Override
@@ -136,7 +148,7 @@ public class TCRMain extends AppCompatActivity {
     }
 
     @Subscribe
-    public void startPetDetailActivity (RecyclerViewPetListAdapter.PetListClickMessage message) {
+    public void startPetDetailActivity(RecyclerViewPetListAdapter.PetListClickMessage message) {
 
         Intent i = new Intent(this, PetDetailActivity.class);
         i.putExtra("petID", message.getPetID());
@@ -145,27 +157,26 @@ public class TCRMain extends AppCompatActivity {
         startActivity(i);
     }
 
-    private ActionBarDrawerToggle getActionBarToggle () {
+    private ActionBarDrawerToggle getActionBarToggle() {
         return new ActionBarDrawerToggle(
-                            this,
-                            drawerLayout,
-                            R.string.drawer_open,
-                            R.string.drawer_close)
-            {
-                @Override
-                public void onDrawerClosed(View drawerView) {
-                    super.onDrawerClosed(drawerView);
-                    invalidateOptionsMenu();
-                }
+                this,
+                drawerLayout,
+                R.string.drawer_open,
+                R.string.drawer_close) {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                invalidateOptionsMenu();
+            }
 
-                @Override
-                public void onDrawerOpened(View drawerView) {
-                    super.onDrawerOpened(drawerView);
-                    invalidateOptionsMenu();
-                }
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu();
+            }
 
 
-            };
+        };
     }
 
     @Override
@@ -189,6 +200,11 @@ public class TCRMain extends AppCompatActivity {
             return true;
         }
 
+        if (item.getItemId() == R.id.menu_main_refresh) {
+            fragment.getPetList();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -196,26 +212,26 @@ public class TCRMain extends AppCompatActivity {
         switch (actions[position]) {
 
             case "web":
-                Intent intent = new Intent(this,PetWebView.class);
-                intent.putExtra("url",getString(R.string.main_web_site));
+                Intent intent = new Intent(this, PetWebView.class);
+                intent.putExtra("url", getString(R.string.main_web_site));
                 startActivity(intent);
                 break;
             case "bonded":
-                Intent bonded = new Intent(this,PetWebView.class);
-                bonded.putExtra("url",getString(R.string.bonded_web_site));
+                Intent bonded = new Intent(this, PetWebView.class);
+                bonded.putExtra("url", getString(R.string.bonded_web_site));
                 startActivity(bonded);
                 break;
             case "facebook":
-                Intent facebook = new Intent(this,PetWebView.class);
-                facebook.putExtra("url",getString(R.string.facebook_group_url));
+                Intent facebook = new Intent(this, PetWebView.class);
+                facebook.putExtra("url", getString(R.string.facebook_group_url));
                 startActivity(facebook);
                 break;
             case "available":
                 getSupportActionBar().hide();
                 break;
             case "volunteer":
-                Intent volunteer = new Intent(this,PetWebView.class);
-                volunteer.putExtra("url",getString(R.string.volunteer_url));
+                Intent volunteer = new Intent(this, PetWebView.class);
+                volunteer.putExtra("url", getString(R.string.volunteer_url));
                 startActivity(volunteer);
                 break;
             case "donate":
@@ -231,9 +247,17 @@ public class TCRMain extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                handleNavBarAction(i);
+            handleNavBarAction(i);
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.tcrmain_menu, menu);
+        return true;
+    }
 
 }
+
+

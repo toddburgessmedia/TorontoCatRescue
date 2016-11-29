@@ -81,7 +81,7 @@ public class PetDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.tcrmain_menu,menu);
+        inflater.inflate(R.menu.petdetail_menu,menu);
 
         MenuItem menuItem = menu.findItem(R.id.action_share);
         shareActionProvider = (android.support.v7.widget.ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
@@ -109,7 +109,11 @@ public class PetDetailActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
+        } else if (item.getItemId() == R.id.menu_petdetail_refresh) {
+            fragment.getPetInformation();
+            return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }

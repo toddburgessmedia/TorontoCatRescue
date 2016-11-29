@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,14 +82,18 @@ public class MainFragment extends Fragment {
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                petListModel.fetchPetList();
+                getPetList();
             }
         });
 
-        petListModel.fetchPetList();
+        getPetList();
 
         return view;
 
+    }
+
+    public void getPetList() {
+        petListModel.fetchPetList();
     }
 
     @Subscribe
@@ -112,13 +115,13 @@ public class MainFragment extends Fragment {
         adapter.updateList(getPetsByAge(age));
     }
 
-    public void getPetsbySex(String sex) {
+    public void getPetsbySexAge(String sex, String age) {
 
         if (petList == null) {
             return;
         }
         rv.invalidate();
-        adapter.updateList(getPetsBySex(sex));
+        adapter.updateList(getPetsBySexAge(sex,age));
     }
 
 
@@ -138,22 +141,24 @@ public class MainFragment extends Fragment {
         return newList;
     }
 
-    private ArrayList<Pet> getPetsBySex(String sex) {
+    private ArrayList<Pet> getPetsBySexAge(String sex, String age) {
 
-        Log.d("TCR", "getPetsBySex: " + sex);
         ArrayList<Pet> newList = new ArrayList<>();
         String newSex = sex.toLowerCase().substring(0,1);
         Pet pet;
         for (int i = 0; i < petList.size(); i++) {
             pet = petList.get(i);
-            Log.d("TCR", "getPetsBySex: "+ pet.getSex() + " / " + newSex);
-            if (pet.getSex().equals(newSex)) {
+            if (sex.equals("Male and Female") && age.equals("Any Age")) {
                 newList.add(pet);
-            } else if (sex.equals("Male and Female")) {
+            } else if (pet.getSex().equals(newSex) && pet.getAge().equals(age.toLowerCase())) {
+                newList.add(pet);
+            } else if ((pet.getSex().equals(newSex)) && age.equals("Any Age")) {
+                newList.add(pet);
+            } else if (sex.equals("Male and Female") && pet.getAge().equals(age.toLowerCase())) {
                 newList.add(pet);
             }
-
         }
+
         return newList;
     }
 }
