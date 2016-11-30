@@ -410,6 +410,9 @@ public class PetDetailFragment extends Fragment {
     @Subscribe
     public void onError (Throwable t) {
 
+        if (progress != null) {
+            progress.dismiss();
+        }
         Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
     }
 

@@ -93,6 +93,7 @@ public class PetDetailActivity extends AppCompatActivity {
             fragment = new PetDetailFragment();
             Bundle bundle = new Bundle();
             bundle.putString("petID",petID);
+            bundle.putString("petName", petName);
             fragment.setArguments(bundle);
         }
 

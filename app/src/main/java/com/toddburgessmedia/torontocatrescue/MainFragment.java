@@ -1,5 +1,6 @@
 package com.toddburgessmedia.torontocatrescue;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -43,6 +44,8 @@ public class MainFragment extends Fragment {
 
     @Inject
     PetListModel petListModel;
+
+    ProgressDialog progress;
 
     @Override
     public void onStart() {
@@ -93,13 +96,10 @@ public class MainFragment extends Fragment {
             petList = pl.getPetList();
             updateRecyclerView();
         } else {
+            startProgressDialog();
             getPetList();
         }
-
-
-
         return view;
-
     }
 
     @Override
@@ -113,6 +113,22 @@ public class MainFragment extends Fragment {
 
     }
 
+    private void startProgressDialog() {
+
+        if (progress == null) {
+            progress = new ProgressDialog(getContext());
+        }
+        progress.setMessage("Getting Cats");
+        progress.show();
+    }
+
+    private void stopProgressDialog() {
+
+        if (progress != null) {
+            progress.dismiss();
+        }
+    }
+
     public void getPetList() {
         petListModel.fetchPetList();
     }
@@ -121,6 +137,7 @@ public class MainFragment extends Fragment {
     public void updatePetListView(PetListModel.PetListMessage message) {
 
         petList = message.getPets();
+        stopProgressDialog();
         updateRecyclerView();
     }
 
@@ -190,6 +207,7 @@ public class MainFragment extends Fragment {
     @Subscribe
     public void onError(Throwable t) {
 
+        stopProgressDialog();
         Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
     }
 }
