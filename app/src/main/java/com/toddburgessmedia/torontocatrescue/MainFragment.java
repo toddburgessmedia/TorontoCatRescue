@@ -87,7 +87,7 @@ public class MainFragment extends Fragment {
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getPetList();
+                getPetList(false);
             }
         });
 
@@ -97,7 +97,7 @@ public class MainFragment extends Fragment {
             updateRecyclerView();
         } else {
             startProgressDialog();
-            getPetList();
+            getPetList(false);
         }
         return view;
     }
@@ -129,7 +129,11 @@ public class MainFragment extends Fragment {
         }
     }
 
-    public void getPetList() {
+    public void getPetList(boolean refresh) {
+
+        if (refresh) {
+            swipe.setRefreshing(true);
+        }
         petListModel.fetchPetList();
     }
 

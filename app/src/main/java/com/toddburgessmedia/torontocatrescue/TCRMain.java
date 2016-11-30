@@ -211,7 +211,7 @@ public class TCRMain extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.menu_main_refresh) {
-            fragment.getPetList();
+            fragment.getPetList(true);
             return true;
         }
 

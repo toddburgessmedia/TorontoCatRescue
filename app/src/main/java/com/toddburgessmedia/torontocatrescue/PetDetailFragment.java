@@ -197,10 +197,6 @@ public class PetDetailFragment extends Fragment {
                 addBondedCardView();
             }
         } else {
-            progress = new ProgressDialog(getContext());
-            progress.setMessage("Loading " + catName);
-            progress.show();
-
             getPetInformation();
         }
         adoptButton.setOnClickListener(new View.OnClickListener() {
@@ -232,6 +228,7 @@ public class PetDetailFragment extends Fragment {
 
 
     public void getPetInformation() {
+        startProgressDialog();
         petListModel.fetchPetDetail(petID);
         petListModel.fetchLimtedPetDetail(petID,false);
     }
@@ -239,7 +236,7 @@ public class PetDetailFragment extends Fragment {
     @Subscribe
     public void updateView (PetListModel.PetDetailMessage message) {
 
-        progress.dismiss();
+        stopProgressDialog();
         info = message.getPetDetail();
 
         updateView();
@@ -410,11 +407,26 @@ public class PetDetailFragment extends Fragment {
     @Subscribe
     public void onError (Throwable t) {
 
+        stopProgressDialog();
+        Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+    }
+
+    private void startProgressDialog() {
+
+        if (progress == null) {
+            progress = new ProgressDialog(getContext());
+        }
+        progress.setMessage("Getting Information for " + catName);
+        progress.show();
+    }
+
+    private void stopProgressDialog() {
+
         if (progress != null) {
             progress.dismiss();
         }
-        Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
     }
+
 
 
     public class ShareIntentInfoMessage {
