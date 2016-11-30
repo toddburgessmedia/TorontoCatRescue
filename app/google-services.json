@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "208357385316",
+    "project_id": "toronto-cat-rescue"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208357385316:android:242f738dff1b4f96",
+        "android_client_info": {
+          "package_name": "com.toddburgessmedia.torontocatrescue"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8-M7RNvILGYK1757x17p6NlWnx9DtevM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-88281856-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

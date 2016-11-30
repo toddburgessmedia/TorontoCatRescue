@@ -2,6 +2,8 @@ package com.toddburgessmedia.torontocatrescue;
 
 import android.app.Application;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.toddburgessmedia.torontocatrescue.dagger.AppModule;
 import com.toddburgessmedia.torontocatrescue.dagger.DaggerTCRComponent;
 import com.toddburgessmedia.torontocatrescue.dagger.NavDrawerModule;
@@ -15,6 +17,7 @@ import com.toddburgessmedia.torontocatrescue.dagger.TCRComponent;
 public class TorontoCatRescue extends Application {
 
     TCRComponent tcrComponent;
+    Tracker tracker;
 
     @Override
     public void onCreate() {
@@ -29,5 +32,15 @@ public class TorontoCatRescue extends Application {
 
     public TCRComponent getTcrComponent() {
         return tcrComponent;
+    }
+
+    public Tracker getTracker () {
+
+        if (tracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            tracker = analytics.newTracker(R.xml.global_tracker);
+        }
+
+        return tracker;
     }
 }

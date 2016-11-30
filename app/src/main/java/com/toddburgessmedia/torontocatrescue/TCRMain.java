@@ -19,6 +19,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -67,6 +69,7 @@ public class TCRMain extends AppCompatActivity {
 
     private ArrayAdapter<CharSequence> ageAdapter;
     private ArrayAdapter<CharSequence> sexAdapter;
+    private Tracker tracker;
 
     @Override
     protected void onStart() {
@@ -91,6 +94,7 @@ public class TCRMain extends AppCompatActivity {
         setContentView(R.layout.activity_tcrmain);
 
         ((TorontoCatRescue) getApplication()).getTcrComponent().inject(this);
+        tracker = ((TorontoCatRescue) getApplication()).getTracker();
 
         ButterKnife.bind(this);
 
@@ -116,6 +120,8 @@ public class TCRMain extends AppCompatActivity {
             fragment = (MainFragment) getSupportFragmentManager().getFragment(savedInstanceState, "fragment");
         } else {
             fragment = new MainFragment();
+            tracker.setScreenName("Main");
+            tracker.send(new HitBuilders.ScreenViewBuilder().build());
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

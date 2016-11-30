@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
 import com.toddburgessmedia.torontocatrescue.model.PetListModel;
 
@@ -26,6 +28,8 @@ public class PetDetailActivity extends AppCompatActivity {
     String petID;
     String petURL;
     String petName;
+
+    Tracker tracker;
 
     PetDetailFragment fragment;
     LimitedPetDetail limitedPetDetail;
@@ -74,8 +78,7 @@ public class PetDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pet_detail);
         ButterKnife.bind(this);
 
-
-
+        tracker = ((TorontoCatRescue) getApplication()).getTracker();
 
         if (savedInstanceState != null) {
             if (!EventBus.getDefault().isRegistered(this)) {
@@ -89,6 +92,14 @@ public class PetDetailActivity extends AppCompatActivity {
             petID = getIntent().getStringExtra("petID");
             petURL = getIntent().getStringExtra("petURL");
             petName = getIntent().getStringExtra("petName");
+
+            tracker.setScreenName("PetDetailActivity");
+            tracker.send(new HitBuilders.ScreenViewBuilder().build());
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("View Cats")
+                    .setAction("View")
+                    .setLabel(petName)
+                    .build());
 
             fragment = new PetDetailFragment();
             Bundle bundle = new Bundle();
