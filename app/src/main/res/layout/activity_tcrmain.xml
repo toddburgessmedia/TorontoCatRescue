@@ -5,7 +5,7 @@
     android:id="@+id/tcrmain_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TCRMain">
+    tools:context=".PetListMain">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:src="@drawable/tcrlogo"
+        android:src="@mipmap/ic_launcher"
         android:background="#111"
         />
 

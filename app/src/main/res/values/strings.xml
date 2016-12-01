@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Toronto Cat Rescue</string>
+    <string name="app_name">Pet List</string>
 
     <string name="petdetail_greeting">Meow! My name is {0}</string>
     <string name="petdetail_facts">Facts About {0}</string>
@@ -27,7 +27,7 @@
     <string name="petdetail_email_subject">Information Request for {0}</string>
     <string name="petdetail_email_body">CAT INFO (Please Include): {0} - {1}\n\n</string>
 
-    <string name="petdetail_share">Check out Toronto Cat Rescue Cat {0}\n{1}\n</string>
+    <string name="petdetail_share">Check out Cat {0}\n{1}\n</string>
 
     <string name="adopt_call">Call Our Adoption Line</string>
     <string name="adopt_email">E-Mail Our Adoption Team</string>

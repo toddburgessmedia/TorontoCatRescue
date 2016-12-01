@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.toddburgessmedia.torontocatrescue">
+    package="com.toddburgessmedia.petlist">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".TorontoCatRescue"
+        android:name="com.toddburgessmedia.petlist.TorontoCatRescue"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TCRMain">
+        <activity android:name="com.toddburgessmedia.petlist.PetListMain">
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
         </activity>
-        <activity android:name=".PetDetailActivity" />
-        <activity android:name=".AdoptionActivity" />
-        <activity android:name=".PetWebView" />
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name="com.toddburgessmedia.petlist.PetDetailActivity" />
+        <activity android:name="com.toddburgessmedia.petlist.AdoptionActivity" />
+        <activity android:name="com.toddburgessmedia.petlist.PetWebView" />
+        <activity android:name="com.toddburgessmedia.petlist.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

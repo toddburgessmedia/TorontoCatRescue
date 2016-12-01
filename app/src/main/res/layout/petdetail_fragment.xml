@@ -21,12 +21,11 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/tcrlogo"
         android:id="@+id/petdetail_frag_mainimage"
         />
 
 
-    <com.toddburgessmedia.torontocatrescue.view.PhotoThumbNails
+    <com.toddburgessmedia.petlist.view.PhotoThumbNails
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/petdetail_frag_thumbnails"
