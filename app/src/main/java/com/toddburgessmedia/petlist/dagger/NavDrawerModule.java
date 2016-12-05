@@ -24,7 +24,7 @@ public class NavDrawerModule {
 
         int[] icons = { R.drawable.ic_bonded_pair,
                         R.drawable.ic_world,
-                        R.mipmap.ic_facebook,
+                        R.drawable.ic_facebook,
                         R.drawable.ic_volunteer,
                         R.drawable.ic_donate};
 
