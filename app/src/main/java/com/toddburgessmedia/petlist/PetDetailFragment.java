@@ -297,7 +297,7 @@ public class PetDetailFragment extends Fragment {
 
 
         bonded.setVisibility(View.VISIBLE);
-        bonded.setOnClickListener(new BondedClickListener(limitedBonded.getPetID()));
+        bonded.setOnClickListener(new BondedClickListener(limitedBonded.getPetID(),limitedBonded.getPetName()));
         Picasso.with(getContext()).load(limitedBonded.getImages().get(0).getThumbnailUrl()).into(importantPhoto);
         importantPhoto.setVisibility(View.VISIBLE);
         importantMessage.setText(display);
@@ -359,15 +359,18 @@ public class PetDetailFragment extends Fragment {
     public class BondedClickListener implements View.OnClickListener {
 
         public String petID;
+        private String petName;
 
-        public BondedClickListener (String petID) {
+        public BondedClickListener (String petID, String petName) {
             this.petID = petID;
+            this.petName = petName;
         }
 
         @Override
         public void onClick(View view) {
             Intent i = new Intent(getContext(), PetDetailActivity.class);
             i.putExtra("petID", petID);
+            i.putExtra("petName", petName);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             getActivity().startActivity(i);
         }
