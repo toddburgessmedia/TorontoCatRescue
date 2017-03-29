@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -65,9 +66,6 @@ public class TCRMain extends AppCompatActivity {
 
     ActionBarDrawerToggle drawerToggle;
 
-    private ArrayAdapter<CharSequence> ageAdapter;
-    private ArrayAdapter<CharSequence> sexAdapter;
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -99,15 +97,18 @@ public class TCRMain extends AppCompatActivity {
         listView.setOnItemClickListener(new DrawerItemClickListener());
 
         drawerToggle = getActionBarToggle();
-        drawerLayout.setDrawerListener(drawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        drawerLayout.addDrawerListener(drawerToggle);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
 
-        ageAdapter = ArrayAdapter.createFromResource(this, R.array.age_spinner, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this, R.array.age_spinner, android.R.layout.simple_spinner_item);
         ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         age.setAdapter(ageAdapter);
 
-        sexAdapter = ArrayAdapter.createFromResource(this, R.array.sex_spinner, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(this, R.array.sex_spinner, android.R.layout.simple_spinner_item);
         sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sex.setAdapter(sexAdapter);
 
@@ -236,9 +237,9 @@ public class TCRMain extends AppCompatActivity {
                 facebook.putExtra("url", getString(R.string.facebook_group_url));
                 startActivity(facebook);
                 break;
-            case "available":
-                getSupportActionBar().hide();
-                break;
+//            case "available":
+//                getSupportActionBar().hide();
+//                break;
             case "volunteer":
                 Intent volunteer = new Intent(this, PetWebView.class);
                 volunteer.putExtra("url", getString(R.string.volunteer_url));
