@@ -54,6 +54,8 @@ public class PetListModel {
                 .subscribe(new Subscriber<Response<PetList>>() {
                     @Override
                     public void onCompleted() {
+                        //TODO Remove
+                        Log.d("TCR", "onCompleted: got the list ");
                         petList.sortPetList();
                         EventBus.getDefault().post(new PetListMessage(petList.getPetList()));
                     }

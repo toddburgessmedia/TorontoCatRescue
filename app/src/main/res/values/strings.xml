@@ -51,4 +51,5 @@
         <item>Female</item>
     </string-array>
 
+    <string name="io.branch.apiKey" translatable="false">376019514933924351</string>
 </resources>

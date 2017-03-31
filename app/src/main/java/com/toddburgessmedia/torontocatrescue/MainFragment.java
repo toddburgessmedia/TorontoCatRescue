@@ -92,9 +92,11 @@ public class MainFragment extends Fragment {
         });
 
         if (savedInstanceState != null) {
-            PetList pl = (PetList) savedInstanceState.getParcelable("petlist");
-            petList = pl.getPetList();
-            updateRecyclerView();
+            PetList pl = savedInstanceState.getParcelable("petlist");
+            if (pl != null) {
+                petList = pl.getPetList();
+                updateRecyclerView();
+            }
         } else {
             startProgressDialog();
             getPetList(false);
@@ -152,14 +154,14 @@ public class MainFragment extends Fragment {
         rv.setAdapter(adapter);
     }
 
-    public void getPetsbyAge(String age) {
-
-        if (petList == null) {
-            return;
-        }
-        rv.invalidate();
-        adapter.updateList(getPetsByAge(age));
-    }
+//    public void getPetsbyAge(String age) {
+//
+//        if (petList == null) {
+//            return;
+//        }
+//        rv.invalidate();
+//        adapter.updateList(getPetsByAge(age));
+//    }
 
     public void getPetsbySexAge(String sex, String age) {
 
@@ -171,21 +173,21 @@ public class MainFragment extends Fragment {
     }
 
 
-    private ArrayList<Pet> getPetsByAge(String age) {
-
-        ArrayList<Pet> newList = new ArrayList<>();
-        Pet pet;
-        for (int i = 0; i < petList.size(); i++) {
-            pet = petList.get(i);
-            if (pet.getAge().equals(age.toLowerCase())) {
-                newList.add(pet);
-            } else if (age.equals("Any Age")) {
-                newList.add(pet);
-            }
-
-        }
-        return newList;
-    }
+//    private ArrayList<Pet> getPetsByAge(String age) {
+//
+//        ArrayList<Pet> newList = new ArrayList<>();
+//        Pet pet;
+//        for (int i = 0; i < petList.size(); i++) {
+//            pet = petList.get(i);
+//            if (pet.getAge().equals(age.toLowerCase())) {
+//                newList.add(pet);
+//            } else if (age.equals("Any Age")) {
+//                newList.add(pet);
+//            }
+//
+//        }
+//        return newList;
+//    }
 
     private ArrayList<Pet> getPetsBySexAge(String sex, String age) {
 

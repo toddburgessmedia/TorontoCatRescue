@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -138,7 +137,6 @@ public class TCRMain extends AppCompatActivity {
         sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("TCR", "onItemSelected: sex");
                 fragment.getPetsbySexAge(sexArray[sex.getSelectedItemPosition()],
                         ageArray[age.getSelectedItemPosition()]);
 

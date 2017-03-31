@@ -37,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+
         app:cardUseCompatPadding="true"
         >
 
@@ -272,6 +273,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@color/colorPrimary"
             >
 
             <TextView
@@ -291,6 +293,7 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:background="@color/colorPrimary"
                     android:id="@+id/petdetail_frag_important_photo"
                     />
 

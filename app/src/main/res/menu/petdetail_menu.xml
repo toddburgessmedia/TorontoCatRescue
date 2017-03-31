@@ -11,7 +11,8 @@
         android:id="@+id/menu_petdetail_refresh"
         android:orderInCategory="200"
         android:title="Refresh"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_refresh"
+        app:showAsAction="ifRoom" />
 
 
 </menu>
