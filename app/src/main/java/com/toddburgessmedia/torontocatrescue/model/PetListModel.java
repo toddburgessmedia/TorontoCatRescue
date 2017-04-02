@@ -58,6 +58,9 @@ public class PetListModel {
                         Log.d("TCR", "onCompleted: got the list ");
                         petList.sortPetList();
                         EventBus.getDefault().post(new PetListMessage(petList.getPetList()));
+                        if (!EventBus.getDefault().hasSubscriberForEvent(PetListMessage.class)) {
+                            Log.d("TCR", "onCompleted: we don't have a subscriber");
+                        }
                     }
 
                     @Override

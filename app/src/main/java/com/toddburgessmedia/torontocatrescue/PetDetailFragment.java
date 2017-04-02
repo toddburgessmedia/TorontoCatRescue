@@ -236,6 +236,8 @@ public class PetDetailFragment extends Fragment {
     @Subscribe
     public void updateView (PetListModel.PetDetailMessage message) {
 
+        // TODO remove log message
+        Log.d("TCR", "updateView: got the message to update");
         stopProgressDialog();
         info = message.getPetDetail();
 
@@ -261,6 +263,7 @@ public class PetDetailFragment extends Fragment {
         setAdditionalInfoTextView(cats, info.getGoodWithCats());
         setAdditionalInfoTextView(dogs, info.getGoodWithDogs());
 
+        //noinspection deprecation
         story.setText(Html.fromHtml(info.getDescription()));
 
         if (info.getBondedTo() != null) {
@@ -313,26 +316,27 @@ public class PetDetailFragment extends Fragment {
 
     private String getFixedStatus(String sex) {
 
-        if (sex.equals("Male")) {
-            return neutered;
-        } else if (sex.equals("Female")) {
-            return spayed;
-        } else {
-            return neutered + "/" + spayed;
+        switch (sex) {
+            case "Male":
+                return neutered;
+            case "Female":
+                return spayed;
+            default:
+                return neutered + "/" + spayed;
         }
     }
 
-    private String setBooleanText(String state) {
-
-        if (state == null) {
-            return "Not specified";
-        } else if (state.equals("1")) {
-            return "Yes";
-        } else  {
-            return "No";
-        }
-
-    }
+//    private String setBooleanText(String state) {
+//
+//        if (state == null) {
+//            return "Not specified";
+//        } else if (state.equals("1")) {
+//            return "Yes";
+//        } else  {
+//            return "No";
+//        }
+//
+//    }
 
     private void setAdditionalInfoTextView(TextView infoTV, String value) {
 
@@ -356,11 +360,11 @@ public class PetDetailFragment extends Fragment {
         infoTV.setText(newtext);
     }
 
-    public class BondedClickListener implements View.OnClickListener {
+    private class BondedClickListener implements View.OnClickListener {
 
-        public String petID;
+        String petID;
 
-        public BondedClickListener (String petID) {
+        BondedClickListener(String petID) {
             this.petID = petID;
         }
 
@@ -429,27 +433,27 @@ public class PetDetailFragment extends Fragment {
 
 
 
-    public class ShareIntentInfoMessage {
-
-        String url;
-        String petName;
-
-        public ShareIntentInfoMessage(String url, String petName) {
-            this.url = url;
-            this.petName = petName;
-        }
-
-        public String getPetName() {
-            return petName;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-    }
+//    public class ShareIntentInfoMessage {
+//
+//        String url;
+//        String petName;
+//
+//        public ShareIntentInfoMessage(String url, String petName) {
+//            this.url = url;
+//            this.petName = petName;
+//        }
+//
+//        public String getPetName() {
+//            return petName;
+//        }
+//
+//        public String getUrl() {
+//            return url;
+//        }
+//
+//        public void setUrl(String url) {
+//            this.url = url;
+//        }
+//    }
 
 }

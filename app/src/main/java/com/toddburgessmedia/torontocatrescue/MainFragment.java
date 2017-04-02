@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class MainFragment extends Fragment {
 
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
+
         }
     }
 
@@ -99,6 +101,10 @@ public class MainFragment extends Fragment {
             }
         } else {
             startProgressDialog();
+            if (!EventBus.getDefault().isRegistered(this)) {
+                Log.d("TCR", "onCreateView: EventBus not registered! Registering....");
+                EventBus.getDefault().register(this);
+            }
             getPetList(false);
         }
         return view;
@@ -142,6 +148,8 @@ public class MainFragment extends Fragment {
     @Subscribe
     public void updatePetListView(PetListModel.PetListMessage message) {
 
+        // TODO delete this
+        Log.d("TCR", "updatePetListView: got message to update");
         petList = message.getPets();
         stopProgressDialog();
         updateRecyclerView();
