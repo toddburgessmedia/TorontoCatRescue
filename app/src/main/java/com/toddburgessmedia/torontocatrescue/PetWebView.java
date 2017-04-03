@@ -1,7 +1,10 @@
 package com.toddburgessmedia.torontocatrescue;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
@@ -20,8 +23,11 @@ public class PetWebView extends AppCompatActivity {
         setContentView(R.layout.activity_petwebview);
         ButterKnife.bind(this);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
 
 
         String url = getIntent().getStringExtra("url");
@@ -31,15 +37,27 @@ public class PetWebView extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.petwebview_menu,menu);
+        return true;
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.menu_petwebview_refresh:
+                webView.reload();
+                return true;
         }
-
+        
         return super.onOptionsItemSelected(item);
     }
 }
