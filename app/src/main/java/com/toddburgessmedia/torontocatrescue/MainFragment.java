@@ -93,6 +93,28 @@ public class MainFragment extends Fragment {
             }
         });
 
+//        if (savedInstanceState != null) {
+//            PetList pl = savedInstanceState.getParcelable("petlist");
+//            if (pl != null) {
+//                petList = pl.getPetList();
+//                updateRecyclerView();
+//            }
+//        } else {
+//            startProgressDialog();
+//            if (!EventBus.getDefault().isRegistered(this)) {
+//                Log.d("TCR", "onCreateView: EventBus not registered! Registering....");
+//                EventBus.getDefault().register(this);
+//            }
+//            getPetList(false);
+//        }
+//        stopProgressDialog();
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         if (savedInstanceState != null) {
             PetList pl = savedInstanceState.getParcelable("petlist");
             if (pl != null) {
@@ -107,7 +129,7 @@ public class MainFragment extends Fragment {
             }
             getPetList(false);
         }
-        return view;
+
     }
 
     @Override

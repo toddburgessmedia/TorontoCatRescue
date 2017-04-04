@@ -57,7 +57,7 @@ public class PetWebView extends AppCompatActivity {
                 webView.reload();
                 return true;
         }
-        
+
         return super.onOptionsItemSelected(item);
     }
 }

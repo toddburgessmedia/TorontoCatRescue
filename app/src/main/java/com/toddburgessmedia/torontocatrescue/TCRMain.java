@@ -122,6 +122,8 @@ public class TCRMain extends AppCompatActivity {
         transaction.replace(R.id.tcrmain_framelayout, fragment, "mainfragment");
         transaction.commit();
 
+        getSupportFragmentManager().executePendingTransactions();
+
         age.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
