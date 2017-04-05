@@ -20,6 +20,7 @@ import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -167,7 +168,7 @@ public class MainFragment extends Fragment {
         petListModel.fetchPetList();
     }
 
-    @Subscribe
+    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
     public void updatePetListView(PetListModel.PetListMessage message) {
 
         // TODO delete this
