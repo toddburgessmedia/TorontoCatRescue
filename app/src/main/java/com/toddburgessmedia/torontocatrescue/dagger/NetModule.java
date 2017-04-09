@@ -37,14 +37,13 @@ public class NetModule {
         return cache;
     }
 
-    // TODO: change 5 seconds to 30 seconds for release
     @Provides
     @Singleton
     OkHttpClient provideOkHttpClient(Cache cache) {
         OkHttpClient client = new OkHttpClient.Builder()
                 .cache(cache)
-                .readTimeout(5, TimeUnit.SECONDS)
-                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
                 .build();
         return client;
     }

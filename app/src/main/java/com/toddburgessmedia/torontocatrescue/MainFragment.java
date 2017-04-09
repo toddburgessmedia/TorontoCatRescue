@@ -124,10 +124,6 @@ public class MainFragment extends Fragment {
             }
         } else {
             startProgressDialog();
-            if (!EventBus.getDefault().isRegistered(this)) {
-                Log.d("TCR", "onCreateView: EventBus not registered! Registering....");
-                EventBus.getDefault().register(this);
-            }
             getPetList(false);
         }
 
