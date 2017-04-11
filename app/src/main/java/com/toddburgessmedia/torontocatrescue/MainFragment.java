@@ -172,6 +172,7 @@ public class MainFragment extends Fragment {
         petList = message.getPets();
         stopProgressDialog();
         updateRecyclerView();
+        EventBus.getDefault().removeStickyEvent(message);
     }
 
     public void updateRecyclerView() {
@@ -181,15 +182,6 @@ public class MainFragment extends Fragment {
         rv.setAdapter(adapter);
     }
 
-//    public void getPetsbyAge(String age) {
-//
-//        if (petList == null) {
-//            return;
-//        }
-//        rv.invalidate();
-//        adapter.updateList(getPetsByAge(age));
-//    }
-
     public void getPetsbySexAge(String sex, String age) {
 
         if (petList == null) {
@@ -198,23 +190,6 @@ public class MainFragment extends Fragment {
         rv.invalidate();
         adapter.updateList(getPetsBySexAge(sex,age));
     }
-
-
-//    private ArrayList<Pet> getPetsByAge(String age) {
-//
-//        ArrayList<Pet> newList = new ArrayList<>();
-//        Pet pet;
-//        for (int i = 0; i < petList.size(); i++) {
-//            pet = petList.get(i);
-//            if (pet.getAge().equals(age.toLowerCase())) {
-//                newList.add(pet);
-//            } else if (age.equals("Any Age")) {
-//                newList.add(pet);
-//            }
-//
-//        }
-//        return newList;
-//    }
 
     private ArrayList<Pet> getPetsBySexAge(String sex, String age) {
 
