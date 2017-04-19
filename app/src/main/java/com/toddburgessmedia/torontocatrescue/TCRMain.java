@@ -31,6 +31,8 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.toddburgessmedia.torontocatrescue.dagger.Injector.getAppComponent;
+
 public class TCRMain extends AppCompatActivity {
 
     MainFragment fragment;
@@ -84,10 +86,10 @@ public class TCRMain extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tcrmain);
-
-        ((TorontoCatRescue) getApplication()).getTcrComponent().inject(this);
 
         ButterKnife.bind(this);
 

@@ -35,6 +35,8 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.toddburgessmedia.torontocatrescue.dagger.Injector.getAppComponent;
+
 /**
  * Created by Todd Burgess (todd@toddburgessmedia.com on 23/11/16.
  */
@@ -161,9 +163,8 @@ public class PetDetailFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
-
-        ((TorontoCatRescue) getActivity().getApplication()).getTcrComponent().inject(this);
 
         petID = getArguments().getString("petID");
         catName = getArguments().getString("petName");

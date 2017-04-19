@@ -3,11 +3,8 @@ package com.toddburgessmedia.torontocatrescue;
 import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
-import com.toddburgessmedia.torontocatrescue.dagger.AppModule;
-import com.toddburgessmedia.torontocatrescue.dagger.DaggerTCRComponent;
-import com.toddburgessmedia.torontocatrescue.dagger.NavDrawerModule;
-import com.toddburgessmedia.torontocatrescue.dagger.NetModule;
-import com.toddburgessmedia.torontocatrescue.dagger.TCRComponent;
+import com.toddburgessmedia.torontocatrescue.dagger.Injector;
+
 import io.fabric.sdk.android.Fabric;
 
 /**
@@ -16,21 +13,11 @@ import io.fabric.sdk.android.Fabric;
 
 public class TorontoCatRescue extends Application {
 
-    TCRComponent tcrComponent;
-
     @Override
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
 
-        tcrComponent = DaggerTCRComponent.builder()
-                .appModule(new AppModule(this))
-                .netModule(new NetModule())
-                .navDrawerModule(new NavDrawerModule())
-                .build();
-    }
-
-    public TCRComponent getTcrComponent() {
-        return tcrComponent;
+        Injector.init(this);
     }
 }

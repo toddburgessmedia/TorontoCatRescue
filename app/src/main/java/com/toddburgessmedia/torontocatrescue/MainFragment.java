@@ -29,6 +29,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.toddburgessmedia.torontocatrescue.dagger.Injector.getAppComponent;
+
 /**
  * Created by Todd Burgess (todd@toddburgessmedia.com on 21/11/16.
  */
@@ -68,9 +70,8 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
-
-        ((TorontoCatRescue) getActivity().getApplication()).getTcrComponent().inject(this);
 
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
