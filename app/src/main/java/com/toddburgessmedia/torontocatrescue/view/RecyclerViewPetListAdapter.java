@@ -72,6 +72,7 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
                 ViewHolderPet vp = (ViewHolderPet) holder;
                 Picasso.with(context).load(p.getResultsPhotoURL()).into(vp.resultPhoto);
                 vp.petName.setText(p.getPetName());
+                vp.petName.setContentDescription(p.getPetName());
                 vp.petSex.setText(getSex(p.getSex()));
                 vp.breed.setText(p.getPrimaryBreed());
                 vp.age.setText(getAge(p.getAge()));

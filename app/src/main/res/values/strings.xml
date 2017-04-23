@@ -52,4 +52,5 @@
     </string-array>
 
     <string name="io.branch.apiKey" translatable="false">376019514933924351</string>
+    <string name="bonded_pair_alert">Bonded Pair Alert</string>
 </resources>

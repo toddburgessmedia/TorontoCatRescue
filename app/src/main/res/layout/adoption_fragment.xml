@@ -30,6 +30,7 @@
         android:background="@color/colorAccent"
         android:drawableLeft="@drawable/ic_phone_black"
         android:text="@string/adopt_call"
+        android:contentDescription="@string/adopt_call"
         />
 
     <android.support.v4.widget.Space
@@ -46,6 +47,7 @@
         android:textColor="#FFFFFF"
         android:drawableLeft="@drawable/ic_email_white"
         android:text="@string/adopt_email"
+        android:contentDescription="@string/adopt_email"
         />
 
 

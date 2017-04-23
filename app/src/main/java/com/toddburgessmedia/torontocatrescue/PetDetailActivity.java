@@ -84,13 +84,17 @@ public class PetDetailActivity extends AppCompatActivity {
             petName = savedInstanceState.getString("petName");
             fragment = (PetDetailFragment) getSupportFragmentManager().getFragment(savedInstanceState, "fragment");
         } else {
-            petID = getIntent().getStringExtra("petID");
-            petURL = getIntent().getStringExtra("petURL");
-            petName = getIntent().getStringExtra("petName");
+            if (getIntent().getAction() == null) {
+                petID = getIntent().getStringExtra("petID");
+                petURL = getIntent().getStringExtra("petURL");
+                petName = getIntent().getStringExtra("petName");
+            } else {
+                getDeepLinkInfo(getIntent());
+            }
 
             fragment = new PetDetailFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("petID",petID);
+            bundle.putString("petID", petID);
             bundle.putString("petName", petName);
             fragment.setArguments(bundle);
         }
@@ -102,6 +106,16 @@ public class PetDetailActivity extends AppCompatActivity {
         transaction.replace(R.id.petdetail_activity_framelayout, fragment, "fragment");
         transaction.commit();
 
+    }
+
+    private void getDeepLinkInfo(Intent intent) {
+
+        String link = intent.getData().toString();
+        int start = link.lastIndexOf('/') + 1;
+        int end = link.indexOf('-');
+        petID = link.substring(start, end);
+        petURL = link;
+        petName = "";
     }
 
     @Override
@@ -164,7 +178,7 @@ public class PetDetailActivity extends AppCompatActivity {
 
         limitedPetDetail = message.getLimitedPetDetail();
         MessageFormat mf = new MessageFormat(shareMessage);
-        String[] subs = {petName,limitedPetDetail.getPetDetailsUrl()};
+        String[] subs = {limitedPetDetail.getPetName(),limitedPetDetail.getPetDetailsUrl()};
         String intentMessage = mf.format(subs);
 
         shareIntent = new Intent(Intent.ACTION_SEND);

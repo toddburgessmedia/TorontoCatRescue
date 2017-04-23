@@ -267,6 +267,7 @@
         app:cardCornerRadius="2dp"
         app:cardBackgroundColor="@color/colorPrimary"
         android:id="@+id/petdetail_frag_bonded_cardview"
+        android:contentDescription="@string/bonded_pair_alert"
         >
 
         <LinearLayout
@@ -325,6 +326,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/petdetail_button_info"
+        android:contentDescription="@string/petdetail_button_info"
         android:id="@+id/petdetail_frag_infobutton"
         android:background="@color/colorAccent"
         android:drawableLeft="@drawable/ic_email_black"
