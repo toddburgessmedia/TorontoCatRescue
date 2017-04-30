@@ -36,6 +36,7 @@ import static com.toddburgessmedia.torontocatrescue.dagger.Injector.getAppCompon
 public class TCRMain extends AppCompatActivity {
 
     MainFragment fragment;
+    final String FRAGMENT = "mainfragment";
 
     @BindView(R.id.tcrmain_drawer_layout)
     DrawerLayout drawerLayout;
@@ -115,16 +116,14 @@ public class TCRMain extends AppCompatActivity {
 
 
         if (savedInstanceState != null) {
-            fragment = (MainFragment) getSupportFragmentManager().getFragment(savedInstanceState, "fragment");
+            fragment = (MainFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT);
         } else {
             fragment = new MainFragment();
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.tcrmain_framelayout, fragment, "mainfragment");
+        transaction.replace(R.id.tcrmain_framelayout, fragment, FRAGMENT);
         transaction.commit();
-
-        getSupportFragmentManager().executePendingTransactions();
 
         age.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -157,16 +156,16 @@ public class TCRMain extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        getSupportFragmentManager().putFragment(outState,"fragment",fragment);
+        getSupportFragmentManager().putFragment(outState,FRAGMENT,fragment);
     }
 
     @Subscribe
     public void startPetDetailActivity(RecyclerViewPetListAdapter.PetListClickMessage message) {
 
         Intent i = new Intent(this, PetDetailActivity.class);
-        i.putExtra("petID", message.getPetID());
-        i.putExtra("petURL", message.getPetURL());
-        i.putExtra("petName", message.getPetName());
+        i.putExtra(PetDetailActivity.PETID, message.getPetID());
+        i.putExtra(PetDetailActivity.PETURL, message.getPetURL());
+        i.putExtra(PetDetailActivity.PETNAME, message.getPetName());
         startActivity(i);
     }
 
@@ -226,25 +225,22 @@ public class TCRMain extends AppCompatActivity {
 
             case "web":
                 Intent intent = new Intent(this, PetWebView.class);
-                intent.putExtra("url", getString(R.string.main_web_site));
+                intent.putExtra(PetWebView.URL, getString(R.string.main_web_site));
                 startActivity(intent);
                 break;
             case "bonded":
                 Intent bonded = new Intent(this, PetWebView.class);
-                bonded.putExtra("url", getString(R.string.bonded_web_site));
+                bonded.putExtra(PetWebView.URL, getString(R.string.bonded_web_site));
                 startActivity(bonded);
                 break;
             case "facebook":
                 Intent facebook = new Intent(this, PetWebView.class);
-                facebook.putExtra("url", getString(R.string.facebook_group_url));
+                facebook.putExtra(PetWebView.URL, getString(R.string.facebook_group_url));
                 startActivity(facebook);
                 break;
-//            case "available":
-//                getSupportActionBar().hide();
-//                break;
             case "volunteer":
                 Intent volunteer = new Intent(this, PetWebView.class);
-                volunteer.putExtra("url", getString(R.string.volunteer_url));
+                volunteer.putExtra(PetWebView.URL, getString(R.string.volunteer_url));
                 startActivity(volunteer);
                 break;
             case "donate":

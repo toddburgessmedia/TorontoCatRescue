@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,11 +24,16 @@ import butterknife.ButterKnife;
 
 public class PetDetailActivity extends AppCompatActivity {
 
+    public static final String PETID = "petID";
+    public static final String PETURL = "petURL";
+    public static final String PETNAME = "petName";
+
     String petID;
     String petURL;
     String petName;
 
     PetDetailFragment fragment;
+    final String FRAGMENT = "petDetailFragment";
     LimitedPetDetail limitedPetDetail;
 
     @BindString(R.string.petdetail_share)
@@ -62,13 +68,6 @@ public class PetDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -76,36 +75,35 @@ public class PetDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         if (savedInstanceState != null) {
-            if (!EventBus.getDefault().isRegistered(this)) {
-                EventBus.getDefault().register(this);
-            }
-            petID = savedInstanceState.getString("petID");
-            petURL = savedInstanceState.getString("petURL");
-            petName = savedInstanceState.getString("petName");
-            fragment = (PetDetailFragment) getSupportFragmentManager().getFragment(savedInstanceState, "fragment");
+            petID = savedInstanceState.getString(PETID);
+            petURL = savedInstanceState.getString(PETURL);
+            petName = savedInstanceState.getString(PETNAME);
+            fragment = (PetDetailFragment) getSupportFragmentManager().getFragment(savedInstanceState,FRAGMENT);
         } else {
             if (getIntent().getAction() == null) {
-                petID = getIntent().getStringExtra("petID");
-                petURL = getIntent().getStringExtra("petURL");
-                petName = getIntent().getStringExtra("petName");
+                petID = getIntent().getStringExtra(PETID);
+                petURL = getIntent().getStringExtra(PETURL);
+                petName = getIntent().getStringExtra(PETNAME);
             } else {
                 getDeepLinkInfo(getIntent());
             }
 
             fragment = new PetDetailFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("petID", petID);
-            bundle.putString("petName", petName);
+            bundle.putString(PetDetailFragment.PETID, petID);
+            bundle.putString(PetDetailFragment.PETNAME, petName);
             fragment.setArguments(bundle);
         }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.petdetail_activity_framelayout, fragment, "fragment");
+        transaction.replace(R.id.petdetail_activity_framelayout, fragment, FRAGMENT);
         transaction.commit();
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
 
     private void getDeepLinkInfo(Intent intent) {
@@ -122,11 +120,11 @@ public class PetDetailActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString("petID",petID);
-        outState.putString("petURL",petURL);
-        outState.putString("petName",petName);
+        outState.putString(PETID,petID);
+        outState.putString(PETURL,petURL);
+        outState.putString(PETNAME,petName);
 
-        getSupportFragmentManager().putFragment(outState,"fragment",fragment);
+        getSupportFragmentManager().putFragment(outState,FRAGMENT,fragment);
     }
 
     @Override
@@ -142,16 +140,6 @@ public class PetDetailActivity extends AppCompatActivity {
         }
 
         return true;
-    }
-
-    @Subscribe
-    public void startAdoptionActivity(AdoptionMessage message) {
-
-        Intent i = new Intent(PetDetailActivity.this, AdoptionActivity.class);
-        i.putExtra("petDetail", message.getInfo());
-        i.putExtra("url", limitedPetDetail.getPetDetailsUrl());
-        startActivity(i);
-
     }
 
     @Override

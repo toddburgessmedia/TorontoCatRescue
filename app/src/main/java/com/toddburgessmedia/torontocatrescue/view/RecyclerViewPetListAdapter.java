@@ -82,8 +82,7 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private String getAge(String age) {
 
-        String cap = age.substring(0, 1).toUpperCase() + age.substring(1);
-        return cap;
+        return age.substring(0, 1).toUpperCase() + age.substring(1);
     }
 
     private String getSex(String sex) {

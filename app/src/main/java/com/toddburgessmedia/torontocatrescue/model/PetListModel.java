@@ -54,19 +54,12 @@ public class PetListModel {
                 .subscribe(new Subscriber<Response<PetList>>() {
                     @Override
                     public void onCompleted() {
-                        //TODO Remove
-                        Log.d("TCR", "onCompleted: got the list ");
                         petList.sortPetList();
-
-                        if (!EventBus.getDefault().hasSubscriberForEvent(PetListMessage.class)) {
-                            Log.d("TCR", "onCompleted: we don't have a subscriber");
-                        }
                         EventBus.getDefault().postSticky(new PetListMessage(petList.getPetList()));
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("TCR", "onError: " + e.getMessage());
                         EventBus.getDefault().post(e);
                     }
 
@@ -76,7 +69,6 @@ public class PetListModel {
                         if (petListResponse.isSuccessful()) {
                             petList = petListResponse.body();
                         }
-
                     }
                 });
 
@@ -93,18 +85,15 @@ public class PetListModel {
                     @Override
                     public void onCompleted() {
                         EventBus.getDefault().post(new PetDetailMessage(petDetail.getPetDetailInfo()));
-                        Log.d("TCR", "onCompleted: " + petDetail.getPetDetailInfo().getPetName());
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("TCR", "onError: B A R F ! ! ! ! ! ! " + e.getMessage());
                         EventBus.getDefault().post(e);
                     }
 
                     @Override
                     public void onNext(Response<PetDetail> petDetailResponse) {
-
                         if (petDetailResponse.isSuccessful()) {
                             petDetail = petDetailResponse.body();
                         }
@@ -122,7 +111,6 @@ public class PetListModel {
                 .subscribe(new Subscriber<Response<LimitedPet>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("TCR", "onCompleted: " + limitedPet.getLimitedPetDetail().getPetName());
                         EventBus.getDefault().post(new LimitedPetDetailMessage(limitedPet.getLimitedPetDetail(),flag));
                     }
 
@@ -134,7 +122,6 @@ public class PetListModel {
                     @Override
                     public void onNext(Response<LimitedPet> petResponse) {
 
-                        Log.d("TCR", "onNext: " + petResponse.raw().toString());
                         if (petResponse.isSuccessful()) {
                             limitedPet = petResponse.body();
                         }

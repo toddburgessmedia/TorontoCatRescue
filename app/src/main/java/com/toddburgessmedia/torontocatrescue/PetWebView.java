@@ -13,6 +13,8 @@ import butterknife.ButterKnife;
 
 public class PetWebView extends AppCompatActivity {
 
+    public static final String URL = "url";
+
     @BindView(R.id.petwebview_webview)
     WebView webView;
 
@@ -30,7 +32,7 @@ public class PetWebView extends AppCompatActivity {
         }
 
 
-        String url = getIntent().getStringExtra("url");
+        String url = getIntent().getStringExtra(URL);
 
         if (webView != null) {
             webView.loadUrl(url);

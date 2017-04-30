@@ -6,7 +6,7 @@ import com.toddburgessmedia.torontocatrescue.TorontoCatRescue;
  * Created by Todd Burgess (todd@toddburgessmedia.com on 19/04/17.
  */
 
-public class Injector {
+public final class Injector {
 
     private static Injector injector;
 

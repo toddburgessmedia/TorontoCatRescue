@@ -43,6 +43,10 @@ import static com.toddburgessmedia.torontocatrescue.dagger.Injector.getAppCompon
 
 public class PetDetailFragment extends Fragment {
 
+    public static final String PETID = "petID";
+    public static final String PETNAME = "petName";
+
+
     @BindView(R.id.petdetail_frag_header)
     TextView header;
 
@@ -166,8 +170,8 @@ public class PetDetailFragment extends Fragment {
         getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
 
-        petID = getArguments().getString("petID");
-        catName = getArguments().getString("petName");
+        petID = getArguments().getString(PETID);
+        catName = getArguments().getString(PETNAME);
     }
 
     @Nullable
@@ -184,8 +188,6 @@ public class PetDetailFragment extends Fragment {
                 getActivity().startActivity(Intent.createChooser(getMoreInformation(), "Send E-Mail"));
             }
         });
-
-
 
         if (savedInstanceState != null) {
             petID = savedInstanceState.getString("petID");
@@ -204,8 +206,8 @@ public class PetDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), AdoptionActivity.class);
-                i.putExtra("petDetail", info);
-                i.putExtra("url", limitedPet.getPetDetailsUrl());
+                i.putExtra(AdoptionActivity.PETDETAIL, info);
+                i.putExtra(AdoptionActivity.URL, limitedPet.getPetDetailsUrl());
                 startActivity(i);
             }
         });
@@ -226,8 +228,6 @@ public class PetDetailFragment extends Fragment {
 
     }
 
-
-
     public void getPetInformation() {
         startProgressDialog();
         petListModel.fetchPetDetail(petID);
@@ -237,8 +237,6 @@ public class PetDetailFragment extends Fragment {
     @Subscribe
     public void updateView (PetListModel.PetDetailMessage message) {
 
-        // TODO remove log message
-        Log.d("TCR", "updateView: got the message to update");
         stopProgressDialog();
         info = message.getPetDetail();
 

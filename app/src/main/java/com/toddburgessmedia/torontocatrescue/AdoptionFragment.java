@@ -114,7 +114,7 @@ public class AdoptionFragment extends Fragment {
         emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().startActivity(Intent.createChooser(getEmailIntent(), "Send E-Mail"));
+                getActivity().startActivity(Intent.createChooser(getEmailIntent(), getString(R.string.adoption_fragment_sendemail)));
             }
         });
 
