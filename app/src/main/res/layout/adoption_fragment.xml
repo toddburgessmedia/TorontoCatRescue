@@ -23,32 +23,34 @@
         android:id="@+id/adoption_frag_description"
         />
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/adoption_frag_call_button"
         android:background="@color/colorAccent"
-        android:drawableLeft="@drawable/ic_phone_black"
+        android:layout_marginRight="32dp"
+        android:textColor="#FFFFFF"
         android:text="@string/adopt_call"
         android:contentDescription="@string/adopt_call"
         />
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:id="@+id/adoption_frag_spacer"
-        />
-
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/adoption_frag_email_button"
         android:background="@color/colorPrimary"
         android:textColor="#FFFFFF"
-        android:drawableLeft="@drawable/ic_email_white"
         android:text="@string/adopt_email"
         android:contentDescription="@string/adopt_email"
         />
 
+        </LinearLayout>
 
 </LinearLayout>

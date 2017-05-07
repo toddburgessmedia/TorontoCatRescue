@@ -20,8 +20,8 @@
     <string name="petdetail_important_message">{0} and {1} are a bonded pair of best friends.
                                                 They need to be adopted together</string>
 
-    <string name="petdetail_button_info">Get More Information</string>
-    <string name="petdetail_button_adopt">Adopt {0}</string>
+    <string name="petdetail_button_info">More Info</string>
+    <string name="petdetail_button_adopt">Adopt</string>
 
     <string name="petdetail_email_subject_bonded">Information Request for Bonded Pair {0} and {1}</string>
     <string name="petdetail_email_subject">Information Request for {0}</string>
@@ -29,8 +29,8 @@
 
     <string name="petdetail_share">Check out Toronto Cat Rescue Cat {0}\n{1}\n</string>
 
-    <string name="adopt_call">Call Our Adoption Line</string>
-    <string name="adopt_email">E-Mail Our Adoption Team</string>
+    <string name="adopt_call">Call</string>
+    <string name="adopt_email">E-Mail</string>
     <string name="adopt_disclaimer">Please read before starting the adoption process</string>
 
     <string name="adopt_email_subject">Adoption Request for {0}</string>

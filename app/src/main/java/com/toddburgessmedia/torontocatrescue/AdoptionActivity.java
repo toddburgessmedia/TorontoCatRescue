@@ -38,7 +38,7 @@ public class AdoptionActivity extends AppCompatActivity {
             bundle.putString("phonenumber", pi.getAreaCode() + pi.getPhoneNumber());
             bundle.putString("emailto", pi.getEmail());
             bundle.putString("petname", pi.getPetName());
-            bundle.putString("url", getIntent().getStringExtra(URL));
+            bundle.putString(URL, getIntent().getStringExtra(URL));
             fragment.setArguments(bundle);
         }
 

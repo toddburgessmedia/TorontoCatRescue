@@ -322,26 +322,34 @@
         android:id="@+id/petdetail_frag_story"
         />
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/petdetail_button_info"
-        android:contentDescription="@string/petdetail_button_info"
-        android:id="@+id/petdetail_frag_infobutton"
-        android:background="@color/colorAccent"
-        android:drawableLeft="@drawable/ic_email_black"
-        />
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        >
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="25dp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/petdetail_button_info"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:contentDescription="@string/petdetail_button_info"
+            android:id="@+id/petdetail_frag_infobutton"
+            android:textColor="#FFFFFF"
+            android:background="@color/colorAccent"
+            android:layout_marginRight="32dp"
+            />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/petdetail_frag_adoptbutton"
-        android:textColor="#FFFFFF"
-        android:background="@color/colorPrimary"
-        />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/petdetail_frag_adoptbutton"
+            android:textColor="#FFFFFF"
+            android:background="@color/colorPrimary"
+            />
+
+    </LinearLayout>
 
 </LinearLayout>

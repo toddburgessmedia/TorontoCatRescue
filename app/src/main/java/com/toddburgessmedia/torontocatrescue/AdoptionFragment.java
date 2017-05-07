@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.Space;
 import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -34,9 +33,6 @@ public class AdoptionFragment extends Fragment {
 
     @BindView(R.id.adoption_frag_call_button)
     Button call;
-
-    @BindView(R.id.adoption_frag_spacer)
-    Space spacer;
 
     @BindView(R.id.adoption_frag_email_button)
     Button emailButton;
@@ -90,7 +86,6 @@ public class AdoptionFragment extends Fragment {
                 == TelephonyManager.PHONE_TYPE_NONE)
         {
          call.setVisibility(View.GONE);
-            spacer.setVisibility(View.GONE);
         }
 
         if (savedInstanceState != null) {
