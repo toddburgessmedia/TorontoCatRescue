@@ -13,7 +13,8 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         >
 
         <ImageView
@@ -32,8 +33,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/rv_petlist_pet_name"
                 android:textStyle="bold"
-                android:gravity="center"
                 android:textSize="18sp"
+                android:gravity="center"
                 android:textColor="@color/colorPrimary"
                 />
 

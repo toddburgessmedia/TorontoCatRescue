@@ -333,8 +333,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/petdetail_button_info"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:contentDescription="@string/petdetail_button_info"
             android:id="@+id/petdetail_frag_infobutton"
             android:textColor="#FFFFFF"

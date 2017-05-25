@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -85,7 +85,8 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.tcrmain_fragment, container, false);
         ButterKnife.bind(this,view);
 
-        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rv.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rv.setHasFixedSize(true);
 
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

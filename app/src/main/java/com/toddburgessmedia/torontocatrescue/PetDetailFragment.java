@@ -425,29 +425,4 @@ public class PetDetailFragment extends Fragment {
         }
     }
 
-
-
-//    public class ShareIntentInfoMessage {
-//
-//        String url;
-//        String petName;
-//
-//        public ShareIntentInfoMessage(String url, String petName) {
-//            this.url = url;
-//            this.petName = petName;
-//        }
-//
-//        public String getPetName() {
-//            return petName;
-//        }
-//
-//        public String getUrl() {
-//            return url;
-//        }
-//
-//        public void setUrl(String url) {
-//            this.url = url;
-//        }
-//    }
-
 }
