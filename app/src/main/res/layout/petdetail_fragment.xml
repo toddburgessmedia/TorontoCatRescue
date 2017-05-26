@@ -53,7 +53,6 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:background="@color/colorAccent"
-                android:textColor="#FFFFFF"
                 android:id="@+id/petdetail_frag_facts"
                 />
 
@@ -169,7 +168,6 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:background="@color/colorAccent"
-                android:textColor="#FFFFFF"
                 android:id="@+id/petdetail_frag_add_facts"
                 />
 
@@ -183,7 +181,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
                     android:id="@+id/petdetail_frag_fixed"
                     />
 
@@ -200,7 +197,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/petdetail_shots"
                     android:id="@+id/petdetail_frag_shots"
-                    android:textStyle="bold"
                     />
 
             </LinearLayout>
@@ -216,7 +212,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/petdetail_good_kids"
                     android:id="@+id/petdetail_frag_kids"
-                    android:textStyle="bold"
                     />
 
             </LinearLayout>
@@ -232,7 +227,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/petdetail_good_cats"
                     android:id="@+id/petdetail_frag_cats"
-                    android:textStyle="bold"
                     />
 
             </LinearLayout>
@@ -248,7 +242,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/petdetail_good_dogs"
                     android:id="@+id/petdetail_frag_dogs"
-                    android:textStyle="bold"
                     />
 
             </LinearLayout>

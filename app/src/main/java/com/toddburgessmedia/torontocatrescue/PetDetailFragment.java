@@ -338,7 +338,7 @@ public class PetDetailFragment extends Fragment {
         } else if (value.equals("1")) {
             newtext = text;
         } else if (value.equals("0")) {
-            infoTV.setTextColor(Color.RED);
+            infoTV.setTextColor(Color.argb(255,204,55,55));
             newtext = "Not " + text;
         } else {
             infoTV.setVisibility(View.GONE);
