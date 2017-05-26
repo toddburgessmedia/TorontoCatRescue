@@ -1,16 +1,19 @@
 package com.toddburgessmedia.torontocatrescue;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.toddburgessmedia.torontocatrescue.data.Pet;
@@ -85,8 +88,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.tcrmain_fragment, container, false);
         ButterKnife.bind(this,view);
 
-        //rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rv.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        rv.setLayoutManager(new GridLayoutManager(getContext(), getColumnSize()));
         rv.setHasFixedSize(true);
 
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -149,6 +151,22 @@ public class MainFragment extends Fragment {
         }
         progress.setMessage("Getting Cats");
         progress.show();
+    }
+
+    private int getColumnSize() {
+
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics metrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(metrics);
+
+        int width = metrics.widthPixels;
+        if (width > 1700) {
+            return 4;
+        } else if (width > 1100) {
+            return 3;
+        } else {
+            return 2;
+        }
     }
 
     private void stopProgressDialog() {
