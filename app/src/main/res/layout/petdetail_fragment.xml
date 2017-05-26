@@ -328,17 +328,14 @@
             android:text="@string/petdetail_button_info"
             android:contentDescription="@string/petdetail_button_info"
             android:id="@+id/petdetail_frag_infobutton"
-            android:textColor="#FFFFFF"
-            android:background="@color/colorAccent"
             android:layout_marginRight="32dp"
             />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/petdetail_button_adopt"
             android:id="@+id/petdetail_frag_adoptbutton"
-            android:textColor="#FFFFFF"
-            android:background="@color/colorPrimary"
             />
 
     </LinearLayout>

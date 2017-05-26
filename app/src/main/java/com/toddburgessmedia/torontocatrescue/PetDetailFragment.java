@@ -274,7 +274,7 @@ public class PetDetailFragment extends Fragment {
             }
         }
 
-        adoptButton.setText(subPetName(info.getPetName(),adoptText));
+        //adoptButton.setText(subPetName(info.getPetName(),adoptText));
         adoptButton.setContentDescription(subPetName(info.getPetName(),adoptText));
 
     }

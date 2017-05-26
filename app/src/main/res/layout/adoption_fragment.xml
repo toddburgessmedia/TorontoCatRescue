@@ -34,9 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/adoption_frag_call_button"
-        android:background="@color/colorAccent"
         android:layout_marginRight="32dp"
-        android:textColor="#FFFFFF"
         android:text="@string/adopt_call"
         android:contentDescription="@string/adopt_call"
         />
@@ -45,8 +43,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/adoption_frag_email_button"
-        android:background="@color/colorPrimary"
-        android:textColor="#FFFFFF"
         android:text="@string/adopt_email"
         android:contentDescription="@string/adopt_email"
         />
