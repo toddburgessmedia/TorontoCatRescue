@@ -1,7 +1,5 @@
 package com.toddburgessmedia.torontocatrescue.model;
 
-import android.util.Log;
-
 import com.toddburgessmedia.torontocatrescue.data.LimitedPet;
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
 import com.toddburgessmedia.torontocatrescue.data.Pet;
@@ -130,36 +128,11 @@ public class PetListModel {
 
     }
 
-
-    public PetList getPetList() {
-        return petList;
-    }
-
-    public void setPetList(PetList petList) {
-        this.petList = petList;
-    }
-
-    public int getEnd() {
-        return end;
-    }
-
-    public void setEnd(int end) {
-        this.end = end;
-    }
-
-    public int getStart() {
-        return start;
-    }
-
-    public void setStart(int start) {
-        this.start = start;
-    }
-
     public class PetListMessage {
 
         ArrayList<Pet> pets;
 
-        public PetListMessage (ArrayList<Pet> pets) {
+        PetListMessage (ArrayList<Pet> pets) {
             this.pets = pets;
         }
 
@@ -172,7 +145,7 @@ public class PetListModel {
 
         PetDetailInfo petDetail;
 
-        public PetDetailMessage(PetDetailInfo petDetail) {
+        PetDetailMessage(PetDetailInfo petDetail) {
             this.petDetail = petDetail;
         }
 
@@ -186,7 +159,7 @@ public class PetListModel {
         LimitedPetDetail limitedPetDetail;
         boolean flag;
 
-        public LimitedPetDetailMessage(LimitedPetDetail limitedPetDetail,boolean flag) {
+        LimitedPetDetailMessage(LimitedPetDetail limitedPetDetail,boolean flag) {
             this.limitedPetDetail = limitedPetDetail;
             this.flag = flag;
         }
