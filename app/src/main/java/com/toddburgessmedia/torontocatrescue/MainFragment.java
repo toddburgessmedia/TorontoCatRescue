@@ -98,7 +98,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-//        if (savedInstanceState != null) {
+//       if (savedInstanceState != null) {
 //            PetList pl = savedInstanceState.getParcelable("petlist");
 //            if (pl != null) {
 //                petList = pl.getPetList();
@@ -181,7 +181,7 @@ public class MainFragment extends Fragment {
         if (refresh) {
             swipe.setRefreshing(true);
         }
-        petListModel.fetchPetList();
+        petListModel.fetchPetListSingle();
     }
 
     @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)

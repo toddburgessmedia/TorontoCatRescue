@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observable;
+import rx.Single;
+import rx.SingleSubscriber;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -72,6 +74,29 @@ public class PetListModel {
 
     }
 
+    public void fetchPetListSingle () {
+
+        PetListAPI petListAPI = retrofit.create(PetListAPI.class);
+        Single<Response<PetList>> petListSingle;
+        petListSingle = petListAPI.getAllPetsSingle(apikey, shelterID, start, end);
+
+        petListSingle.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<Response<PetList>>() {
+                    @Override
+                    public void onSuccess(Response<PetList> value) {
+                        petList = value.body();
+                        petList.sortPetList();
+                        EventBus.getDefault().postSticky(new PetListMessage(petList.getPetList()));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        EventBus.getDefault().post(e);
+                    }
+                });
+
+    }
+
     public void fetchPetDetail(String petID) {
 
         PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
@@ -98,6 +123,30 @@ public class PetListModel {
                     }
                 });
     }
+
+    public void fetchPetDetailSingle(String petID) {
+
+        PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
+        Single<Response<PetDetail>> petDetailSingle;
+        petDetailSingle = petDetailAPI.getPetDetailSingle(petID, apikey, shelterID);
+
+        petDetailSingle.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<Response<PetDetail>>() {
+                    @Override
+                    public void onSuccess(Response<PetDetail> value) {
+                        petDetail = value.body();
+                        EventBus.getDefault().post(new PetDetailMessage(petDetail.getPetDetailInfo()));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        EventBus.getDefault().post(e);
+                    }
+                });
+
+    }
+
+
 
     public void fetchLimtedPetDetail(String petID,final boolean flag) {
 
@@ -128,7 +177,31 @@ public class PetListModel {
 
     }
 
-    public class PetListMessage {
+    public void fetchLimtedPetDetailSingle(String petID,final boolean flag) {
+
+        PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
+        Single<Response<LimitedPet>> limitedSingle;
+        limitedSingle = petDetailAPI.getLimitedPetDetailSingle(petID, apikey, shelterID);
+
+        limitedSingle.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<Response<LimitedPet>>() {
+                    @Override
+                    public void onSuccess(Response<LimitedPet> value) {
+                        limitedPet = value.body();
+                        EventBus.getDefault().post(new LimitedPetDetailMessage(limitedPet.getLimitedPetDetail(),flag));
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+
+                    }
+                });
+
+    }
+
+
+
+        public class PetListMessage {
 
         ArrayList<Pet> pets;
 

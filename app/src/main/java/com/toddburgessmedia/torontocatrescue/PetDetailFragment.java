@@ -230,8 +230,8 @@ public class PetDetailFragment extends Fragment {
 
     public void getPetInformation() {
         startProgressDialog();
-        petListModel.fetchPetDetail(petID);
-        petListModel.fetchLimtedPetDetail(petID,false);
+        petListModel.fetchPetDetailSingle(petID);
+        petListModel.fetchLimtedPetDetailSingle(petID,false);
     }
 
     @Subscribe
