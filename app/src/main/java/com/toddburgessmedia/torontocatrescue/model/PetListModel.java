@@ -13,10 +13,8 @@ import java.util.ArrayList;
 
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import rx.Observable;
 import rx.Single;
 import rx.SingleSubscriber;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
 /**
@@ -47,38 +45,8 @@ public class PetListModel {
     public void fetchPetList() {
 
         PetListAPI petListAPI = retrofit.create(PetListAPI.class);
-        Observable<Response<PetList>> petListObservable;
-        petListObservable = petListAPI.getAllPets(apikey, shelterID, start, end);
-
-        petListObservable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<PetList>>() {
-                    @Override
-                    public void onCompleted() {
-                        petList.sortPetList();
-                        EventBus.getDefault().postSticky(new PetListMessage(petList.getPetList()));
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        EventBus.getDefault().post(e);
-                    }
-
-                    @Override
-                    public void onNext(Response<PetList> petListResponse) {
-
-                        if (petListResponse.isSuccessful()) {
-                            petList = petListResponse.body();
-                        }
-                    }
-                });
-
-    }
-
-    public void fetchPetListSingle () {
-
-        PetListAPI petListAPI = retrofit.create(PetListAPI.class);
         Single<Response<PetList>> petListSingle;
-        petListSingle = petListAPI.getAllPetsSingle(apikey, shelterID, start, end);
+        petListSingle = petListAPI.getAllPets(apikey, shelterID, start, end);
 
         petListSingle.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<Response<PetList>>() {
@@ -100,35 +68,8 @@ public class PetListModel {
     public void fetchPetDetail(String petID) {
 
         PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
-        Observable<Response<PetDetail>> petDetailObservable;
-        petDetailObservable = petDetailAPI.getPetDetail(petID, apikey, shelterID);
-
-        petDetailObservable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<PetDetail>>() {
-                    @Override
-                    public void onCompleted() {
-                        EventBus.getDefault().post(new PetDetailMessage(petDetail.getPetDetailInfo()));
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        EventBus.getDefault().post(e);
-                    }
-
-                    @Override
-                    public void onNext(Response<PetDetail> petDetailResponse) {
-                        if (petDetailResponse.isSuccessful()) {
-                            petDetail = petDetailResponse.body();
-                        }
-                    }
-                });
-    }
-
-    public void fetchPetDetailSingle(String petID) {
-
-        PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
         Single<Response<PetDetail>> petDetailSingle;
-        petDetailSingle = petDetailAPI.getPetDetailSingle(petID, apikey, shelterID);
+        petDetailSingle = petDetailAPI.getPetDetail(petID, apikey, shelterID);
 
         petDetailSingle.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<Response<PetDetail>>() {
@@ -146,42 +87,11 @@ public class PetListModel {
 
     }
 
-
-
-    public void fetchLimtedPetDetail(String petID,final boolean flag) {
-
-        PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
-        final Observable<Response<LimitedPet>> limitedObservable;
-        limitedObservable = petDetailAPI.getLimitedPetDetail(petID,apikey, shelterID);
-
-        limitedObservable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<LimitedPet>>() {
-                    @Override
-                    public void onCompleted() {
-                        EventBus.getDefault().post(new LimitedPetDetailMessage(limitedPet.getLimitedPetDetail(),flag));
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Response<LimitedPet> petResponse) {
-
-                        if (petResponse.isSuccessful()) {
-                            limitedPet = petResponse.body();
-                        }
-                    }
-                });
-
-    }
-
-    public void fetchLimtedPetDetailSingle(String petID,final boolean flag) {
+    public void fetchLimtedPetDetail(String petID, final boolean flag) {
 
         PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
         Single<Response<LimitedPet>> limitedSingle;
-        limitedSingle = petDetailAPI.getLimitedPetDetailSingle(petID, apikey, shelterID);
+        limitedSingle = petDetailAPI.getLimitedPetDetail(petID, apikey, shelterID);
 
         limitedSingle.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<Response<LimitedPet>>() {

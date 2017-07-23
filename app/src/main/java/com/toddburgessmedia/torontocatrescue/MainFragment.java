@@ -181,7 +181,7 @@ public class MainFragment extends Fragment {
         if (refresh) {
             swipe.setRefreshing(true);
         }
-        petListModel.fetchPetListSingle();
+        petListModel.fetchPetList();
     }
 
     @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)

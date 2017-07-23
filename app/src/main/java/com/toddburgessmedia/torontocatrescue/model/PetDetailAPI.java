@@ -6,7 +6,6 @@ import com.toddburgessmedia.torontocatrescue.data.PetDetail;
 import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
 import rx.Single;
 
 /**
@@ -16,23 +15,13 @@ import rx.Single;
 public interface PetDetailAPI {
 
     @GET("/search/pet_details?output=json&v=2")
-    Observable<Response<PetDetail>> getPetDetail(@Query("pet_id") String petID,
-                                                 @Query("key") String apikey,
-                                                 @Query("shelter_id") String shelterID);
-
-    @GET("/search/limited_pet_details?output=json&v=2")
-    Observable<Response<LimitedPet>> getLimitedPetDetail(@Query("pet_id") String petID,
-                                                         @Query("key") String apikey,
-                                                         @Query("shelter_id") String shelterID);
-
-    @GET("/search/pet_details?output=json&v=2")
-    Single<Response<PetDetail>> getPetDetailSingle(@Query("pet_id") String petID,
+    Single<Response<PetDetail>> getPetDetail(@Query("pet_id") String petID,
                                              @Query("key") String apikey,
                                              @Query("shelter_id") String shelterID);
 
     @GET("/search/limited_pet_details?output=json&v=2")
-    Single<Response<LimitedPet>> getLimitedPetDetailSingle(@Query("pet_id") String petID,
-                                                         @Query("key") String apikey,
-                                                         @Query("shelter_id") String shelterID);
+    Single<Response<LimitedPet>> getLimitedPetDetail(@Query("pet_id") String petID,
+                                                     @Query("key") String apikey,
+                                                     @Query("shelter_id") String shelterID);
 
 }
