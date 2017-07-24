@@ -102,6 +102,9 @@ public class TCRMain extends AppCompatActivity {
         } else {
             fragment = new MainFragment();
         }
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.tcrmain_framelayout, fragment, FRAGMENT);
+        transaction.commit();
     }
 
     private void createSpinners() {
@@ -109,42 +112,13 @@ public class TCRMain extends AppCompatActivity {
         ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         age.setAdapter(ageAdapter);
 
-        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(this, R.array.sex_spinner, R.layout.spinner_item
-
-        );
+        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(this, R.array.sex_spinner, R.layout.spinner_item);
         sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sex.setAdapter(sexAdapter);
 
+        age.setOnItemSelectedListener(new PetSpinner());
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.tcrmain_framelayout, fragment, FRAGMENT);
-        transaction.commit();
-
-        age.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                fragment.getPetsbySexAge(sexArray[sex.getSelectedItemPosition()],
-                        ageArray[age.getSelectedItemPosition()]);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
-
-        sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                fragment.getPetsbySexAge(sexArray[sex.getSelectedItemPosition()],
-                        ageArray[age.getSelectedItemPosition()]);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        sex.setOnItemSelectedListener(new PetSpinner());
     }
 
     private void createNavigationDrawer() {
@@ -274,6 +248,20 @@ public class TCRMain extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.tcrmain_menu, menu);
         return true;
+    }
+
+    public class PetSpinner implements AdapterView.OnItemSelectedListener {
+
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            fragment.getPetsbySexAge(sexArray[sex.getSelectedItemPosition()],
+                    ageArray[age.getSelectedItemPosition()]);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
+        }
     }
 
 }
