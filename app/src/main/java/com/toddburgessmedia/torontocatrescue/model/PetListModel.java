@@ -2,15 +2,12 @@ package com.toddburgessmedia.torontocatrescue.model;
 
 import com.toddburgessmedia.torontocatrescue.data.LimitedPet;
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
-import com.toddburgessmedia.torontocatrescue.data.Pet;
 import com.toddburgessmedia.torontocatrescue.data.PetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
 import com.toddburgessmedia.torontocatrescue.data.PetList;
 import com.toddburgessmedia.torontocatrescue.view.PetListView;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
 
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -121,21 +118,7 @@ public class PetListModel implements PetListPresenter {
                 });
 
     }
-
-
-
-        public class PetListMessage {
-
-        ArrayList<Pet> pets;
-
-        PetListMessage (ArrayList<Pet> pets) {
-            this.pets = pets;
-        }
-
-        public ArrayList<Pet> getPets() {
-            return pets;
-        }
-    }
+    
 
     public class PetDetailMessage {
 
