@@ -72,7 +72,6 @@ public class TCRMain extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
@@ -94,32 +93,28 @@ public class TCRMain extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        NavigationList list = new NavigationList(this, titles, drawerIcons);
-        listView.setAdapter(list);
-        listView.setOnItemClickListener(new DrawerItemClickListener());
+        createNavigationDrawer();
 
-        drawerToggle = getActionBarToggle();
-        drawerLayout.addDrawerListener(drawerToggle);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-        }
-
-        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this, R.array.age_spinner, android.R.layout.simple_spinner_item);
-        ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        age.setAdapter(ageAdapter);
-
-        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(this, R.array.sex_spinner, android.R.layout.simple_spinner_item);
-        sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sex.setAdapter(sexAdapter);
-
+        createSpinners();
 
         if (savedInstanceState != null) {
             fragment = (MainFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT);
         } else {
             fragment = new MainFragment();
         }
+    }
+
+    private void createSpinners() {
+        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this, R.array.age_spinner, R.layout.spinner_item);
+        ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        age.setAdapter(ageAdapter);
+
+        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(this, R.array.sex_spinner, R.layout.spinner_item
+
+        );
+        sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sex.setAdapter(sexAdapter);
+
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.tcrmain_framelayout, fragment, FRAGMENT);
@@ -150,6 +145,20 @@ public class TCRMain extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void createNavigationDrawer() {
+        NavigationList list = new NavigationList(this, titles, drawerIcons);
+        listView.setAdapter(list);
+        listView.setOnItemClickListener(new DrawerItemClickListener());
+
+        drawerToggle = getActionBarToggle();
+        drawerLayout.addDrawerListener(drawerToggle);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
     }
 
     @Override
