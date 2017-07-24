@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,9 @@ import android.widget.Toast;
 
 import com.toddburgessmedia.torontocatrescue.data.Pet;
 import com.toddburgessmedia.torontocatrescue.data.PetList;
-import com.toddburgessmedia.torontocatrescue.model.PetListModel;
+import com.toddburgessmedia.torontocatrescue.model.PetListPresenter;
+import com.toddburgessmedia.torontocatrescue.view.PetListView;
 import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -38,7 +34,7 @@ import static com.toddburgessmedia.torontocatrescue.dagger.Injector.getAppCompon
  * Created by Todd Burgess (todd@toddburgessmedia.com on 21/11/16.
  */
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements PetListView {
 
     @BindView(R.id.tcr_fragment_rv)
     RecyclerView rv;
@@ -50,35 +46,16 @@ public class MainFragment extends Fragment {
     ArrayList<Pet> petList;
 
     @Inject
-    PetListModel petListModel;
+    PetListPresenter petListModel;
 
     ProgressDialog progress;
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         getAppComponent().inject(this);
+        petListModel.setPetListView(this);
         super.onCreate(savedInstanceState);
 
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
     }
 
     @Nullable
@@ -98,21 +75,6 @@ public class MainFragment extends Fragment {
             }
         });
 
-//       if (savedInstanceState != null) {
-//            PetList pl = savedInstanceState.getParcelable("petlist");
-//            if (pl != null) {
-//                petList = pl.getPetList();
-//                updateRecyclerView();
-//            }
-//        } else {
-//            startProgressDialog();
-//            if (!EventBus.getDefault().isRegistered(this)) {
-//                Log.d("TCR", "onCreateView: EventBus not registered! Registering....");
-//                EventBus.getDefault().register(this);
-//            }
-//            getPetList(false);
-//        }
-//        stopProgressDialog();
         return view;
     }
 
@@ -184,15 +146,11 @@ public class MainFragment extends Fragment {
         petListModel.fetchPetList();
     }
 
-    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
-    public void updatePetListView(PetListModel.PetListMessage message) {
-
-        // TODO delete this
-        Log.d("TCR", "updatePetListView: got message to update");
-        petList = message.getPets();
+    @Override
+    public void updatePetListView(PetList petList) {
+        this.petList = petList.getPetList();
         stopProgressDialog();
         updateRecyclerView();
-        EventBus.getDefault().removeStickyEvent(message);
     }
 
     public void updateRecyclerView() {
@@ -232,7 +190,6 @@ public class MainFragment extends Fragment {
         return newList;
     }
 
-    @Subscribe
     public void onError(Throwable t) {
 
         stopProgressDialog();

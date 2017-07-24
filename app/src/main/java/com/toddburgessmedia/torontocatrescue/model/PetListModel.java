@@ -6,6 +6,7 @@ import com.toddburgessmedia.torontocatrescue.data.Pet;
 import com.toddburgessmedia.torontocatrescue.data.PetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
 import com.toddburgessmedia.torontocatrescue.data.PetList;
+import com.toddburgessmedia.torontocatrescue.view.PetListView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -21,7 +22,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * Created by Todd Burgess (todd@toddburgessmedia.com on 21/11/16.
  */
 
-public class PetListModel {
+public class PetListModel implements PetListPresenter {
 
     Retrofit retrofit;
 
@@ -35,11 +36,18 @@ public class PetListModel {
     private PetDetail petDetail;
     private LimitedPet limitedPet;
 
+    PetListView petListView;
+
     public PetListModel (Retrofit retrofit, String apikey, String shelterID) {
 
         this.retrofit = retrofit;
         this.apikey = apikey;
         this.shelterID = shelterID;
+    }
+
+    @Override
+    public void setPetListView(PetListView petListView) {
+        this.petListView = petListView;
     }
 
     public void fetchPetList() {
@@ -54,12 +62,17 @@ public class PetListModel {
                     public void onSuccess(Response<PetList> value) {
                         petList = value.body();
                         petList.sortPetList();
-                        EventBus.getDefault().postSticky(new PetListMessage(petList.getPetList()));
+                        if (petListView != null) {
+                            petListView.updatePetListView(petList);
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        EventBus.getDefault().post(e);
+
+                        if (petListView != null){
+                            petListView.onError(e);
+                        }
                     }
                 });
 
@@ -156,3 +169,5 @@ public class PetListModel {
         }
     }
 }
+
+
