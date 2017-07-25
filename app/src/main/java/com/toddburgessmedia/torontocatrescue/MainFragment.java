@@ -166,28 +166,7 @@ public class MainFragment extends Fragment implements PetListView {
             return;
         }
         rv.invalidate();
-        adapter.updateList(getPetsBySexAge(sex,age));
-    }
-
-    private ArrayList<Pet> getPetsBySexAge(String sex, String age) {
-
-        ArrayList<Pet> newList = new ArrayList<>();
-        String newSex = sex.toLowerCase().substring(0,1);
-        Pet pet;
-        for (int i = 0; i < petList.size(); i++) {
-            pet = petList.get(i);
-            if (sex.equals("Male and Female") && age.equals("Any Age")) {
-                newList.add(pet);
-            } else if (pet.getSex().equals(newSex) && pet.getAge().equals(age.toLowerCase())) {
-                newList.add(pet);
-            } else if ((pet.getSex().equals(newSex)) && age.equals("Any Age")) {
-                newList.add(pet);
-            } else if (sex.equals("Male and Female") && pet.getAge().equals(age.toLowerCase())) {
-                newList.add(pet);
-            }
-        }
-
-        return newList;
+        adapter.updateList(PetList.getPetsBySexAge(sex,age,petList));
     }
 
     public void onError(Throwable t) {

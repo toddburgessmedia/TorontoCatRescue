@@ -37,6 +37,27 @@ public class PetList implements Serializable, Parcelable {
         });
     }
 
+    public static ArrayList<Pet> getPetsBySexAge(String sex, String age, ArrayList<Pet> petList)  {
+
+        ArrayList<Pet> newList = new ArrayList<>();
+        String newSex = sex.toLowerCase().substring(0,1);
+        Pet pet;
+        for (int i = 0; i < petList.size(); i++) {
+            pet = petList.get(i);
+            if (sex.equals("Male and Female") && age.equals("Any Age")) {
+                newList.add(pet);
+            } else if (pet.getSex().equals(newSex) && pet.getAge().equals(age.toLowerCase())) {
+                newList.add(pet);
+            } else if ((pet.getSex().equals(newSex)) && age.equals("Any Age")) {
+                newList.add(pet);
+            } else if (sex.equals("Male and Female") && pet.getAge().equals(age.toLowerCase())) {
+                newList.add(pet);
+            }
+        }
+
+        return newList;
+    }
+
     public int getPetCount() {
         return petCount;
     }

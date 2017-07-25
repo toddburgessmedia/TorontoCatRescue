@@ -118,7 +118,7 @@ public class PetListModel implements PetListPresenter {
                 });
 
     }
-    
+
 
     public class PetDetailMessage {
 
