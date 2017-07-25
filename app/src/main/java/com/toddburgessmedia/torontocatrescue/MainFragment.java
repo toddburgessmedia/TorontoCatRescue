@@ -1,7 +1,6 @@
 package com.toddburgessmedia.torontocatrescue;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -47,6 +46,9 @@ public class MainFragment extends Fragment implements PetListView {
 
     @Inject
     PetListPresenter petListModel;
+
+    @Inject
+    WindowManager wm;
 
     ProgressDialog progress;
 
@@ -117,7 +119,6 @@ public class MainFragment extends Fragment implements PetListView {
 
     private int getColumnSize() {
 
-        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics metrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(metrics);
 
