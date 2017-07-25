@@ -146,8 +146,7 @@ public class MainFragment extends Fragment implements PetListView {
         }
         petListModel.fetchPetList();
     }
-
-    @Override
+    
     public void updatePetListView(PetList petList) {
         this.petList = petList.getPetList();
         stopProgressDialog();
