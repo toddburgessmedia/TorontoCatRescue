@@ -35,6 +35,8 @@ import static com.toddburgessmedia.torontocatrescue.dagger.Injector.getAppCompon
 
 public class MainFragment extends Fragment implements PetListView {
 
+    final int MAXSCREENWIDTH = 1700;
+
     @BindView(R.id.tcr_fragment_rv)
     RecyclerView rv;
 
@@ -123,9 +125,9 @@ public class MainFragment extends Fragment implements PetListView {
         wm.getDefaultDisplay().getMetrics(metrics);
 
         int width = metrics.widthPixels;
-        if (width > 1700) {
+        if (width > MAXSCREENWIDTH) {
             return 4;
-        } else if (width > 1100) {
+        } else if (width > (MAXSCREENWIDTH - 600)) {
             return 3;
         } else {
             return 2;
@@ -146,7 +148,7 @@ public class MainFragment extends Fragment implements PetListView {
         }
         petListModel.fetchPetList();
     }
-    
+
     public void updatePetListView(PetList petList) {
         this.petList = petList.getPetList();
         stopProgressDialog();
