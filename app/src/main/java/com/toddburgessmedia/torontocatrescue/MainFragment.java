@@ -111,7 +111,7 @@ public class MainFragment extends Fragment implements PetListView {
         if (progress == null) {
             progress = new ProgressDialog(getContext());
         }
-        progress.setMessage("Getting Cats");
+        progress.setMessage(getString(R.string.mainFragment_progress));
         progress.show();
     }
 
