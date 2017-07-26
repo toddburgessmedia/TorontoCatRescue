@@ -109,9 +109,7 @@ public class PetDetailActivity extends AppCompatActivity {
     private void getDeepLinkInfo(Intent intent) {
 
         String link = intent.getData().toString();
-        int start = link.lastIndexOf('/') + 1;
-        int end = link.indexOf('-');
-        petID = link.substring(start, end);
+        petID = link.replaceAll("\\D+", "");
         petURL = link;
         petName = "";
     }
