@@ -1,6 +1,7 @@
 package com.toddburgessmedia.torontocatrescue;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -156,7 +157,7 @@ public class MainFragment extends Fragment implements PetListView {
     }
 
     public void updateRecyclerView() {
-        adapter = new RecyclerViewPetListAdapter(getContext(), petList);
+        adapter = new RecyclerViewPetListAdapter(getContext(), petList, this);
         swipe.setRefreshing(false);
 
         rv.setAdapter(adapter);
@@ -175,5 +176,15 @@ public class MainFragment extends Fragment implements PetListView {
 
         stopProgressDialog();
         Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClickPet(Pet pet) {
+        Intent i = new Intent(getContext(), PetDetailActivity.class);
+        i.putExtra(PetDetailActivity.PETID, pet.getPetID());
+        i.putExtra(PetDetailActivity.PETURL, pet.getDetailsURL());
+        i.putExtra(PetDetailActivity.PETNAME, pet.getPetName());
+        getActivity().startActivity(i);
+
     }
 }

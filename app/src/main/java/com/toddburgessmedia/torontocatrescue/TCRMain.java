@@ -19,11 +19,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -67,22 +62,6 @@ public class TCRMain extends AppCompatActivity {
     String[] sexArray;
 
     ActionBarDrawerToggle drawerToggle;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        EventBus.getDefault().unregister(this);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,16 +119,6 @@ public class TCRMain extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         getSupportFragmentManager().putFragment(outState,FRAGMENT,fragment);
-    }
-
-    @Subscribe
-    public void startPetDetailActivity(RecyclerViewPetListAdapter.PetListClickMessage message) {
-
-        Intent i = new Intent(this, PetDetailActivity.class);
-        i.putExtra(PetDetailActivity.PETID, message.getPetID());
-        i.putExtra(PetDetailActivity.PETURL, message.getPetURL());
-        i.putExtra(PetDetailActivity.PETNAME, message.getPetName());
-        startActivity(i);
     }
 
     private ActionBarDrawerToggle getActionBarToggle() {

@@ -12,8 +12,6 @@ import com.squareup.picasso.Picasso;
 import com.toddburgessmedia.torontocatrescue.R;
 import com.toddburgessmedia.torontocatrescue.data.Pet;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -29,11 +27,13 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
 
     ArrayList<Pet> petList;
     Context context;
+    PetListView petListView;
 
-    public RecyclerViewPetListAdapter (Context context, ArrayList<Pet> petList) {
+    public RecyclerViewPetListAdapter (Context context, ArrayList<Pet> petList, PetListView petListView) {
 
         this.context = context;
         this.petList = new ArrayList<>(petList);
+        this.petListView = petListView;
 
     }
 
@@ -52,6 +52,7 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v;
+
         switch (viewType) {
             case PETVIEWTYPE:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_petlist, parent, false);
@@ -132,9 +133,7 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
         @Override
         public void onClick(View view) {
             Pet p = petList.get(getAdapterPosition());
-            EventBus.getDefault().post(new PetListClickMessage(p.getPetID(),
-                                                                p.getDetailsURL(),
-                                                                p.getPetName()));
+            petListView.onClickPet(p);
         }
     }
 
@@ -164,4 +163,5 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
             return petName;
         }
     }
+
 }

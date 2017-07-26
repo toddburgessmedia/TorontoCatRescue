@@ -1,5 +1,6 @@
 package com.toddburgessmedia.torontocatrescue.view;
 
+import com.toddburgessmedia.torontocatrescue.data.Pet;
 import com.toddburgessmedia.torontocatrescue.data.PetList;
 
 /**
@@ -10,4 +11,5 @@ public interface PetListView {
 
     void updatePetListView(PetList petList);
     void onError(Throwable t);
+    void onClickPet(Pet pet);
 }
