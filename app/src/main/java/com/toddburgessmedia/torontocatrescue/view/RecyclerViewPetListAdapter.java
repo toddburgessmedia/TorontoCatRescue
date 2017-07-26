@@ -137,31 +137,4 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-    public class PetListClickMessage {
-
-        String petID;
-        String petURL;
-        String petName;
-
-        public PetListClickMessage(String petID, String petURL, String petName) {
-
-            this.petID = petID;
-            this.petURL = petURL;
-            this.petName = petName;
-
-        }
-
-        public String getPetID() {
-            return petID;
-        }
-
-        public String getPetURL() {
-            return petURL;
-        }
-
-        public String getPetName() {
-            return petName;
-        }
-    }
-
 }
