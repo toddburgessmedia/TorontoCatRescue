@@ -1,5 +1,6 @@
 package com.toddburgessmedia.torontocatrescue.model;
 
+import com.toddburgessmedia.torontocatrescue.data.PetList;
 import com.toddburgessmedia.torontocatrescue.view.PetListView;
 
 /**
@@ -11,4 +12,6 @@ public interface PetListDataModel {
     void fetchPetList();
 
     void setPetListView(PetListView petListView);
+
+    PetList getPetList();
 }

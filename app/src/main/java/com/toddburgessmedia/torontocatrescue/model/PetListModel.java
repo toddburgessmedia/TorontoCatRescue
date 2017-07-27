@@ -119,6 +119,9 @@ public class PetListModel implements PetListDataModel {
 
     }
 
+    public PetList getPetList() {
+        return petList;
+    }
 
     public class PetDetailMessage {
 

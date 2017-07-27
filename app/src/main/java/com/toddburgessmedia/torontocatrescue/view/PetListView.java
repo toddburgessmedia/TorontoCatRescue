@@ -12,4 +12,7 @@ public interface PetListView {
     void updatePetListView(PetList petList);
     void onError(Throwable t);
     void onClickPet(Pet pet);
+    void startProgressDialog();
+    void stopProgressDialog();
+    void updatePetList(PetList petList);
 }

@@ -91,7 +91,7 @@ public class MainFragment extends Fragment implements PetListView {
             PetList pl = savedInstanceState.getParcelable("petlist");
             if (pl != null) {
                 petList = pl.getPetList();
-                updateRecyclerView();
+                updatePetList();
             }
         } else {
             startProgressDialog();
@@ -111,7 +111,7 @@ public class MainFragment extends Fragment implements PetListView {
 
     }
 
-    private void startProgressDialog() {
+    public void startProgressDialog() {
 
         if (progress == null) {
             progress = new ProgressDialog(getContext());
@@ -135,7 +135,7 @@ public class MainFragment extends Fragment implements PetListView {
         }
     }
 
-    private void stopProgressDialog() {
+    public void stopProgressDialog() {
 
         if (progress != null) {
             progress.dismiss();
@@ -153,11 +153,18 @@ public class MainFragment extends Fragment implements PetListView {
     public void updatePetListView(PetList petList) {
         this.petList = petList.getPetList();
         stopProgressDialog();
-        updateRecyclerView();
+        updatePetList();
     }
 
-    public void updateRecyclerView() {
+    public void updatePetList() {
         adapter = new RecyclerViewPetListAdapter(getContext(), petList, this);
+        swipe.setRefreshing(false);
+
+        rv.setAdapter(adapter);
+    }
+
+    public void updatePetList(PetList petList) {
+        adapter = new RecyclerViewPetListAdapter(getContext(), petList.getPetList(), this);
         swipe.setRefreshing(false);
 
         rv.setAdapter(adapter);
