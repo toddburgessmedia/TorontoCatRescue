@@ -72,7 +72,7 @@ public class NetModule {
     }
 
     @Provides
-    public PetListDataModel getPetListPresenter (Retrofit retrofit, Application application) {
+    public PetListDataModel getPetListDataModel (Retrofit retrofit, Application application) {
 
         String apikey = application.getString(R.string.api_key);
         String shelterid = application.getString(R.string.shelter_id);
