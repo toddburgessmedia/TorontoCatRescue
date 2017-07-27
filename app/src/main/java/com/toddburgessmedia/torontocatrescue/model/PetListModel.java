@@ -19,7 +19,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * Created by Todd Burgess (todd@toddburgessmedia.com on 21/11/16.
  */
 
-public class PetListModel implements PetListPresenter {
+public class PetListModel implements PetListDataModel {
 
     Retrofit retrofit;
 

@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.toddburgessmedia.torontocatrescue.data.Pet;
 import com.toddburgessmedia.torontocatrescue.data.PetList;
-import com.toddburgessmedia.torontocatrescue.model.PetListPresenter;
+import com.toddburgessmedia.torontocatrescue.model.PetListDataModel;
 import com.toddburgessmedia.torontocatrescue.view.PetListView;
 import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
 
@@ -48,7 +48,7 @@ public class MainFragment extends Fragment implements PetListView {
     ArrayList<Pet> petList;
 
     @Inject
-    PetListPresenter petListModel;
+    PetListDataModel petListModel;
 
     @Inject
     WindowManager wm;

@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.toddburgessmedia.torontocatrescue.R;
 import com.toddburgessmedia.torontocatrescue.model.PetListModel;
-import com.toddburgessmedia.torontocatrescue.model.PetListPresenter;
+import com.toddburgessmedia.torontocatrescue.model.PetListDataModel;
 
 import java.util.concurrent.TimeUnit;
 
@@ -72,12 +72,12 @@ public class NetModule {
     }
 
     @Provides
-    public PetListPresenter getPetListPresenter (Retrofit retrofit, Application application) {
+    public PetListDataModel getPetListPresenter (Retrofit retrofit, Application application) {
 
         String apikey = application.getString(R.string.api_key);
         String shelterid = application.getString(R.string.shelter_id);
 
-        return (PetListPresenter) new PetListModel(retrofit, apikey, shelterid);
+        return (PetListDataModel) new PetListModel(retrofit, apikey, shelterid);
     }
 
 

@@ -6,7 +6,7 @@ import com.toddburgessmedia.torontocatrescue.view.PetListView;
  * Created by Todd Burgess (todd@toddburgessmedia.com on 24/07/17.
  */
 
-public interface PetListPresenter {
+public interface PetListDataModel {
 
     void fetchPetList();
 
