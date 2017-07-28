@@ -15,9 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -49,18 +47,6 @@ public class TCRMain extends AppCompatActivity {
     @Named("drawerIcons")
     int[] drawerIcons;
 
-    @BindView(R.id.tcrmain_age_spinner)
-    Spinner age;
-
-    @BindView(R.id.tcrmain_sex_spinner)
-    Spinner sex;
-
-    @BindArray(R.array.age_spinner)
-    String[] ageArray;
-
-    @BindArray(R.array.sex_spinner)
-    String[] sexArray;
-
     ActionBarDrawerToggle drawerToggle;
 
     @Override
@@ -74,8 +60,6 @@ public class TCRMain extends AppCompatActivity {
 
         createNavigationDrawer();
 
-        createSpinners();
-
         if (savedInstanceState != null) {
             fragment = (MainFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT);
         } else {
@@ -84,20 +68,6 @@ public class TCRMain extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.tcrmain_framelayout, fragment, FRAGMENT);
         transaction.commit();
-    }
-
-    private void createSpinners() {
-        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this, R.array.age_spinner, R.layout.spinner_item);
-        ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        age.setAdapter(ageAdapter);
-
-        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(this, R.array.sex_spinner, R.layout.spinner_item);
-        sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sex.setAdapter(sexAdapter);
-
-        age.setOnItemSelectedListener(new PetSpinner());
-
-        sex.setOnItemSelectedListener(new PetSpinner());
     }
 
     private void createNavigationDrawer() {
@@ -217,20 +187,6 @@ public class TCRMain extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.tcrmain_menu, menu);
         return true;
-    }
-
-    public class PetSpinner implements AdapterView.OnItemSelectedListener {
-
-        @Override
-        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            fragment.getPetsbySexAge(sexArray[sex.getSelectedItemPosition()],
-                    ageArray[age.getSelectedItemPosition()]);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {
-
-        }
     }
 
 }

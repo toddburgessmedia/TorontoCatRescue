@@ -20,4 +20,8 @@ public interface PetListModel {
     Parcelable getPetListParcelable();
 
     void setPetListParcelable(Parcelable petListParcelable);
+
+    PetList getPetsbySexAge(String sex, String age);
+
+    boolean isPetListEmpty();
 }

@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.toddburgessmedia.torontocatrescue.data.Pet;
@@ -22,6 +25,7 @@ import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
 
 import javax.inject.Inject;
 
+import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -37,6 +41,18 @@ public class MainFragment extends Fragment implements PetListView {
 
     @BindView(R.id.tcr_fragment_rv)
     RecyclerView rv;
+
+    @BindView(R.id.tcr_fragment_age_spinner)
+    Spinner age;
+
+    @BindView(R.id.tcr_fragment_sex_spinner)
+    Spinner sex;
+
+    @BindArray(R.array.age_spinner)
+    String[] ageArray;
+
+    @BindArray(R.array.sex_spinner)
+    String[] sexArray;
 
     RecyclerViewPetListAdapter adapter;
 
@@ -72,6 +88,7 @@ public class MainFragment extends Fragment implements PetListView {
         rv.setLayoutManager(new GridLayoutManager(getContext(), getColumnSize()));
         rv.setHasFixedSize(true);
 
+        createSpinners();
         return view;
     }
 
@@ -85,6 +102,21 @@ public class MainFragment extends Fragment implements PetListView {
             presenter.getPetList();
         }
     }
+
+    private void createSpinners() {
+        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(getContext(), R.array.age_spinner, R.layout.spinner_item);
+        ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        age.setAdapter(ageAdapter);
+
+        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(getContext(), R.array.sex_spinner, R.layout.spinner_item);
+        sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sex.setAdapter(sexAdapter);
+
+        age.setOnItemSelectedListener(new PetSpinner());
+
+        sex.setOnItemSelectedListener(new PetSpinner());
+    }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -125,8 +157,13 @@ public class MainFragment extends Fragment implements PetListView {
     }
 
     public void updatePetList(PetList petList) {
-        adapter = new RecyclerViewPetListAdapter(getContext(), petList.getPetList(), this);
-        rv.setAdapter(adapter);
+        if (adapter == null) {
+            adapter = new RecyclerViewPetListAdapter(getContext(), petList.getPetList(), this);
+            rv.setAdapter(adapter);
+        } else {
+            rv.invalidate();
+            adapter.updateList(petList);
+        }
     }
 
     public void getPetsbySexAge(String sex, String age) {
@@ -152,4 +189,20 @@ public class MainFragment extends Fragment implements PetListView {
         getActivity().startActivity(i);
 
     }
+
+
+    public class PetSpinner implements AdapterView.OnItemSelectedListener {
+
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            presenter.getPetsbySexAge(sexArray[sex.getSelectedItemPosition()],
+                    ageArray[age.getSelectedItemPosition()]);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
+        }
+    }
+
 }

@@ -16,5 +16,6 @@ public interface PetListPresenter {
     void onError();
     Parcelable saveInstanceState();
     void restoreInstanceState(Parcelable parcelable);
+    void getPetsbySexAge(String sex, String age);
 
 }

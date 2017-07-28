@@ -56,4 +56,15 @@ public class PetListPresenterImpl implements PetListPresenter {
         petListModel.setPetListParcelable(parcelable);
         petListView.updatePetList(petListModel.getPetList());
     }
+
+    @Override
+    public void getPetsbySexAge(String sex, String age) {
+
+        if (petListModel.isPetListEmpty()) {
+            return;
+        }
+
+        petListView.updatePetList(petListModel.getPetsbySexAge(sex,age));
+
+    }
 }

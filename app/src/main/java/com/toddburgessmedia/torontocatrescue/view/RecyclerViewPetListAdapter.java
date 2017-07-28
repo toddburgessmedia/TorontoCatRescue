@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.toddburgessmedia.torontocatrescue.R;
 import com.toddburgessmedia.torontocatrescue.data.Pet;
+import com.toddburgessmedia.torontocatrescue.data.PetList;
 
 import java.util.ArrayList;
 
@@ -94,8 +95,9 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-    public void updateList (ArrayList<Pet> newList) {
+    public void updateList (PetList list) {
 
+        ArrayList<Pet> newList = list.getPetList();
         petList.clear();
         petList.addAll(newList);
         notifyDataSetChanged();

@@ -4,6 +4,7 @@ import android.os.Parcelable;
 
 import com.toddburgessmedia.torontocatrescue.data.LimitedPet;
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
+import com.toddburgessmedia.torontocatrescue.data.Pet;
 import com.toddburgessmedia.torontocatrescue.data.PetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
 import com.toddburgessmedia.torontocatrescue.data.PetList;
@@ -11,6 +12,8 @@ import com.toddburgessmedia.torontocatrescue.presenter.PetListPresenter;
 import com.toddburgessmedia.torontocatrescue.view.PetListView;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -87,6 +90,40 @@ public class PetListModelImpl implements PetListModel {
         if (petListParcelable instanceof PetList) {
             petList = (PetList) petListParcelable;
         }
+    }
+
+    public boolean isPetListEmpty () {
+        if (petList == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public PetList getPetsbySexAge(String sex, String age)  {
+
+        ArrayList<Pet> newList = new ArrayList<>();
+        ArrayList<Pet> workList = petList.getPetList();
+
+        String newSex = sex.toLowerCase().substring(0,1);
+        Pet pet;
+        for (int i = 0; i < workList.size(); i++) {
+            pet = workList.get(i);
+            if (sex.equals("Male and Female") && age.equals("Any Age")) {
+                newList.add(pet);
+            } else if (pet.getSex().equals(newSex) && pet.getAge().equals(age.toLowerCase())) {
+                newList.add(pet);
+            } else if ((pet.getSex().equals(newSex)) && age.equals("Any Age")) {
+                newList.add(pet);
+            } else if (sex.equals("Male and Female") && pet.getAge().equals(age.toLowerCase())) {
+                newList.add(pet);
+            }
+        }
+
+        PetList pets = new PetList();
+        pets.setPetList(newList);
+
+        return pets;
     }
 
     public void fetchPetDetail(String petID) {
