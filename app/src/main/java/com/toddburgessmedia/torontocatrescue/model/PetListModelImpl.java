@@ -1,5 +1,7 @@
 package com.toddburgessmedia.torontocatrescue.model;
 
+import android.os.Parcelable;
+
 import com.toddburgessmedia.torontocatrescue.data.LimitedPet;
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetail;
@@ -71,6 +73,20 @@ public class PetListModelImpl implements PetListModel {
                     }
                 });
 
+    }
+
+    @Override
+    public Parcelable getPetListParcelable() {
+
+        return (Parcelable) petList;
+    }
+
+    @Override
+    public void setPetListParcelable(Parcelable petListParcelable) {
+
+        if (petListParcelable instanceof PetList) {
+            petList = (PetList) petListParcelable;
+        }
     }
 
     public void fetchPetDetail(String petID) {

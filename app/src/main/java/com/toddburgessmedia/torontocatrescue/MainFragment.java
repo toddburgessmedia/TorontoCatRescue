@@ -16,12 +16,9 @@ import android.widget.Toast;
 
 import com.toddburgessmedia.torontocatrescue.data.Pet;
 import com.toddburgessmedia.torontocatrescue.data.PetList;
-import com.toddburgessmedia.torontocatrescue.model.PetListModel;
 import com.toddburgessmedia.torontocatrescue.presenter.PetListPresenter;
 import com.toddburgessmedia.torontocatrescue.view.PetListView;
 import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -42,10 +39,6 @@ public class MainFragment extends Fragment implements PetListView {
     RecyclerView rv;
 
     RecyclerViewPetListAdapter adapter;
-    ArrayList<Pet> petList;
-
-    @Inject
-    PetListModel petListModel;
 
     PetListPresenter presenter;
 
@@ -87,26 +80,17 @@ public class MainFragment extends Fragment implements PetListView {
         super.onActivityCreated(savedInstanceState);
 
         if (savedInstanceState != null) {
-            PetList pl = savedInstanceState.getParcelable("petlist");
-            if (pl != null) {
-                petList = pl.getPetList();
-                //updatePetList();
-            }
+            presenter.restoreInstanceState(savedInstanceState.getParcelable("petlist"));
         } else {
             presenter.getPetList();
         }
-
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        PetList pl = new PetList();
-        pl.setPetList(petList);
-
-        outState.putParcelable("petlist", pl);
-
+        outState.putParcelable("petlist", presenter.saveInstanceState());
     }
 
     public void startProgressDialog() {
@@ -147,11 +131,11 @@ public class MainFragment extends Fragment implements PetListView {
 
     public void getPetsbySexAge(String sex, String age) {
 
-        if (petList == null) {
-            return;
-        }
-        rv.invalidate();
-        adapter.updateList(PetList.getPetsBySexAge(sex,age,petList));
+//        if (petList == null) {
+//            return;
+//        }
+//        rv.invalidate();
+//        adapter.updateList(PetList.getPetsBySexAge(sex,age,petList));
     }
 
     public void onError() {

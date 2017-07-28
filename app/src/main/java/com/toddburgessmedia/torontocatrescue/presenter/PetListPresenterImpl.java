@@ -1,5 +1,7 @@
 package com.toddburgessmedia.torontocatrescue.presenter;
 
+import android.os.Parcelable;
+
 import com.toddburgessmedia.torontocatrescue.model.PetListModel;
 import com.toddburgessmedia.torontocatrescue.view.PetListView;
 
@@ -41,5 +43,17 @@ public class PetListPresenterImpl implements PetListPresenter {
     public void onError() {
         petListView.stopProgressDialog();
         petListView.onError();
+    }
+
+    @Override
+    public Parcelable saveInstanceState() {
+
+        return petListModel.getPetListParcelable();
+    }
+
+    @Override
+    public void restoreInstanceState(Parcelable parcelable) {
+        petListModel.setPetListParcelable(parcelable);
+        petListView.updatePetList(petListModel.getPetList());
     }
 }

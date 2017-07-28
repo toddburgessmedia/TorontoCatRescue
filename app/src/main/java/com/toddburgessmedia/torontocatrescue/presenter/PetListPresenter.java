@@ -1,5 +1,7 @@
 package com.toddburgessmedia.torontocatrescue.presenter;
 
+import android.os.Parcelable;
+
 import com.toddburgessmedia.torontocatrescue.view.PetListView;
 
 /**
@@ -12,5 +14,7 @@ public interface PetListPresenter {
     void getPetList();
     void updatePetList();
     void onError();
+    Parcelable saveInstanceState();
+    void restoreInstanceState(Parcelable parcelable);
 
 }

@@ -1,5 +1,7 @@
 package com.toddburgessmedia.torontocatrescue.model;
 
+import android.os.Parcelable;
+
 import com.toddburgessmedia.torontocatrescue.data.PetList;
 import com.toddburgessmedia.torontocatrescue.presenter.PetListPresenter;
 
@@ -14,4 +16,8 @@ public interface PetListModel {
     void fetchPetList();
 
     PetList getPetList();
+
+    Parcelable getPetListParcelable();
+
+    void setPetListParcelable(Parcelable petListParcelable);
 }
