@@ -3,8 +3,8 @@ package com.toddburgessmedia.torontocatrescue.dagger;
 import android.app.Application;
 
 import com.toddburgessmedia.torontocatrescue.R;
+import com.toddburgessmedia.torontocatrescue.model.PetListModelImpl;
 import com.toddburgessmedia.torontocatrescue.model.PetListModel;
-import com.toddburgessmedia.torontocatrescue.model.PetListDataModel;
 import com.toddburgessmedia.torontocatrescue.presenter.PetListPresenter;
 import com.toddburgessmedia.torontocatrescue.presenter.PetListPresenterImpl;
 
@@ -65,27 +65,29 @@ public class NetModule {
     }
 
     @Provides
-    public PetListModel getPetListModel (Retrofit retrofit, Application application) {
+    public PetListModelImpl getPetListModel (Retrofit retrofit, Application application) {
 
         String apikey = application.getString(R.string.api_key);
         String shelterid = application.getString(R.string.shelter_id);
 
-        return new PetListModel(retrofit, apikey, shelterid);
+        return new PetListModelImpl(retrofit, apikey, shelterid);
     }
 
     @Provides
-    public PetListDataModel getPetListDataModel (Retrofit retrofit, Application application) {
+    public PetListModel getPetListDataModel (Retrofit retrofit, Application application) {
 
         String apikey = application.getString(R.string.api_key);
         String shelterid = application.getString(R.string.shelter_id);
 
-        return (PetListDataModel) new PetListModel(retrofit, apikey, shelterid);
+        return (PetListModel) new PetListModelImpl(retrofit, apikey, shelterid);
     }
 
     @Provides
-    public PetListPresenter getPetListPresenter (PetListDataModel petListDataModel) {
+    public PetListPresenter getPetListPresenter (PetListModel petListModel) {
 
-        return (PetListPresenter) new PetListPresenterImpl(petListDataModel);
+        PetListPresenter presenter = (PetListPresenter) new PetListPresenterImpl(petListModel);
+
+        return presenter;
     }
 
 

@@ -11,5 +11,6 @@ public interface PetListPresenter {
     void setPetListView(PetListView petListView);
     void getPetList();
     void updatePetList();
+    void onError();
 
 }

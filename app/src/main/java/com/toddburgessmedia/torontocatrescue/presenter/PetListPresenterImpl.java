@@ -1,6 +1,6 @@
 package com.toddburgessmedia.torontocatrescue.presenter;
 
-import com.toddburgessmedia.torontocatrescue.model.PetListDataModel;
+import com.toddburgessmedia.torontocatrescue.model.PetListModel;
 import com.toddburgessmedia.torontocatrescue.view.PetListView;
 
 /**
@@ -9,28 +9,37 @@ import com.toddburgessmedia.torontocatrescue.view.PetListView;
 
 public class PetListPresenterImpl implements PetListPresenter {
 
-        PetListDataModel petListModel;
-        PetListView petListView;
+    PetListModel petListModel;
+    PetListView petListView;
 
-        public PetListPresenterImpl (PetListDataModel petListModel) {
+    public PetListPresenterImpl (PetListModel petListModel) {
 
-            this.petListModel = petListModel;
-        }
+        this.petListModel = petListModel;
+        this.petListModel.setPresenter(this);
+    }
 
-        public void setPetListView (PetListView petListView) {
+    @Override
+    public void setPetListView (PetListView petListView) {
 
-            this.petListView = petListView;
-        }
+        this.petListView = petListView;
+    }
 
-        public void getPetList() {
-            petListView.startProgressDialog();
-            petListModel.fetchPetList();
-        }
+    @Override
+    public void getPetList() {
+        petListView.startProgressDialog();
+        petListModel.fetchPetList();
+    }
 
-        public void updatePetList() {
-            petListView.stopProgressDialog();
-            petListView.updatePetList(petListModel.getPetList());
+    @Override
+    public void updatePetList() {
+        petListView.stopProgressDialog();
+        petListView.updatePetList(petListModel.getPetList());
 
-        }
+    }
 
+    @Override
+    public void onError() {
+        petListView.stopProgressDialog();
+        petListView.onError();
+    }
 }

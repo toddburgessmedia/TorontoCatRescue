@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -17,7 +16,8 @@ import android.widget.Toast;
 
 import com.toddburgessmedia.torontocatrescue.data.Pet;
 import com.toddburgessmedia.torontocatrescue.data.PetList;
-import com.toddburgessmedia.torontocatrescue.model.PetListDataModel;
+import com.toddburgessmedia.torontocatrescue.model.PetListModel;
+import com.toddburgessmedia.torontocatrescue.presenter.PetListPresenter;
 import com.toddburgessmedia.torontocatrescue.view.PetListView;
 import com.toddburgessmedia.torontocatrescue.view.RecyclerViewPetListAdapter;
 
@@ -41,25 +41,31 @@ public class MainFragment extends Fragment implements PetListView {
     @BindView(R.id.tcr_fragment_rv)
     RecyclerView rv;
 
-    @BindView(R.id.tcr_fragment_swiperefresh)
-    SwipeRefreshLayout swipe;
-
     RecyclerViewPetListAdapter adapter;
     ArrayList<Pet> petList;
 
     @Inject
-    PetListDataModel petListModel;
+    PetListModel petListModel;
+
+    PetListPresenter presenter;
 
     @Inject
     WindowManager wm;
 
     ProgressDialog progress;
 
+    @Inject
+    public void getPresenter (PetListPresenter presenter) {
+        this.presenter = presenter;
+        this.presenter.setPetListView(this);
+    }
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         getAppComponent().inject(this);
-        petListModel.setPetListView(this);
         super.onCreate(savedInstanceState);
+
 
     }
 
@@ -73,13 +79,6 @@ public class MainFragment extends Fragment implements PetListView {
         rv.setLayoutManager(new GridLayoutManager(getContext(), getColumnSize()));
         rv.setHasFixedSize(true);
 
-        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getPetList(false);
-            }
-        });
-
         return view;
     }
 
@@ -91,11 +90,10 @@ public class MainFragment extends Fragment implements PetListView {
             PetList pl = savedInstanceState.getParcelable("petlist");
             if (pl != null) {
                 petList = pl.getPetList();
-                updatePetList();
+                //updatePetList();
             }
         } else {
-            startProgressDialog();
-            getPetList(false);
+            presenter.getPetList();
         }
 
     }
@@ -142,31 +140,8 @@ public class MainFragment extends Fragment implements PetListView {
         }
     }
 
-    public void getPetList(boolean refresh) {
-
-        if (refresh) {
-            swipe.setRefreshing(true);
-        }
-        petListModel.fetchPetList();
-    }
-
-    public void updatePetListView(PetList petList) {
-        this.petList = petList.getPetList();
-        stopProgressDialog();
-        updatePetList();
-    }
-
-    public void updatePetList() {
-        adapter = new RecyclerViewPetListAdapter(getContext(), petList, this);
-        swipe.setRefreshing(false);
-
-        rv.setAdapter(adapter);
-    }
-
     public void updatePetList(PetList petList) {
         adapter = new RecyclerViewPetListAdapter(getContext(), petList.getPetList(), this);
-        swipe.setRefreshing(false);
-
         rv.setAdapter(adapter);
     }
 
@@ -179,9 +154,8 @@ public class MainFragment extends Fragment implements PetListView {
         adapter.updateList(PetList.getPetsBySexAge(sex,age,petList));
     }
 
-    public void onError(Throwable t) {
+    public void onError() {
 
-        stopProgressDialog();
         Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
     }
 

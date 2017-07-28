@@ -9,8 +9,7 @@ import com.toddburgessmedia.torontocatrescue.data.PetList;
 
 public interface PetListView {
 
-    void updatePetListView(PetList petList);
-    void onError(Throwable t);
+    void onError();
     void onClickPet(Pet pet);
     void startProgressDialog();
     void stopProgressDialog();

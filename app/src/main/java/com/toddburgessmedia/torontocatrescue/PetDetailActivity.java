@@ -11,7 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
-import com.toddburgessmedia.torontocatrescue.model.PetListModel;
+import com.toddburgessmedia.torontocatrescue.model.PetListModelImpl;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -156,7 +156,7 @@ public class PetDetailActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void updateShareInfo(PetListModel.LimitedPetDetailMessage message) {
+    public void updateShareInfo(PetListModelImpl.LimitedPetDetailMessage message) {
 
         if (message.getFlag()) {
             return;

@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
-import com.toddburgessmedia.torontocatrescue.model.PetListModel;
+import com.toddburgessmedia.torontocatrescue.model.PetListModelImpl;
 import com.toddburgessmedia.torontocatrescue.view.PhotoThumbNails;
 
 import org.greenrobot.eventbus.EventBus;
@@ -78,7 +78,7 @@ public class PetDetailFragment extends Fragment {
     TextView sex;
 
     @Inject
-    PetListModel petListModel;
+    PetListModelImpl petListModelImpl;
 
     @BindView(R.id.petdetail_frag_add_facts)
     TextView addFacts;
@@ -230,12 +230,12 @@ public class PetDetailFragment extends Fragment {
 
     public void getPetInformation() {
         startProgressDialog();
-        petListModel.fetchPetDetail(petID);
-        petListModel.fetchLimtedPetDetail(petID,false);
+        petListModelImpl.fetchPetDetail(petID);
+        petListModelImpl.fetchLimtedPetDetail(petID,false);
     }
 
     @Subscribe
-    public void updateView (PetListModel.PetDetailMessage message) {
+    public void updateView (PetListModelImpl.PetDetailMessage message) {
 
         stopProgressDialog();
         info = message.getPetDetail();
@@ -270,7 +270,7 @@ public class PetDetailFragment extends Fragment {
                 addBondedCardView();
             } else {
                 catName = info.getPetName();
-                petListModel.fetchLimtedPetDetail(info.getBondedTo(), true);
+                petListModelImpl.fetchLimtedPetDetail(info.getBondedTo(), true);
             }
         }
 
@@ -280,7 +280,7 @@ public class PetDetailFragment extends Fragment {
     }
 
     @Subscribe
-    public void updateBondedInfo(PetListModel.LimitedPetDetailMessage limitedPetDetailMessage) {
+    public void updateBondedInfo(PetListModelImpl.LimitedPetDetailMessage limitedPetDetailMessage) {
 
         if (!limitedPetDetailMessage.getFlag()) {
             Log.d("TCR", "updateBondedInfo: " + limitedPetDetailMessage.getLimitedPetDetail().getPetName());
