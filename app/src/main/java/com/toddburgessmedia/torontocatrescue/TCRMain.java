@@ -65,9 +65,17 @@ public class TCRMain extends AppCompatActivity {
         } else {
             fragment = new MainFragment();
         }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.tcrmain_framelayout, fragment, FRAGMENT);
         transaction.commit();
+
     }
 
     private void createNavigationDrawer() {
