@@ -186,15 +186,6 @@ public class MainFragment extends Fragment implements PetListView {
         }
     }
 
-    public void getPetsbySexAge(String sex, String age) {
-
-//        if (petList == null) {
-//            return;
-//        }
-//        rv.invalidate();
-//        adapter.updateList(PetList.getPetsBySexAge(sex,age,petList));
-    }
-
     public void onError() {
 
         Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
