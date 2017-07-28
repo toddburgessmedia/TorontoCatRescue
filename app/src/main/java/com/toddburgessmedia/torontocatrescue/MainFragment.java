@@ -84,7 +84,6 @@ public class MainFragment extends Fragment implements PetListView {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.tcrmain_menu, menu);
 
     }
