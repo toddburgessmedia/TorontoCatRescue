@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +21,9 @@ import com.squareup.picasso.Picasso;
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
 import com.toddburgessmedia.torontocatrescue.model.PetListModelImpl;
+import com.toddburgessmedia.torontocatrescue.presenter.PetDetailPresenter;
+import com.toddburgessmedia.torontocatrescue.view.PetDetailView;
 import com.toddburgessmedia.torontocatrescue.view.PhotoThumbNails;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.text.MessageFormat;
 
@@ -41,11 +39,12 @@ import static com.toddburgessmedia.torontocatrescue.dagger.Injector.getAppCompon
  * Created by Todd Burgess (todd@toddburgessmedia.com on 23/11/16.
  */
 
-public class PetDetailFragment extends Fragment {
+public class PetDetailFragment extends Fragment implements PetDetailView {
 
     public static final String PETID = "petID";
     public static final String PETNAME = "petName";
 
+    PetDetailPresenter presenter;
 
     @BindView(R.id.petdetail_frag_header)
     TextView header;
@@ -149,21 +148,29 @@ public class PetDetailFragment extends Fragment {
     @BindString(R.string.petdetail_email_body)
     String emailBody;
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    @Inject
+    void createPresenter(PetDetailPresenter presenter) {
 
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
+        this.presenter = presenter;
+        this.presenter.setPetDetailView(this);
+        this.presenter.setPetID(getArguments().getString(PETID));
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//
+//        if (!EventBus.getDefault().isRegistered(this)) {
+//            EventBus.getDefault().register(this);
+//        }
+//    }
 
-        EventBus.getDefault().unregister(this);
-    }
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//
+//        EventBus.getDefault().unregister(this);
+//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -195,12 +202,13 @@ public class PetDetailFragment extends Fragment {
             info = savedInstanceState.getParcelable("info");
             limitedBonded = savedInstanceState.getParcelable("bonded");
             limitedPet = savedInstanceState.getParcelable("limitedPet");
-            updateView();
+            //updateView();
             if (limitedBonded != null) {
-                addBondedCardView();
+                //addBondedCardView();
             }
         } else {
-            getPetInformation();
+            presenter.getPetInformation();
+            //getPetInformation();
         }
         adoptButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,22 +236,22 @@ public class PetDetailFragment extends Fragment {
 
     }
 
-    public void getPetInformation() {
-        startProgressDialog();
-        petListModelImpl.fetchPetDetail(petID);
-        petListModelImpl.fetchLimtedPetDetail(petID,false);
-    }
+//    public void getPetInformation() {
+//        startProgressDialog();
+//        petListModelImpl.fetchPetDetail(petID);
+//        petListModelImpl.fetchLimtedPetDetail(petID,false);
+//    }
 
-    @Subscribe
-    public void updateView (PetListModelImpl.PetDetailMessage message) {
+//    @Subscribe
+//    public void updateView (PetListModelImpl.PetDetailMessage message) {
+//
+//        stopProgressDialog();
+//        info = message.getPetDetail();
+//
+//        //updateView();
+//    }
 
-        stopProgressDialog();
-        info = message.getPetDetail();
-
-        updateView();
-    }
-
-    private void updateView() {
+    public void updateView(PetDetailInfo info) {
         header.setText(subPetName(info.getPetName().toUpperCase(),greeting));
 
         thumbNails.setThumbNailImages(info.getPetImages());
@@ -265,38 +273,38 @@ public class PetDetailFragment extends Fragment {
         //noinspection deprecation
         story.setText(Html.fromHtml(info.getDescription()));
 
-        if (info.getBondedTo() != null) {
-            if (limitedBonded != null) {
-                addBondedCardView();
-            } else {
-                catName = info.getPetName();
-                petListModelImpl.fetchLimtedPetDetail(info.getBondedTo(), true);
-            }
-        }
+//        if (info.getBondedTo() != null) {
+//            if (limitedBonded != null) {
+//                addBondedCardView();
+//            } else {
+//                catName = info.getPetName();
+//                petListModelImpl.fetchLimtedPetDetail(info.getBondedTo(), true);
+//            }
+//        }
 
         //adoptButton.setText(subPetName(info.getPetName(),adoptText));
         adoptButton.setContentDescription(subPetName(info.getPetName(),adoptText));
 
     }
 
-    @Subscribe
-    public void updateBondedInfo(PetListModelImpl.LimitedPetDetailMessage limitedPetDetailMessage) {
+//    @Subscribe
+//    public void updateBondedInfo(PetListModelImpl.LimitedPetDetailMessage limitedPetDetailMessage) {
+//
+//        if (!limitedPetDetailMessage.getFlag()) {
+//            Log.d("TCR", "updateBondedInfo: " + limitedPetDetailMessage.getLimitedPetDetail().getPetName());
+//            limitedPet = limitedPetDetailMessage.getLimitedPetDetail();
+//            return;
+//        }
+//
+//        limitedBonded = limitedPetDetailMessage.getLimitedPetDetail();
+//
+//        //addBondedCardView();
+//
+//    }
 
-        if (!limitedPetDetailMessage.getFlag()) {
-            Log.d("TCR", "updateBondedInfo: " + limitedPetDetailMessage.getLimitedPetDetail().getPetName());
-            limitedPet = limitedPetDetailMessage.getLimitedPetDetail();
-            return;
-        }
-
-        limitedBonded = limitedPetDetailMessage.getLimitedPetDetail();
-
-        addBondedCardView();
-
-    }
-
-    private void addBondedCardView() {
+    public void addBondedCardView(LimitedPetDetail limitedBonded, String bondedFriend) {
         MessageFormat mf = new MessageFormat(message);
-        String[] subs = {catName, limitedBonded.getPetName()};
+        String[] subs = {bondedFriend, limitedBonded.getPetName()};
         String display = mf.format(subs);
 
 
@@ -402,14 +410,12 @@ public class PetDetailFragment extends Fragment {
         return mf.format(subs);
     }
 
-    @Subscribe
-    public void onError (Throwable t) {
-
-        stopProgressDialog();
+    @Override
+    public void createErrorToast () {
         Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
     }
 
-    private void startProgressDialog() {
+    public void startProgressDialog() {
 
         if (progress == null) {
             progress = new ProgressDialog(getContext());
@@ -418,7 +424,7 @@ public class PetDetailFragment extends Fragment {
         progress.show();
     }
 
-    private void stopProgressDialog() {
+    public void stopProgressDialog() {
 
         if (progress != null) {
             progress.dismiss();

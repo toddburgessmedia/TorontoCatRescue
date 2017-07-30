@@ -13,7 +13,12 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = {AppModule.class,NetModule.class,NavDrawerModule.class})
+@Component(modules =
+            {AppModule.class,
+            RetrofitModule.class,
+            NavDrawerModule.class,
+            PetListModule.class,
+            PetDetailModule.class})
 
 public interface TCRComponent {
 

@@ -147,7 +147,7 @@ public class PetDetailActivity extends AppCompatActivity {
             finish();
             return true;
         } else if (item.getItemId() == R.id.menu_petdetail_refresh) {
-            fragment.getPetInformation();
+            //fragment.getPetInformation();
             return true;
         }
 

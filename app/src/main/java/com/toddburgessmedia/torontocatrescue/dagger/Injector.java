@@ -15,7 +15,9 @@ public final class Injector {
     private Injector (TorontoCatRescue torontoCatRescue) {
         tcrComponent = DaggerTCRComponent.builder()
                 .appModule(new AppModule(torontoCatRescue))
-                .netModule(new NetModule())
+                .retrofitModule(new RetrofitModule())
+                .petListModule(new PetListModule())
+                .petDetailModule(new PetDetailModule())
                 .navDrawerModule(new NavDrawerModule())
                 .build();
     }
