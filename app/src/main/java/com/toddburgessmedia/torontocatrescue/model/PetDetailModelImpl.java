@@ -1,5 +1,7 @@
 package com.toddburgessmedia.torontocatrescue.model;
 
+import android.os.Parcelable;
+
 import com.toddburgessmedia.torontocatrescue.data.LimitedPet;
 import com.toddburgessmedia.torontocatrescue.data.PetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
@@ -24,7 +26,7 @@ public class PetDetailModelImpl implements PetDetailModel {
     PetDetailPresenter presenter;
 
     PetDetail petDetail;
-    LimitedPet limitedPet;
+    LimitedPet bondedFriend;
 
     public PetDetailModelImpl(Retrofit retrofit, String apikey, String shelterID) {
 
@@ -67,8 +69,8 @@ public class PetDetailModelImpl implements PetDetailModel {
                     @Override
                     public PetDetail call(Response<PetDetail> petDetailResponse, Response<LimitedPet> limitedPetResponse) {
                         petDetail = petDetailResponse.body();
-                        limitedPet = limitedPetResponse.body();
-                        petDetail.setPetURL(limitedPet.getLimitedPetDetail().getPetDetailsUrl());
+                        LimitedPet limited = limitedPetResponse.body();
+                        petDetail.setPetURL(limited.getLimitedPetDetail().getPetDetailsUrl());
                         return petDetail;
                     }
                 });
@@ -113,7 +115,7 @@ public class PetDetailModelImpl implements PetDetailModel {
 
     @Override
     public void getBondedPet(PetDetailInfo info) {
-        fetchLimitedPetDetail(info.getBondedTo());
+        fetchBondedFriend(info.getBondedTo());
 
 
     }
@@ -124,7 +126,7 @@ public class PetDetailModelImpl implements PetDetailModel {
         return petDetail.getPetDetailInfo().getPetName();
     }
 
-    public void fetchLimitedPetDetail(String petID) {
+    public void fetchBondedFriend(String petID) {
 
         Single<Response<LimitedPet>> limitedSingle = getLimitedResponseSingle(petID);
 
@@ -132,8 +134,8 @@ public class PetDetailModelImpl implements PetDetailModel {
                 .subscribe(new SingleSubscriber<Response<LimitedPet>>() {
                     @Override
                     public void onSuccess(Response<LimitedPet> value) {
-                        limitedPet = value.body();
-                        presenter.updateBondedPetInformation(limitedPet.getLimitedPetDetail());
+                        bondedFriend = value.body();
+                        presenter.updateBondedPetInformation(bondedFriend.getLimitedPetDetail());
                     }
 
                     @Override
@@ -151,10 +153,42 @@ public class PetDetailModelImpl implements PetDetailModel {
         return limitedSingle;
     }
 
-    public LimitedPet getLimitedPet () {
+    public LimitedPet getBondedFriend() {
 
-        return limitedPet;
+        return bondedFriend;
     }
 
+    @Override
+    public Parcelable savePetDetail() {
 
+        return (Parcelable) petDetail;
+    }
+
+    @Override
+    public void restorePetDetail(Parcelable petDetail) {
+
+        if (petDetail instanceof PetDetail) {
+            this.petDetail = (PetDetail) petDetail;
+        }
+    }
+
+    @Override
+    public Parcelable saveBondedFriend() {
+
+        if (bondedFriend != null) {
+            return (Parcelable) bondedFriend;
+        } else {
+            return (Parcelable) new LimitedPet();
+        }
+
+    }
+
+    @Override
+    public void restoreBondedFriend(Parcelable bondedFriend) {
+
+        if ((bondedFriend != null) && (bondedFriend instanceof LimitedPet)) {
+            this.bondedFriend = (LimitedPet) bondedFriend;
+        }
+
+    }
 }

@@ -78,6 +78,7 @@ public class MainFragment extends Fragment implements PetListView {
         getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
     }
 
     @Override

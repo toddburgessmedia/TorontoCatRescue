@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
+import com.toddburgessmedia.torontocatrescue.data.PetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
 import com.toddburgessmedia.torontocatrescue.model.PetListModelImpl;
 import com.toddburgessmedia.torontocatrescue.presenter.PetDetailPresenter;
@@ -132,8 +133,6 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
     @BindString(R.string.petdetail_email_subject_bonded)
     String emailSubjectBonded;
 
-    String catName;
-
     ProgressDialog progress;
 
     String petID;
@@ -174,9 +173,9 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
         super.onCreate(savedInstanceState);
 
         petID = getArguments().getString(PETID);
-        catName = getArguments().getString(PETNAME);
 
         setHasOptionsMenu(true);
+        setRetainInstance(true);
     }
 
     @Nullable
@@ -195,18 +194,10 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
         });
 
         if (savedInstanceState != null) {
-            petID = savedInstanceState.getString("petID");
-            catName = savedInstanceState.getString("catName");
-            info = savedInstanceState.getParcelable("info");
-            limitedBonded = savedInstanceState.getParcelable("bonded");
-            limitedPet = savedInstanceState.getParcelable("limitedPet");
-            //updateView();
-            if (limitedBonded != null) {
-                //addBondedCardView();
-            }
+            presenter.restoreInstancePet(savedInstanceState.getParcelable("pet"));
+            presenter.restoreBondedFriend(savedInstanceState.getParcelable("bondedFriend"));
         } else {
             presenter.getPetInformation();
-            //getPetInformation();
         }
         adoptButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,10 +232,10 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
     }
 
     @Override
-    public void updateShareActionProvider(LimitedPetDetail limitedPetDetail) {
+    public void updateShareActionProvider(PetDetail petDetail) {
 
         MessageFormat mf = new MessageFormat(shareMessage);
-        String[] subs = {limitedPetDetail.getPetName(),limitedPetDetail.getPetDetailsUrl()};
+        String[] subs = {petDetail.getPetDetailInfo().getPetName(),petDetail.getPetURL()};
         String intentMessage = mf.format(subs);
 
         shareIntent = new Intent(Intent.ACTION_SEND);
@@ -258,30 +249,9 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString("petID",petID);
-        outState.putString("catName",catName);
-        outState.putParcelable("info",info);
-        if (bonded != null) {
-            outState.putParcelable("bonded",limitedBonded);
-        }
-        outState.putParcelable("limitedPet",limitedPet);
-
+        outState.putParcelable("pet", presenter.saveInstancePet());
+        outState.putParcelable("bondedFriend", presenter.saveInstanceBondedFriend());
     }
-
-//    public void getPetInformation() {
-//        startProgressDialog();
-//        petListModelImpl.fetchPetDetail(petID);
-//        petListModelImpl.fetchLimtedPetDetail(petID,false);
-//    }
-
-//    @Subscribe
-//    public void updateView (PetListModelImpl.PetDetailMessage message) {
-//
-//        stopProgressDialog();
-//        info = message.getPetDetail();
-//
-//        //updateView();
-//    }
 
     public void updateView(PetDetailInfo info) {
         header.setText(subPetName(info.getPetName().toUpperCase(),greeting));
@@ -305,34 +275,9 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
         //noinspection deprecation
         story.setText(Html.fromHtml(info.getDescription()));
 
-//        if (info.getBondedTo() != null) {
-//            if (limitedBonded != null) {
-//                addBondedCardView();
-//            } else {
-//                catName = info.getPetName();
-//                petListModelImpl.fetchLimtedPetDetail(info.getBondedTo(), true);
-//            }
-//        }
-
-        //adoptButton.setText(subPetName(info.getPetName(),adoptText));
         adoptButton.setContentDescription(subPetName(info.getPetName(),adoptText));
 
     }
-
-//    @Subscribe
-//    public void updateBondedInfo(PetListModelImpl.LimitedPetDetailMessage limitedPetDetailMessage) {
-//
-//        if (!limitedPetDetailMessage.getFlag()) {
-//            Log.d("TCR", "updateBondedInfo: " + limitedPetDetailMessage.getLimitedPetDetail().getPetName());
-//            limitedPet = limitedPetDetailMessage.getLimitedPetDetail();
-//            return;
-//        }
-//
-//        limitedBonded = limitedPetDetailMessage.getLimitedPetDetail();
-//
-//        //addBondedCardView();
-//
-//    }
 
     public void addBondedCardView(LimitedPetDetail limitedBonded, String bondedFriend) {
         MessageFormat mf = new MessageFormat(message);
@@ -450,7 +395,7 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
         if (progress == null) {
             progress = new ProgressDialog(getContext());
         }
-        progress.setMessage("Getting Information for " + catName);
+        progress.setMessage(getString(R.string.petdetail_fragment_progress_text));
         progress.show();
     }
 

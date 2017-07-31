@@ -1,5 +1,7 @@
 package com.toddburgessmedia.torontocatrescue.presenter;
 
+import android.os.Parcelable;
+
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
 import com.toddburgessmedia.torontocatrescue.view.PetDetailView;
@@ -16,4 +18,9 @@ public interface PetDetailPresenter {
     void updatePetInformation(PetDetailInfo petDetailInfo);
     void updateBondedPetInformation(LimitedPetDetail petDetailInfo);
     void onError();
+    Parcelable saveInstancePet();
+    Parcelable saveInstanceBondedFriend();
+    void restoreInstancePet(Parcelable pet);
+    void restoreBondedFriend(Parcelable friend);
+
 }

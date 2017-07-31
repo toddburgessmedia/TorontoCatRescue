@@ -1,5 +1,7 @@
 package com.toddburgessmedia.torontocatrescue.presenter;
 
+import android.os.Parcelable;
+
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
 import com.toddburgessmedia.torontocatrescue.model.PetDetailModel;
@@ -50,13 +52,43 @@ public class PetDetailPresenterImpl implements PetDetailPresenter {
             model.getBondedPet(petDetailInfo);
         }
 
-        view.updateShareActionProvider(model.getLimitedPet().getLimitedPetDetail());
+        view.updateShareActionProvider(model.getPetDetail());
     }
+
 
     @Override
     public void updateBondedPetInformation(LimitedPetDetail petDetailInfo) {
 
         view.addBondedCardView(petDetailInfo,model.getCatName());
+    }
+
+    @Override
+    public Parcelable saveInstancePet() {
+        return model.savePetDetail();
+    }
+
+    @Override
+    public Parcelable saveInstanceBondedFriend() {
+        return model.saveBondedFriend();
+    }
+
+    @Override
+    public void restoreInstancePet(Parcelable pet) {
+        model.restorePetDetail(pet);
+        view.updateView(model.getPetDetail().getPetDetailInfo());
+
+        view.updateShareActionProvider(model.getPetDetail());
+
+    }
+
+    @Override
+    public void restoreBondedFriend(Parcelable friend) {
+
+        if (!model.isBondedPair()) {
+            return;
+        }
+        model.restoreBondedFriend(friend);
+        view.addBondedCardView(model.getBondedFriend().getLimitedPetDetail(),model.getCatName());
     }
 
     @Override

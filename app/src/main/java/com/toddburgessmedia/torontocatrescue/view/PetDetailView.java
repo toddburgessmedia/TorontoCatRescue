@@ -1,6 +1,7 @@
 package com.toddburgessmedia.torontocatrescue.view;
 
 import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
+import com.toddburgessmedia.torontocatrescue.data.PetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
 
 /**
@@ -14,5 +15,5 @@ public interface PetDetailView {
     void updateView(PetDetailInfo info);
     void addBondedCardView(LimitedPetDetail limitedBonded, String bondedFriend);
     void createErrorToast();
-    void updateShareActionProvider(LimitedPetDetail limitedPetDetail);
+    void updateShareActionProvider(PetDetail petDetail);
 }

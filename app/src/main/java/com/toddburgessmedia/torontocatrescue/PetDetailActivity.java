@@ -16,8 +16,6 @@ public class PetDetailActivity extends AppCompatActivity {
     public static final String PETNAME = "petName";
 
     String petID;
-    String petURL;
-    String petName;
 
     PetDetailFragment fragment;
     final String FRAGMENT = "petDetailFragment";
@@ -30,15 +28,10 @@ public class PetDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         if (savedInstanceState != null) {
-            petID = savedInstanceState.getString(PETID);
-            petURL = savedInstanceState.getString(PETURL);
-            petName = savedInstanceState.getString(PETNAME);
             fragment = (PetDetailFragment) getSupportFragmentManager().getFragment(savedInstanceState,FRAGMENT);
         } else {
             if (getIntent().getAction() == null) {
                 petID = getIntent().getStringExtra(PETID);
-                petURL = getIntent().getStringExtra(PETURL);
-                petName = getIntent().getStringExtra(PETNAME);
             } else {
                 getDeepLinkInfo(getIntent());
             }
@@ -46,7 +39,6 @@ public class PetDetailActivity extends AppCompatActivity {
             fragment = new PetDetailFragment();
             Bundle bundle = new Bundle();
             bundle.putString(PetDetailFragment.PETID, petID);
-            bundle.putString(PetDetailFragment.PETNAME, petName);
             fragment.setArguments(bundle);
         }
 
@@ -65,17 +57,11 @@ public class PetDetailActivity extends AppCompatActivity {
 
         String link = intent.getData().toString();
         petID = link.replaceAll("\\D+", "");
-        petURL = link;
-        petName = "";
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        outState.putString(PETID,petID);
-        outState.putString(PETURL,petURL);
-        outState.putString(PETNAME,petName);
 
         getSupportFragmentManager().putFragment(outState,FRAGMENT,fragment);
     }

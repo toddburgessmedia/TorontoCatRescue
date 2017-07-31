@@ -1,5 +1,7 @@
 package com.toddburgessmedia.torontocatrescue.model;
 
+import android.os.Parcelable;
+
 import com.toddburgessmedia.torontocatrescue.data.LimitedPet;
 import com.toddburgessmedia.torontocatrescue.data.PetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
@@ -14,10 +16,14 @@ public interface PetDetailModel {
     void fetchPetDetail(String petID);
     void fetchPetDetailAll(String petID);
     PetDetail getPetDetail();
-    void fetchLimitedPetDetail(String petID);
-    LimitedPet getLimitedPet();
+    void fetchBondedFriend(String petID);
+    LimitedPet getBondedFriend();
     void setPetDetailPresenter(PetDetailPresenter petDetailPresenter);
     boolean isBondedPair();
     void getBondedPet(PetDetailInfo info);
     String getCatName();
+    Parcelable savePetDetail();
+    Parcelable saveBondedFriend();
+    void restorePetDetail(Parcelable petDetail);
+    void restoreBondedFriend(Parcelable bondedFriend);
 }
