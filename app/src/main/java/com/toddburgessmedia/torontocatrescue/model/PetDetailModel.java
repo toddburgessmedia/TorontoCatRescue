@@ -12,6 +12,7 @@ import com.toddburgessmedia.torontocatrescue.presenter.PetDetailPresenter;
 public interface PetDetailModel {
 
     void fetchPetDetail(String petID);
+    void fetchPetDetailAll(String petID);
     PetDetail getPetDetail();
     void fetchLimitedPetDetail(String petID);
     LimitedPet getLimitedPet();

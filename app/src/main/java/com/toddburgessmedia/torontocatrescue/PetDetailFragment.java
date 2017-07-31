@@ -156,22 +156,6 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
         this.presenter.setPetID(getArguments().getString(PETID));
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//
-//        if (!EventBus.getDefault().isRegistered(this)) {
-//            EventBus.getDefault().register(this);
-//        }
-//    }
-
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//
-//        EventBus.getDefault().unregister(this);
-//    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         getAppComponent().inject(this);
@@ -338,11 +322,10 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
     private void setAdditionalInfoTextView(TextView infoTV, String value) {
 
         String text = infoTV.getText().toString();
-        String newtext;
+        String newtext = "";
 
         if (value == null) {
             infoTV.setVisibility(View.GONE);
-            newtext = "";
         } else if (value.equals("1")) {
             newtext = text;
         } else if (value.equals("0")) {
@@ -350,7 +333,6 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
             newtext = "Not " + text;
         } else {
             infoTV.setVisibility(View.GONE);
-            newtext = "";
         }
         infoTV.setText(newtext);
     }

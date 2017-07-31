@@ -37,7 +37,7 @@ public class PetDetailPresenterImpl implements PetDetailPresenter {
     public void getPetInformation() {
 
         view.startProgressDialog();
-        model.fetchPetDetail(petID);
+        model.fetchPetDetailAll(petID);
     }
 
     @Override

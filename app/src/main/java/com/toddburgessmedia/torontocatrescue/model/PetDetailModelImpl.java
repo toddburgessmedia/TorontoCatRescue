@@ -10,6 +10,7 @@ import retrofit2.Retrofit;
 import rx.Single;
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func2;
 
 /**
  * Created by Todd Burgess (todd@toddburgessmedia.com on 30/07/17.
@@ -39,9 +40,7 @@ public class PetDetailModelImpl implements PetDetailModel {
 
     public void fetchPetDetail(String petID) {
 
-        PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
-        Single<Response<PetDetail>> petDetailSingle;
-        petDetailSingle = petDetailAPI.getPetDetail(petID, apikey, shelterID);
+        Single<Response<PetDetail>> petDetailSingle = getResponseSingle(petID);
 
         petDetailSingle.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<Response<PetDetail>>() {
@@ -54,10 +53,46 @@ public class PetDetailModelImpl implements PetDetailModel {
                     @Override
                     public void onError(Throwable e) {
                         presenter.onError();
-                        //EventBus.getDefault().post(e);
                     }
                 });
 
+    }
+
+    public void fetchPetDetailAll(String petID) {
+
+        Single<Response<PetDetail>> petDetailSingle = getResponseSingle(petID);
+        Single<Response<LimitedPet>> limitedSingle = getLimitedResponseSingle(petID);
+
+        Single<PetDetail> result = Single.zip(petDetailSingle, limitedSingle, new Func2<Response<PetDetail>, Response<LimitedPet>, PetDetail>() {
+                    @Override
+                    public PetDetail call(Response<PetDetail> petDetailResponse, Response<LimitedPet> limitedPetResponse) {
+                        petDetail = petDetailResponse.body();
+                        limitedPet = limitedPetResponse.body();
+                        petDetail.setPetURL(limitedPet.getLimitedPetDetail().getPetDetailsUrl());
+                        return petDetail;
+                    }
+                });
+
+        result.observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new SingleSubscriber<PetDetail>() {
+                            @Override
+                            public void onSuccess(PetDetail value) {
+                                presenter.updatePetInformation(value.getPetDetailInfo());
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                presenter.onError();
+                            }
+                        });
+
+    }
+
+    private Single<Response<PetDetail>> getResponseSingle(String petID) {
+        PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
+        Single<Response<PetDetail>> petDetailSingle;
+        petDetailSingle = petDetailAPI.getPetDetail(petID, apikey, shelterID);
+        return petDetailSingle;
     }
 
     public PetDetail getPetDetail () {
@@ -91,7 +126,7 @@ public class PetDetailModelImpl implements PetDetailModel {
 
     public void fetchLimitedPetDetail(String petID) {
 
-        Single<Response<LimitedPet>> limitedSingle = getResponseSingle(petID);
+        Single<Response<LimitedPet>> limitedSingle = getLimitedResponseSingle(petID);
 
         limitedSingle.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<Response<LimitedPet>>() {
@@ -109,7 +144,7 @@ public class PetDetailModelImpl implements PetDetailModel {
 
     }
 
-    private Single<Response<LimitedPet>> getResponseSingle(String petID) {
+    private Single<Response<LimitedPet>> getLimitedResponseSingle(String petID) {
         PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
         Single<Response<LimitedPet>> limitedSingle;
         limitedSingle = petDetailAPI.getLimitedPetDetail(petID, apikey, shelterID);

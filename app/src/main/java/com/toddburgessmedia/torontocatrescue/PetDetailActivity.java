@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -39,7 +40,7 @@ public class PetDetailActivity extends AppCompatActivity {
     @BindString(R.string.petdetail_share)
     String shareMessage;
 
-    android.support.v7.widget.ShareActionProvider shareActionProvider;
+    ShareActionProvider shareActionProvider;
     private Intent shareIntent;
 
     @Override
@@ -132,7 +133,7 @@ public class PetDetailActivity extends AppCompatActivity {
         inflater.inflate(R.menu.petdetail_menu,menu);
 
         MenuItem menuItem = menu.findItem(R.id.action_share);
-        shareActionProvider = (android.support.v7.widget.ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         if (shareIntent != null) {
             shareActionProvider.setShareIntent(shareIntent);
         }

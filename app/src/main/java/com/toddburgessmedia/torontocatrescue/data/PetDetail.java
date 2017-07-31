@@ -14,6 +14,18 @@ public class PetDetail {
     @SerializedName("status")
     String status;
 
+    String petURL;
+
+    public String getPetURL() {
+        return petURL;
+    }
+
+    public void setPetURL(String petURL) {
+        this.petURL = petURL;
+    }
+
+
+
     public PetDetailInfo getPetDetailInfo() {
         return petDetailInfo;
     }
