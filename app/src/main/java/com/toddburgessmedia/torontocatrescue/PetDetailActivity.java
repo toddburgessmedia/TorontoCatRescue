@@ -27,6 +27,12 @@ public class PetDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pet_detail);
         ButterKnife.bind(this);
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
+
         if (savedInstanceState != null) {
             fragment = (PetDetailFragment) getSupportFragmentManager().getFragment(savedInstanceState,FRAGMENT);
         } else {
@@ -42,15 +48,15 @@ public class PetDetailActivity extends AppCompatActivity {
             fragment.setArguments(bundle);
         }
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.petdetail_activity_framelayout, fragment, FRAGMENT);
         transaction.commit();
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-        }
     }
 
     private void getDeepLinkInfo(Intent intent) {
