@@ -30,6 +30,11 @@ public class PetDetail implements Parcelable {
 
 
     public PetDetailInfo getPetDetailInfo() {
+
+        if (petDetailInfo == null) {
+            petDetailInfo = new PetDetailInfo();
+        }
+
         return petDetailInfo;
     }
 
