@@ -3,24 +3,10 @@ package com.toddburgessmedia.torontocatrescue;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ShareActionProvider;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
-import com.toddburgessmedia.torontocatrescue.model.PetListModelImpl;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.text.MessageFormat;
-
-import butterknife.BindString;
 import butterknife.ButterKnife;
 
 public class PetDetailActivity extends AppCompatActivity {
@@ -35,38 +21,6 @@ public class PetDetailActivity extends AppCompatActivity {
 
     PetDetailFragment fragment;
     final String FRAGMENT = "petDetailFragment";
-    LimitedPetDetail limitedPetDetail;
-
-    @BindString(R.string.petdetail_share)
-    String shareMessage;
-
-    ShareActionProvider shareActionProvider;
-    private Intent shareIntent;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,53 +81,14 @@ public class PetDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.petdetail_menu,menu);
-
-        MenuItem menuItem = menu.findItem(R.id.action_share);
-        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-        if (shareIntent != null) {
-            shareActionProvider.setShareIntent(shareIntent);
-        }
-
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
-        } else if (item.getItemId() == R.id.menu_petdetail_refresh) {
-            //fragment.getPetInformation();
-            return true;
         }
-
 
         return super.onOptionsItemSelected(item);
     }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void updateShareInfo(PetListModelImpl.LimitedPetDetailMessage message) {
-
-        if (message.getFlag()) {
-            return;
-        }
-
-        limitedPetDetail = message.getLimitedPetDetail();
-        MessageFormat mf = new MessageFormat(shareMessage);
-        String[] subs = {limitedPetDetail.getPetName(),limitedPetDetail.getPetDetailsUrl()};
-        String intentMessage = mf.format(subs);
-
-        shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, intentMessage);
-        invalidateOptionsMenu();
-    }
-
-
 
 }

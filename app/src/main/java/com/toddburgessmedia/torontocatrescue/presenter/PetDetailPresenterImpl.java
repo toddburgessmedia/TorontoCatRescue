@@ -49,6 +49,8 @@ public class PetDetailPresenterImpl implements PetDetailPresenter {
         if (model.isBondedPair()) {
             model.getBondedPet(petDetailInfo);
         }
+
+        view.updateShareActionProvider(model.getLimitedPet().getLimitedPetDetail());
     }
 
     @Override

@@ -7,9 +7,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.ShareActionProvider;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -148,6 +153,13 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
     @BindString(R.string.petdetail_email_body)
     String emailBody;
 
+    @BindString(R.string.petdetail_share)
+    String shareMessage;
+
+    Intent shareIntent;
+
+    ShareActionProvider shareActionProvider;
+
     @Inject
     void createPresenter(PetDetailPresenter presenter) {
 
@@ -163,6 +175,8 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
 
         petID = getArguments().getString(PETID);
         catName = getArguments().getString(PETNAME);
+
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -204,6 +218,40 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.petdetail_menu,menu);
+        MenuItem menuItem = menu.findItem(R.id.action_share);
+        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.menu_petdetail_refresh) {
+            presenter.getPetInformation();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void updateShareActionProvider(LimitedPetDetail limitedPetDetail) {
+
+        MessageFormat mf = new MessageFormat(shareMessage);
+        String[] subs = {limitedPetDetail.getPetName(),limitedPetDetail.getPetDetailsUrl()};
+        String intentMessage = mf.format(subs);
+
+        shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, intentMessage);
+        shareActionProvider.setShareIntent(shareIntent);
+        getActivity().invalidateOptionsMenu();
     }
 
     @Override
