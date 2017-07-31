@@ -199,8 +199,8 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), AdoptionActivity.class);
-                i.putExtra(AdoptionActivity.PETDETAIL, info);
-                i.putExtra(AdoptionActivity.URL, limitedPet.getPetDetailsUrl());
+                i.putExtra(AdoptionActivity.PETDETAIL, presenter.saveInstancePet());
+                //i.putExtra(AdoptionActivity.URL, limitedPet.getPetDetailsUrl());
                 startActivity(i);
             }
         });

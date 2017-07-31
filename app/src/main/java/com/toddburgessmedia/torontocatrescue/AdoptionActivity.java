@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.toddburgessmedia.torontocatrescue.data.PetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
 
 public class AdoptionActivity extends AppCompatActivity {
@@ -31,14 +32,15 @@ public class AdoptionActivity extends AppCompatActivity {
             fragment = (AdoptionFragment) getSupportFragmentManager().getFragment(savedInstanceState,FRAGMENT);
 
         } else {
-            PetDetailInfo pi = getIntent().getExtras().getParcelable(PETDETAIL);
+            PetDetail petDetail = getIntent().getExtras().getParcelable(PETDETAIL);
+            PetDetailInfo pi = petDetail.getPetDetailInfo();
             fragment = new AdoptionFragment();
             Bundle bundle = new Bundle();
             bundle.putString("description", pi.getAdoptionProcess());
             bundle.putString("phonenumber", pi.getAreaCode() + pi.getPhoneNumber());
             bundle.putString("emailto", pi.getEmail());
             bundle.putString("petname", pi.getPetName());
-            bundle.putString(URL, getIntent().getStringExtra(URL));
+            bundle.putString(URL, petDetail.getPetURL());
             fragment.setArguments(bundle);
         }
 
