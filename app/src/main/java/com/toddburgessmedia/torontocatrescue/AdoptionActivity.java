@@ -44,6 +44,13 @@ public class AdoptionActivity extends AppCompatActivity {
             fragment.setArguments(bundle);
         }
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
         trans.replace(R.id.adoption_frame_layout, fragment, FRAGMENT);
         trans.commit();
