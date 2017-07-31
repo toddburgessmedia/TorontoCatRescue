@@ -48,7 +48,6 @@ import static com.toddburgessmedia.torontocatrescue.dagger.Injector.getAppCompon
 public class PetDetailFragment extends Fragment implements PetDetailView {
 
     public static final String PETID = "petID";
-    public static final String PETNAME = "petName";
 
     PetDetailPresenter presenter;
 
@@ -135,7 +134,6 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
 
     ProgressDialog progress;
 
-    String petID;
     private PetDetailInfo info;
     private LimitedPetDetail limitedBonded;
     private LimitedPetDetail limitedPet;
@@ -171,8 +169,6 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
-
-        petID = getArguments().getString(PETID);
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
@@ -286,7 +282,7 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
 
 
         bonded.setVisibility(View.VISIBLE);
-        bonded.setOnClickListener(new BondedClickListener(limitedBonded.getPetID(),limitedBonded.getPetName()));
+        bonded.setOnClickListener(new BondedClickListener(limitedBonded.getPetID()));
         Picasso.with(getContext()).load(limitedBonded.getImages().get(0).getThumbnailUrl()).into(importantPhoto);
         importantPhoto.setVisibility(View.VISIBLE);
         importantMessage.setText(display);
@@ -333,12 +329,6 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
     private class BondedClickListener implements View.OnClickListener {
 
         String petID;
-        String petName;
-
-        BondedClickListener(String petID, String petName) {
-            this.petID = petID;
-            this.petName = petName;
-        }
 
         BondedClickListener(String petID) {
             this.petID = petID;
@@ -346,10 +336,8 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
 
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(getContext(), PetDetailActivity.class);
+            Intent i = new Intent(getActivity(), PetDetailActivity.class);
             i.putExtra("petID", petID);
-            i.putExtra("petName", petName);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             getActivity().startActivity(i);
         }
     }
