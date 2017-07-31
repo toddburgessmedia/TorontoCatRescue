@@ -189,22 +189,28 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
             }
         });
 
+
+        adoptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), AdoptionActivity.class);
+                i.putExtra(AdoptionActivity.PETDETAIL, presenter.saveInstancePet());
+                startActivity(i);
+            }
+        });
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         if (savedInstanceState != null) {
             presenter.restoreInstancePet(savedInstanceState.getParcelable("pet"));
             presenter.restoreBondedFriend(savedInstanceState.getParcelable("bondedFriend"));
         } else {
             presenter.getPetInformation();
         }
-        adoptButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getContext(), AdoptionActivity.class);
-                i.putExtra(AdoptionActivity.PETDETAIL, presenter.saveInstancePet());
-                //i.putExtra(AdoptionActivity.URL, limitedPet.getPetDetailsUrl());
-                startActivity(i);
-            }
-        });
-        return view;
     }
 
     @Override
