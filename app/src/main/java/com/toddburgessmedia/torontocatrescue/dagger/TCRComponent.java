@@ -1,5 +1,6 @@
 package com.toddburgessmedia.torontocatrescue.dagger;
 
+import com.toddburgessmedia.torontocatrescue.AdoptionFragment;
 import com.toddburgessmedia.torontocatrescue.MainFragment;
 import com.toddburgessmedia.torontocatrescue.PetDetailFragment;
 import com.toddburgessmedia.torontocatrescue.TCRMain;
@@ -27,5 +28,7 @@ public interface TCRComponent {
     void inject(MainFragment mainFragment);
 
     void inject(PetDetailFragment fragment);
+
+    void inject(AdoptionFragment adoptionFragment);
 
 }

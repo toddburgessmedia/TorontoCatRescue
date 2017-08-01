@@ -193,7 +193,7 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
         adoptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(), AdoptionActivity.class);
+                Intent i = new Intent(getActivity(), AdoptionActivity.class);
                 i.putExtra(AdoptionActivity.PETDETAIL, presenter.saveInstancePet());
                 startActivity(i);
             }
@@ -289,7 +289,7 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
 
         bonded.setVisibility(View.VISIBLE);
         bonded.setOnClickListener(new BondedClickListener(limitedBonded.getPetID()));
-        Picasso.with(getContext()).load(limitedBonded.getImages().get(0).getThumbnailUrl()).into(importantPhoto);
+        Picasso.with(getActivity()).load(limitedBonded.getImages().get(0).getThumbnailUrl()).into(importantPhoto);
         importantPhoto.setVisibility(View.VISIBLE);
         importantMessage.setText(display);
     }
@@ -381,13 +381,13 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
 
     @Override
     public void createErrorToast () {
-        Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
     }
 
     public void startProgressDialog() {
 
         if (progress == null) {
-            progress = new ProgressDialog(getContext());
+            progress = new ProgressDialog(getActivity());
         }
         progress.setMessage(getString(R.string.petdetail_fragment_progress_text));
         progress.show();

@@ -1,6 +1,5 @@
 package com.toddburgessmedia.torontocatrescue;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.toddburgessmedia.torontocatrescue.dagger.Injector;
+
 import java.text.MessageFormat;
+
+import javax.inject.Inject;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -27,6 +30,9 @@ import butterknife.ButterKnife;
 
 
 public class AdoptionFragment extends Fragment {
+
+    @Inject
+    TelephonyManager telephonyManager;
 
     @BindView(R.id.adoption_frag_description)
     TextView description;
@@ -53,6 +59,7 @@ public class AdoptionFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Injector.getAppComponent().inject(this);
 
         adoptionString = getArguments().getString("description");
         phoneNumber = getArguments().getString("phonenumber");
@@ -82,9 +89,7 @@ public class AdoptionFragment extends Fragment {
 
         description.setText(Html.fromHtml(adoptionString));
 
-        if (((TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE)).getPhoneType()
-                == TelephonyManager.PHONE_TYPE_NONE)
-        {
+        if (telephonyManager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE) {
          call.setVisibility(View.GONE);
         }
 

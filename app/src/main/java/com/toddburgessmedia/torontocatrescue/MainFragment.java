@@ -78,7 +78,6 @@ public class MainFragment extends Fragment implements PetListView {
         getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        setRetainInstance(true);
     }
 
     @Override
@@ -106,7 +105,7 @@ public class MainFragment extends Fragment implements PetListView {
         View view = inflater.inflate(R.layout.tcrmain_fragment, container, false);
         ButterKnife.bind(this,view);
 
-        rv.setLayoutManager(new GridLayoutManager(getContext(), getColumnSize()));
+        rv.setLayoutManager(new GridLayoutManager(getActivity(), getColumnSize()));
         rv.setHasFixedSize(true);
 
         createSpinners();
@@ -125,11 +124,11 @@ public class MainFragment extends Fragment implements PetListView {
     }
 
     private void createSpinners() {
-        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(getContext(), R.array.age_spinner, R.layout.spinner_item);
+        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.age_spinner, R.layout.spinner_item);
         ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         age.setAdapter(ageAdapter);
 
-        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(getContext(), R.array.sex_spinner, R.layout.spinner_item);
+        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.sex_spinner, R.layout.spinner_item);
         sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sex.setAdapter(sexAdapter);
 
@@ -149,7 +148,7 @@ public class MainFragment extends Fragment implements PetListView {
     public void startProgressDialog() {
 
         if (progress == null) {
-            progress = new ProgressDialog(getContext());
+            progress = new ProgressDialog(getActivity());
         }
         progress.setMessage(getString(R.string.mainFragment_progress));
         progress.show();
@@ -193,15 +192,13 @@ public class MainFragment extends Fragment implements PetListView {
     @Override
     public void onError() {
 
-        Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClickPet(Pet pet) {
-        Intent i = new Intent(getContext(), PetDetailActivity.class);
+        Intent i = new Intent(getActivity(), PetDetailActivity.class);
         i.putExtra(PetDetailActivity.PETID, pet.getPetID());
-        i.putExtra(PetDetailActivity.PETURL, pet.getDetailsURL());
-        i.putExtra(PetDetailActivity.PETNAME, pet.getPetName());
         getActivity().startActivity(i);
 
     }
