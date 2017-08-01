@@ -11,8 +11,6 @@ import com.toddburgessmedia.torontocatrescue.data.PetList;
 import com.toddburgessmedia.torontocatrescue.presenter.PetListPresenter;
 import com.toddburgessmedia.torontocatrescue.view.PetListView;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 
 import retrofit2.Response;
@@ -126,50 +124,7 @@ public class PetListModelImpl implements PetListModel {
         return pets;
     }
 
-    public void fetchPetDetail(String petID) {
-
-        PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
-        Single<Response<PetDetail>> petDetailSingle;
-        petDetailSingle = petDetailAPI.getPetDetail(petID, apikey, shelterID);
-
-        petDetailSingle.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<Response<PetDetail>>() {
-                    @Override
-                    public void onSuccess(Response<PetDetail> value) {
-                        petDetail = value.body();
-                        EventBus.getDefault().post(new PetDetailMessage(petDetail.getPetDetailInfo()));
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        EventBus.getDefault().post(e);
-                    }
-                });
-
-    }
-
-    public void fetchLimtedPetDetail(String petID, final boolean flag) {
-
-        PetDetailAPI petDetailAPI = retrofit.create(PetDetailAPI.class);
-        Single<Response<LimitedPet>> limitedSingle;
-        limitedSingle = petDetailAPI.getLimitedPetDetail(petID, apikey, shelterID);
-
-        limitedSingle.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<Response<LimitedPet>>() {
-                    @Override
-                    public void onSuccess(Response<LimitedPet> value) {
-                        limitedPet = value.body();
-                        EventBus.getDefault().post(new LimitedPetDetailMessage(limitedPet.getLimitedPetDetail(),flag));
-                    }
-
-                    @Override
-                    public void onError(Throwable error) {
-
-                    }
-                });
-
-    }
-
+    
     public PetList getPetList() {
         return petList;
     }
