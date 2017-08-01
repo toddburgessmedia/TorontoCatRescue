@@ -177,16 +177,20 @@ public class MainFragment extends Fragment implements PetListView {
         }
     }
 
+    @Override
     public void updatePetList(PetList petList) {
-        if (adapter == null) {
-            adapter = new RecyclerViewPetListAdapter(getContext(), petList.getPetList(), this);
-            rv.setAdapter(adapter);
-        } else {
-            rv.invalidate();
-            adapter.updateList(petList);
-        }
+
+        rv.invalidate();
+        adapter.updateList(petList);
     }
 
+    @Override
+    public void displayPetList(PetList petList) {
+            adapter = new RecyclerViewPetListAdapter(getActivity(), petList.getPetList(), this);
+            rv.setAdapter(adapter);
+    }
+
+    @Override
     public void onError() {
 
         Toast.makeText(getContext(), R.string.network_error, Toast.LENGTH_SHORT).show();

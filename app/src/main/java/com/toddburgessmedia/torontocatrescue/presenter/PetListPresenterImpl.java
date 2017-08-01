@@ -35,7 +35,7 @@ public class PetListPresenterImpl implements PetListPresenter {
     @Override
     public void updatePetList() {
         petListView.stopProgressDialog();
-        petListView.updatePetList(petListModel.getPetList());
+        petListView.displayPetList(petListModel.getPetList());
 
     }
 
@@ -54,7 +54,7 @@ public class PetListPresenterImpl implements PetListPresenter {
     @Override
     public void restoreInstanceState(Parcelable parcelable) {
         petListModel.setPetListParcelable(parcelable);
-        petListView.updatePetList(petListModel.getPetList());
+        petListView.displayPetList(petListModel.getPetList());
     }
 
     @Override

@@ -14,4 +14,5 @@ public interface PetListView {
     void startProgressDialog();
     void stopProgressDialog();
     void updatePetList(PetList petList);
+    void displayPetList(PetList petList);
 }
