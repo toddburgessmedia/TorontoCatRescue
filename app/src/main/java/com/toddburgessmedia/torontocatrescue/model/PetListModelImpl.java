@@ -3,10 +3,8 @@ package com.toddburgessmedia.torontocatrescue.model;
 import android.os.Parcelable;
 
 import com.toddburgessmedia.torontocatrescue.data.LimitedPet;
-import com.toddburgessmedia.torontocatrescue.data.LimitedPetDetail;
 import com.toddburgessmedia.torontocatrescue.data.Pet;
 import com.toddburgessmedia.torontocatrescue.data.PetDetail;
-import com.toddburgessmedia.torontocatrescue.data.PetDetailInfo;
 import com.toddburgessmedia.torontocatrescue.data.PetList;
 import com.toddburgessmedia.torontocatrescue.presenter.PetListPresenter;
 import com.toddburgessmedia.torontocatrescue.view.PetListView;
@@ -124,42 +122,11 @@ public class PetListModelImpl implements PetListModel {
         return pets;
     }
 
-    
+
     public PetList getPetList() {
         return petList;
     }
-
-    public class PetDetailMessage {
-
-        PetDetailInfo petDetail;
-
-        PetDetailMessage(PetDetailInfo petDetail) {
-            this.petDetail = petDetail;
-        }
-
-        public PetDetailInfo getPetDetail() {
-            return petDetail;
-        }
-    }
-
-    public class LimitedPetDetailMessage {
-
-        LimitedPetDetail limitedPetDetail;
-        boolean flag;
-
-        LimitedPetDetailMessage(LimitedPetDetail limitedPetDetail,boolean flag) {
-            this.limitedPetDetail = limitedPetDetail;
-            this.flag = flag;
-        }
-
-        public LimitedPetDetail getLimitedPetDetail() {
-            return limitedPetDetail;
-        }
-
-        public boolean getFlag() {
-            return flag;
-        }
-    }
+    
 }
 
 
