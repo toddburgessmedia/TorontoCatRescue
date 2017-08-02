@@ -1,6 +1,6 @@
 package com.toddburgessmedia.torontocatrescue.view;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,12 +27,12 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
     public final int PETVIEWTYPE = 1;
 
     ArrayList<Pet> petList;
-    Context context;
+    Activity activity;
     PetListView petListView;
 
-    public RecyclerViewPetListAdapter (Context context, ArrayList<Pet> petList, PetListView petListView) {
+    public RecyclerViewPetListAdapter (Activity activity, ArrayList<Pet> petList, PetListView petListView) {
 
-        this.context = context;
+        this.activity = activity;
         this.petList = new ArrayList<>(petList);
         this.petListView = petListView;
 
@@ -72,7 +72,7 @@ public class RecyclerViewPetListAdapter extends RecyclerView.Adapter<RecyclerVie
             case PETVIEWTYPE:
                 Pet p = petList.get(position);
                 ViewHolderPet vp = (ViewHolderPet) holder;
-                Picasso.with(context).load(p.getResultsPhotoURL()).into(vp.resultPhoto);
+                Picasso.with(activity).load(p.getResultsPhotoURL()).into(vp.resultPhoto);
                 vp.petName.setText(p.getPetName());
                 vp.petName.setContentDescription(p.getPetName());
                 vp.petSex.setText(getSex(p.getSex()));
