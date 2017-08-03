@@ -155,7 +155,11 @@ public class PetDetailModelImpl implements PetDetailModel {
 
     public LimitedPet getBondedFriend() {
 
-        return bondedFriend;
+        if (bondedFriend == null) {
+            return new LimitedPet();
+        } else {
+            return bondedFriend;
+        }
     }
 
     @Override

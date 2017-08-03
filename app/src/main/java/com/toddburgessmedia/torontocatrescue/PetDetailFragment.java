@@ -185,7 +185,7 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
         moreInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().startActivity(Intent.createChooser(getMoreInformation(), "Send E-Mail"));
+                presenter.getMoreInformation();
             }
         });
 
@@ -348,8 +348,17 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
         }
     }
 
-    private Intent getMoreInformation() {
+    @Override
+    public void getMoreInfoEmail(PetDetail petDetail, LimitedPetDetail bondedFriend) {
 
+        getActivity().startActivity(Intent.createChooser(
+                getMoreInformation(petDetail,bondedFriend), getString(R.string.petdetail_fragment_emailteam)));
+
+    }
+
+    private Intent getMoreInformation(PetDetail petDetail, LimitedPetDetail limitedBonded) {
+
+        PetDetailInfo info = petDetail.getPetDetailInfo();
         String subject;
         if (info.getBondedTo() != null) {
             MessageFormat mf = new MessageFormat(emailSubjectBonded);
@@ -367,15 +376,16 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
         email.setType("text/plain");
         email.putExtra(Intent.EXTRA_EMAIL, to);
         email.putExtra(Intent.EXTRA_SUBJECT, subject);
-        email.putExtra(Intent.EXTRA_TEXT, getEmailBody());
+        email.putExtra(Intent.EXTRA_TEXT, getEmailBody(petDetail));
 
         return email;
     }
 
-    private String getEmailBody () {
+    private String getEmailBody (PetDetail petDetail) {
 
+        PetDetailInfo info = petDetail.getPetDetailInfo();
         MessageFormat mf = new MessageFormat(emailBody);
-        String[] subs = {info.getPetName(),limitedPet.getPetDetailsUrl()};
+        String[] subs = {info.getPetName(),petDetail.getPetURL()};
         return mf.format(subs);
     }
 

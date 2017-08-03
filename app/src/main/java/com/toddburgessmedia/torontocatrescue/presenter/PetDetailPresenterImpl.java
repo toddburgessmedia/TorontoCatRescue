@@ -63,6 +63,12 @@ public class PetDetailPresenterImpl implements PetDetailPresenter {
     }
 
     @Override
+    public void getMoreInformation() {
+
+        view.getMoreInfoEmail(model.getPetDetail(),model.getBondedFriend().getLimitedPetDetail());
+    }
+
+    @Override
     public Parcelable saveInstancePet() {
         return model.savePetDetail();
     }

@@ -16,4 +16,5 @@ public interface PetDetailView {
     void addBondedCardView(LimitedPetDetail limitedBonded, String bondedFriend);
     void createErrorToast();
     void updateShareActionProvider(PetDetail petDetail);
+    void getMoreInfoEmail(PetDetail petDetail, LimitedPetDetail bondedFriend);
 }

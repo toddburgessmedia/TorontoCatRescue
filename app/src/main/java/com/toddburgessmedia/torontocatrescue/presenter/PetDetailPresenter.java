@@ -22,5 +22,6 @@ public interface PetDetailPresenter {
     Parcelable saveInstanceBondedFriend();
     void restoreInstancePet(Parcelable pet);
     void restoreBondedFriend(Parcelable friend);
+    void getMoreInformation();
 
 }
