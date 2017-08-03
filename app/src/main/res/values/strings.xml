@@ -20,8 +20,8 @@
     <string name="petdetail_important_message">{0} and {1} are a bonded pair of best friends.
                                                 They need to be adopted together</string>
 
-    <string name="petdetail_button_info">More Info</string>
-    <string name="petdetail_button_adopt">Adopt</string>
+    <string name="petdetail_button_info">Ask a Question</string>
+    <string name="petdetail_button_adopt">Start Adoption Process</string>
 
     <string name="petdetail_email_subject_bonded">Information Request for Bonded Pair {0} and {1}</string>
     <string name="petdetail_email_subject">Information Request for {0}</string>

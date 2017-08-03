@@ -318,7 +318,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center_horizontal"
         >
 
@@ -328,7 +328,8 @@
             android:text="@string/petdetail_button_info"
             android:contentDescription="@string/petdetail_button_info"
             android:id="@+id/petdetail_frag_infobutton"
-            android:layout_marginRight="32dp"
+            android:layout_marginBottom="12sp"
+            android:background="@color/colorAccent"
             />
 
         <Button
@@ -336,6 +337,7 @@
             android:layout_height="wrap_content"
             android:text="@string/petdetail_button_adopt"
             android:id="@+id/petdetail_frag_adoptbutton"
+            android:background="@color/colorAccent"
             />
 
     </LinearLayout>
