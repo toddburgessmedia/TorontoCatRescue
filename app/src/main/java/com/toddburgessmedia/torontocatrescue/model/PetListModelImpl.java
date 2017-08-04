@@ -105,13 +105,13 @@ public class PetListModelImpl implements PetListModel {
         Pet pet;
         for (int i = 0; i < workList.size(); i++) {
             pet = workList.get(i);
-            if (sex.equals("Male and Female") && age.equals("Any Age")) {
+            if (sex.equals("Any Gender") && age.equals("Any Age")) {
                 newList.add(pet);
-            } else if (pet.getSex().equals(newSex) && pet.getAge().equals(age.toLowerCase())) {
+            } else if (pet.getSex().equals(newSex) && pet.getAge().equalsIgnoreCase(age)) {
                 newList.add(pet);
             } else if ((pet.getSex().equals(newSex)) && age.equals("Any Age")) {
                 newList.add(pet);
-            } else if (sex.equals("Male and Female") && pet.getAge().equals(age.toLowerCase())) {
+            } else if (sex.equals("Any Gender") && pet.getAge().equalsIgnoreCase(age)) {
                 newList.add(pet);
             }
         }
