@@ -2,12 +2,9 @@ package com.toddburgessmedia.torontocatrescue.model;
 
 import android.os.Parcelable;
 
-import com.toddburgessmedia.torontocatrescue.data.LimitedPet;
 import com.toddburgessmedia.torontocatrescue.data.Pet;
-import com.toddburgessmedia.torontocatrescue.data.PetDetail;
 import com.toddburgessmedia.torontocatrescue.data.PetList;
 import com.toddburgessmedia.torontocatrescue.presenter.PetListPresenter;
-import com.toddburgessmedia.torontocatrescue.view.PetListView;
 
 import java.util.ArrayList;
 
@@ -32,10 +29,7 @@ public class PetListModelImpl implements PetListModel {
     String shelterID;
 
     PetList petList;
-    private PetDetail petDetail;
-    private LimitedPet limitedPet;
 
-    PetListView petListView;
     PetListPresenter presenter;
 
     public PetListModelImpl(Retrofit retrofit, String apikey, String shelterID) {
