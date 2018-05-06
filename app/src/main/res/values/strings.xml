@@ -57,4 +57,5 @@
     <string name="mainFragment_progress">Getting Cats</string>
     <string name="petdetail_fragment_progress_text">Getting Cat Information</string>
     <string name="petdetail_fragment_emailteam">E-Mail Adoption Team</string>
+    <string name="petdetail_declaw">Declawed</string>
 </resources>

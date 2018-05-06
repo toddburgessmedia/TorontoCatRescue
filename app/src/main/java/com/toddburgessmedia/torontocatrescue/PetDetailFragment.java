@@ -111,6 +111,9 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
     @BindView(R.id.petdetail_frag_dogs)
     TextView dogs;
 
+    @BindView(R.id.petdetail_frag_declaw)
+    TextView declaw;
+
     @BindView(R.id.petdetail_frag_story)
     TextView story;
 
@@ -273,6 +276,11 @@ public class PetDetailFragment extends Fragment implements PetDetailView {
         setAdditionalInfoTextView(kids, info.getGoodWithKids());
         setAdditionalInfoTextView(cats, info.getGoodWithCats());
         setAdditionalInfoTextView(dogs, info.getGoodWithDogs());
+
+        // declawed??
+        if (info.getDeclawed().equals("1")) {
+            declaw.setVisibility(View.VISIBLE);
+        }
 
         //noinspection deprecation
         story.setText(Html.fromHtml(info.getDescription()));
